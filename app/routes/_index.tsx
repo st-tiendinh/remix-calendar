@@ -1,17 +1,18 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from '@remix-run/node';
+import CalendarContainer from '~/components/CalendarContainer';
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: 'New Remix App' },
+    { name: 'description', content: 'Welcome to Remix!' },
   ];
 };
 
 // ./app/routes/index.tsx
 export default function Index() {
   return (
-    <div className="h-screen bg-slate-700 flex justify-center items-center">
-      <h2 className="text-blue-600 font-extrabold text-5xl">TailwindCSS Is Working!</h2>
+    <div className="">
+      <CalendarContainer />
     </div>
-  )
+  );
 }
