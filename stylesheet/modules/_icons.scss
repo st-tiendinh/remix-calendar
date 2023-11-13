@@ -1,0 +1,15 @@
+.icon {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  &-username {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../assets/icons/ic-username.svg');
+  }
+  &-password {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../assets/icons/ic-password.svg');
+  }
+}
