@@ -4,10 +4,9 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "npm run build:css && remix build",
-    "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
+    "build": "remix build",
     "dev": "concurrently \"npm run dev:css\" \"remix dev  --manual\"",
-    "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
+    "dev:css": "sass --watch stylesheet/styles.scss:app/styles/app.css",
     "start": "remix-serve ./build/index.js",
     "typecheck": "tsc"
   },
@@ -34,6 +33,7 @@
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "prisma": "^5.5.2",
+    "sass": "^1.69.5",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.1.6"
   },

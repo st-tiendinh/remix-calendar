@@ -1,0 +1,32 @@
+.users-page {
+  .users-title {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  table.users {
+    border-collapse: collapse;
+    width: 100%;
+    &.user-detail {
+      width: 50%;
+      margin: 0 auto;
+    }
+  }
+
+  table.users {
+    td, th {
+      padding: 8px;
+    }
+  }
+
+  table.users tr:nth-child(odd){background-color: #EEEEEE;}
+
+  table.users tr:hover {background-color: #ddd;}
+
+  table.users th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: black;
+    color: white;
+  }
+}
