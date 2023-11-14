@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ActionFunction, json } from '@remix-run/node'
 
-import { FormField } from '~/shared/components/form-field'
+import { FormField } from '~/shared/components/FormField'
 import loginBg from '../../assets/images/login-bg.jpg'
 import { validateEmail, validatePassword } from '~/shared/utils/validators.serve'
 import { Form, useActionData } from '@remix-run/react'
@@ -26,8 +26,8 @@ export default function LoginPage () {
   const [errors] = useState(actionData?.errors || {})
   
   const [formData, setFormData] = useState({
-    email: actionData?.fields.email || '',
-    password: actionData?.fields.password || '',
+    email: actionData?.fields?.email || '',
+    password: actionData?.fields?.password || '',
   })
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
