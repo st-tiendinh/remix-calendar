@@ -1,11 +1,15 @@
 import { json, redirect } from '@remix-run/node';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import { useActionData } from '@remix-run/react';
+import { useState } from 'react';
 import { login, register, getUser } from '~/server/auth.server';
+import { FormField } from '~/shared/components/FormField';
 import {
   validateEmail,
   validateName,
   validatePassword,
 } from '~/utils/validators.server';
+import loginBg from '../../assets/images/login-bg.jpg';
 
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
@@ -71,5 +75,68 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Login() {
-  return <>{/* Write login/register UI here */}</>;
+  const actionData = useActionData<typeof action>();
+  const [errors] = useState(actionData?.errors || {});
+
+  const [formData, setFormData] = useState({
+    email: actionData?.fields?.email || '',
+    password: actionData?.fields?.password || '',
+  });
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    field: string
+  ) => {
+    setFormData((form) => ({ ...form, [field]: event.target.value }));
+  };
+
+  const handleSubmit = (e: any) => {
+    if (errors) {
+      e.preventDefault();
+    }
+  };
+
+  return (
+    <div className="login-page">
+      <div className="login-wrapper">
+        <div className="login-content-wrapper">
+          <div className="login-content">
+            <h1 className="login-title">Welcome</h1>
+            <h2 className="login-sub-title">
+              We are glad to see you back with us
+            </h2>
+            <form className="form login-form" method="post">
+              <FormField
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={(e) => handleInputChange(e, 'email')}
+                error={errors.email}
+                icon="username"
+              />
+              <FormField
+                name="password"
+                placeholder="password"
+                type="password"
+                value={formData.password}
+                error={errors.password}
+                onChange={(e) => handleInputChange(e, 'password')}
+                icon="password"
+              />
+              <button
+                type="submit"
+                className="login-btn"
+                onSubmit={handleSubmit}
+              >
+                Login
+              </button>
+            </form>
+          </div>
+        </div>
+        <div className="login-bg">
+          <img src={loginBg} alt="login background" className="login-image" />
+        </div>
+      </div>
+    </div>
+  );
 }

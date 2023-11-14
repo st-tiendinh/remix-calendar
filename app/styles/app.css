@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@300;400;500;600;700&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -24,13 +25,12 @@
 html, body {
   font-size: 16px;
   font-size: 1rem;
-  font-family: san-serif;
+  font-family: Smooch Sans;
   position: relative;
   font-weight: 300;
   color: #000000;
   line-height: 1.7;
   letter-spacing: 0.8px;
-  background-color: #FFFFFF;
   overscroll-behavior: contain;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -41,6 +41,22 @@ html, body {
 image {
   max-width: 100%;
   width: 100%;
+}
+
+.icon {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.icon-username {
+  width: 24px;
+  height: 24px;
+  background-image: url("../../assets/icons/ic-username.svg");
+}
+.icon-password {
+  width: 24px;
+  height: 24px;
+  background-image: url("../../assets/icons/ic-password.svg");
 }
 
 .pd-0 {
@@ -935,6 +951,85 @@ image {
   text-align: left;
   background-color: black;
   color: white;
+}
+
+.login-page {
+  height: 100vh;
+  padding: 34px;
+}
+.login-page .login-wrapper {
+  display: flex;
+  height: 100%;
+}
+.login-page .login-content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+.login-page .login-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 350px;
+}
+.login-page .login-content .login-title {
+  font-size: 120px;
+  font-weight: 700;
+  line-height: 0.8;
+}
+.login-page .login-content .login-sub-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1C1C1C;
+  margin-bottom: 24px;
+}
+.login-page .login-content .login-form {
+  width: 100%;
+}
+.login-page .login-content .login-form .form-field {
+  position: relative;
+}
+.login-page .login-content .login-form .form-input-group {
+  position: relative;
+  margin-bottom: 30px;
+}
+.login-page .login-content .login-form .form-input-group .icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.login-page .login-content .login-form .error-text {
+  position: absolute;
+  bottom: -25px;
+  color: #DC2626;
+}
+.login-page .login-content .login-form .form-input {
+  width: 100%;
+  padding: 16px 18px 16px 44px;
+  background-color: #F2F2F2;
+  border-radius: 13px;
+}
+.login-page .login-content .login-form .form-input:focus::placeholder {
+  color: transparent;
+}
+.login-page .login-content .login-btn {
+  width: 100%;
+  background-color: #1C1C1C;
+  padding: 17px;
+  border-radius: 13px;
+  color: #FFF;
+  font-weight: 700;
+  cursor: pointer;
+}
+.login-page .login-bg {
+  width: 50%;
+  height: 100%;
+}
+.login-page .login-image {
+  height: 100%;
+  width: 100%;
 }
 
 /*# sourceMappingURL=app.css.map */
