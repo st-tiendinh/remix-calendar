@@ -29,15 +29,23 @@
     }
     .login-form {
       width: 100%;
+      .form-field {
+        position: relative;
+      }
       .form-input-group {
         position: relative;
-        margin-bottom: 24px;
+        margin-bottom: 30px;
         .icon {
           position: absolute;
           left: 10px;
           top : 50%;
           transform: translateY(-50%);
         }
+      }
+      .error-text {
+        position: absolute;
+        bottom: -25px;
+        color : map-get($color, $key: red );
       }
       .form-input {
         width: 100%;
