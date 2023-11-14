@@ -1,5 +1,5 @@
 import type { MetaFunction } from '@remix-run/node';
-import CalendarWrapper from '~/components/CalendarWrapper';
+import CalendarWrapper from '~/shared/components/CalendarWrapper';
 
 export const meta: MetaFunction = () => {
   return [
