@@ -18,10 +18,14 @@
     "@remix-run/serve": "^2.2.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "domain-functions": "^2.5.1",
     "isbot": "^3.6.8",
     "mongodb": "^6.2.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.48.2",
+    "remix-forms": "^2.2.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.2.0",
