@@ -987,15 +987,23 @@ image {
 .login-page .login-content .login-form {
   width: 100%;
 }
+.login-page .login-content .login-form .form-field {
+  position: relative;
+}
 .login-page .login-content .login-form .form-input-group {
   position: relative;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
 }
 .login-page .login-content .login-form .form-input-group .icon {
   position: absolute;
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
+}
+.login-page .login-content .login-form .error-text {
+  position: absolute;
+  bottom: -25px;
+  color: #DC2626;
 }
 .login-page .login-content .login-form .form-input {
   width: 100%;

@@ -1,12 +1,33 @@
 import { useState } from 'react'
+import { ActionFunction, json } from '@remix-run/node'
 
-import { FormField } from '~/components/form-field'
+import { FormField } from '~/shared/components/FormField'
 import loginBg from '../../assets/images/login-bg.jpg'
+import { validateEmail, validatePassword } from '~/shared/utils/validators.serve'
+import { Form, useActionData } from '@remix-run/react'
+
+export const action: ActionFunction = async ({ request }) => {
+  const form = await request.formData()
+  const email = form.get('email')
+  const password = form.get('password')
+  
+  const errors = {
+    email: validateEmail(email as string),
+    password: validatePassword(password as string),
+  }
+  if (Object.values(errors).some(Boolean))
+    return json({ errors, fields: { email, password } }, { status: 400 })
+
+  return json(form)
+}
 
 export default function LoginPage () {
+  const actionData = useActionData<typeof action>();
+  const [errors] = useState(actionData?.errors || {})
+  
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    email: actionData?.fields?.email || '',
+    password: actionData?.fields?.password || '',
   })
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
@@ -20,14 +41,21 @@ export default function LoginPage () {
           <h1 className="login-title">Welcome</h1>
           <h2 className="login-sub-title">We are glad to see you back with us</h2>
           <form className="form login-form" method='post'>
-            <div className="form-input-group">
-              <i className="icon icon-username"></i>
-              <FormField  placeholder='Username' value={formData.username} onChange={(e) => handleInputChange(e,'username')} />
-            </div>
-            <div className="form-input-group">
-              <i className="icon icon-password"></i>
-              <FormField placeholder='password' value={formData.password} onChange={(e) => handleInputChange(e,'password')} />             
-            </div>
+            <FormField  name='email' placeholder='Email' 
+              value={formData.email} 
+              onChange={(e) => handleInputChange(e,'email')}
+              error={errors.email} 
+              icon="username"
+            />
+            <FormField name='password' placeholder='password' 
+              type='password'
+              value={formData.password} 
+              error={errors.password}
+              onChange={(e) => 
+                handleInputChange(e,'password')
+              } 
+              icon="password"
+            />             
             <button type='submit' className="login-btn">Login</button>
           </form>
         </div>
