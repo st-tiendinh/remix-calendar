@@ -1,0 +1,20 @@
+.form-input-group {
+  display: flex;
+}
+
+.form-label {
+  font-size: map-get($font-size, $key: lg);
+}
+
+.form-input {
+  padding: 8px 14px;
+  border-radius: 13px;
+  &:focus::placeholder {
+    color: transparent;
+  }
+}
+
+.form-error {
+  color: red;
+  font-size: 14px;
+}

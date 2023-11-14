@@ -30,7 +30,7 @@ html, body {
   color: #000000;
   line-height: 1.7;
   letter-spacing: 0.8px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   overscroll-behavior: contain;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -41,6 +41,27 @@ html, body {
 image {
   max-width: 100%;
   width: 100%;
+}
+
+.form-input-group {
+  display: flex;
+}
+
+.form-label {
+  font-size: 18px;
+}
+
+.form-input {
+  padding: 8px 14px;
+  border-radius: 13px;
+}
+.form-input:focus::placeholder {
+  color: transparent;
+}
+
+.form-error {
+  color: red;
+  font-size: 14px;
 }
 
 .pd-0 {
@@ -935,6 +956,30 @@ image {
   text-align: left;
   background-color: black;
   color: white;
+}
+
+.home .sidebar {
+  background-color: #18181b;
+  height: 100vh;
+  padding: 10px 16px;
+  overflow: scroll;
+}
+.home .form-title,
+.home .form-label {
+  color: #fff;
+}
+.home .form-input-group {
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.home .btn-add {
+  width: 100%;
+  margin-top: 24px;
+  border-radius: 13px;
+  padding: 6px 12px;
+  color: #fff;
+  background-color: #e61e56;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=app.css.map */

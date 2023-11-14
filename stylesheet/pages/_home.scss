@@ -1,0 +1,26 @@
+.home {
+  .sidebar {
+    background-color: #18181b;
+    height: 100vh;
+    padding: 10px 16px;
+    overflow: scroll;
+  }
+
+  .form-title,
+  .form-label {
+    color: #fff;
+  }
+  .form-input-group {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .btn-add {
+    width: 100%;
+    margin-top: 24px;
+    border-radius: 13px;
+    padding: 6px 12px;
+    color: #fff;
+    background-color: map-get($color, $key: primary);
+    cursor: pointer;
+  }
+}

@@ -83,7 +83,7 @@
 @mixin clearfix() {
   &::after {
     display: block;
-    content: "";
+    content: '';
     clear: both;
   }
 }
@@ -116,18 +116,17 @@
 }
 @mixin flex-wrap($wrap) {
   -webkit-flex-wrap: $wrap;
-     -moz-flex-wrap: $wrap;
-      -ms-flex-wrap: $wrap;
-          flex-wrap: $wrap;
+  -moz-flex-wrap: $wrap;
+  -ms-flex-wrap: $wrap;
+  flex-wrap: $wrap;
 }
 
-@mixin ellipsis-special($number : null) {
+@mixin ellipsis-special($number: null) {
   overflow: hidden;
   @if type-of($number) != number {
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-  @else {
+  } @else {
     display: box;
     display: -moz-box;
     display: -webkit-box;
@@ -152,14 +151,13 @@
 
 @function convertRootPxToEm($value) {
   // check for null:
-  @if($value == null) {
+  @if ($value == null) {
     @return $value;
   }
   // assume em:
   @if (unitless($value) or unit($value) == em) {
     @return 0em + $value;
-  }
-  @else {
+  } @else {
     @return 0em + calc(strip-units($value) / 16);
   }
 }
@@ -181,13 +179,12 @@
   // Loop through the $values list:
   @each $value in $values {
     @if type-of($value) == number and (unitless($value) or unit($value) == px) {
-    $px-values: join($px-values, 0px + ($value));
+      $px-values: join($px-values, 0px + ($value));
       $rem-values: join($rem-values, convertPxToRem($value));
-    }
-    @else {
-    // no conversion:
-    $px-values: join($px-values, $value);
-    $rem-values: join($rem-values, $value);
+    } @else {
+      // no conversion:
+      $px-values: join($px-values, $value);
+      $rem-values: join($rem-values, $value);
     }
   }
 
@@ -196,7 +193,7 @@
   // don't add media query if it's not needed:
   @if $px-values != $rem-values {
     // @media only all {
-      #{$property}: $rem-values;
+    #{$property}: $rem-values;
     // }
   }
 }
