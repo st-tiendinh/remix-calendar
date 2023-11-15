@@ -1,103 +1,97 @@
 import { json, redirect } from '@remix-run/node';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import { performMutation } from 'remix-forms';
 import { useActionData } from '@remix-run/react';
-import { useState } from 'react';
-import { login, register, getUser } from '~/server/auth.server';
-import { FormField } from '~/shared/components/FormField';
-import {
-  validateEmail,
-  validateName,
-  validatePassword,
-} from '~/utils/validators.server';
+import { useEffect, useState } from 'react';
+import { login, getUser } from '~/server/auth.server';
+import { z } from 'zod';
+import { InputError, makeDomainFunction } from 'domain-functions';
+
+import { validateEmail, validatePassword } from '~/utils/validators.server';
+import { Form } from '~/shared/components/form';
 import loginBg from '../../assets/images/login-bg.jpg';
+import { toast } from "react-hot-toast";
 
-export const action: ActionFunction = async ({ request }) => {
-  const form = await request.formData();
-  const action = form.get('_action');
-  const email = form.get('email');
-  const password = form.get('password');
-  let firstName = form.get('firstName');
-  let lastName = form.get('lastName');
+const schema = z.object({
+  email: z
+    .string()
+    .min(1, { message: 'You are not able to leave email empty' })
+    .email({ message: 'Please enter a valid email' }),
+  password: z
+    .string()
+    .min(6, { message: 'Password must be at least 6 characters long' })
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,}$/,
+      {
+        message:
+          'Password require uppercase letter, lowercase letter, number, and special symbol',
+      }
+    ),
+});
 
-  if (
-    typeof action !== 'string' ||
-    typeof email !== 'string' ||
-    typeof password !== 'string'
-  ) {
-    return json({ error: `Invalid Form Data`, form: action }, { status: 400 });
-  }
+const mutation = makeDomainFunction(schema)(async (values) => {
+  const email = values.email;
+  const password = values.password;
 
-  if (
-    action === 'register' &&
-    (typeof firstName !== 'string' || typeof lastName !== 'string')
-  ) {
-    return json({ error: `Invalid Form Data`, form: action }, { status: 400 });
+  if (typeof email !== 'string' || typeof password !== 'string') {
+    throw 'Invalid Form Data';
   }
 
   const errors = {
     email: validateEmail(email),
     password: validatePassword(password),
-    ...(action === 'register'
-      ? {
-          firstName: validateName((firstName as string) || ''),
-          lastName: validateName((lastName as string) || ''),
-        }
-      : {}),
   };
 
-  if (Object.values(errors).some(Boolean))
-    return json(
-      {
-        errors,
-        fields: { email, password, firstName, lastName },
-        form: action,
-      },
-      { status: 400 }
-    );
-
-  switch (action) {
-    case 'login': {
-      return await login({ email, password });
-    }
-    case 'register': {
-      firstName = firstName as string;
-      lastName = lastName as string;
-      return await register({ email, password, firstName, lastName });
-    }
-    default:
-      return json({ error: `Invalid Form Data` }, { status: 400 });
+  if (errors.email) {
+    throw new InputError('Invalid email', 'email');
   }
-};
+
+  if (errors.password) {
+    throw new InputError('Invalid password', 'password');
+  }
+
+  return { email, password };
+});
 
 export const loader: LoaderFunction = async ({ request }) => {
   // If there's already a user in the session, redirect to the home page
   return (await getUser(request)) ? redirect('/') : null;
 };
 
-export default function Login() {
-  const actionData = useActionData<typeof action>();
-  const [errors] = useState(actionData?.errors || {});
-
-  const [formData, setFormData] = useState({
-    email: actionData?.fields?.email || '',
-    password: actionData?.fields?.password || '',
+export const action: ActionFunction = async ({ request }) => {
+  const result = await performMutation({
+    request,
+    schema,
+    mutation,
   });
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    field: string
-  ) => {
-    setFormData((form) => ({ ...form, [field]: event.target.value }));
-  };
+  console.log(result);
 
-  const handleSubmit = (e: any) => {
-    if (errors) {
-      e.preventDefault();
+  if (!result.success) return json(result, 400);
+
+  const email = result.data.email;
+  const password = result.data.password;
+
+  return await login({ email, password });
+};
+
+export default function Login() {
+  const actionData: any = useActionData();
+
+  // if (!actionData) return null;
+  // console.log(actionData);
+  // const [error, setError] = useState<string | null>('');
+
+  useEffect(() => {
+    if (actionData?.error !== undefined) {
+      toast.error(`${actionData?.error}`);
     }
-  };
+  }, [actionData]);
+  console.log(actionData);
 
   return (
     <div className="login-page">
+
       <div className="login-wrapper">
         <div className="login-content-wrapper">
           <div className="login-content">
@@ -105,32 +99,47 @@ export default function Login() {
             <h2 className="login-sub-title">
               We are glad to see you back with us
             </h2>
-            <form className="form login-form" method="post">
-              <FormField
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) => handleInputChange(e, 'email')}
-                error={errors.email}
-                icon="username"
-              />
-              <FormField
-                name="password"
-                placeholder="password"
-                type="password"
-                value={formData.password}
-                error={errors.password}
-                onChange={(e) => handleInputChange(e, 'password')}
-                icon="password"
-              />
-              <button
-                type="submit"
-                className="login-btn"
-                onSubmit={handleSubmit}
-              >
-                Login
-              </button>
-            </form>
+            <Form schema={schema} className="form login-form" method="post">
+              {({ Field, Errors, Button }) => (
+                <>
+                  <div className="form-field">
+                    <div className="form-input-group">
+                      <Field name="email">
+                        {({ Label, SmartInput, Errors }) => (
+                          <>
+                            <i className={`icon icon-username`}></i>
+                            <SmartInput
+                              className="form-input"
+                              placeholder="Email"
+                            />
+                            <Errors className="error-text" />
+                          </>
+                        )}
+                      </Field>
+                    </div>
+                  </div>
+                  <div className="form-field">
+                    <div className="form-input-group">
+                      <Field name="password">
+                        {({ Label, SmartInput, Errors }) => (
+                          <>
+                            <i className={`icon icon-password`}></i>
+                            <SmartInput
+                              className="form-input"
+                              placeholder="Password"
+                              type="password"
+                            />
+                            <Errors className="error-text" />
+                          </>
+                        )}
+                      </Field>
+                    </div>
+                  </div>
+                  <Errors className="error-text" />
+                  <Button className="login-btn" />
+                </>
+              )}
+            </Form>
           </div>
         </div>
         <div className="login-bg">

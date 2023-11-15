@@ -96,7 +96,7 @@ export async function login({ email, password }: LoginForm) {
 
   // If no user is found or the provided password does not match the user's password, return a JSON response with an error message
   if (!user || !(await bcrypt.compare(password, user.password)))
-    return json({ error: `Incorrect login` }, { status: 400 });
+    return json({ error: `Incorrect email or password` }, { status: 400 });
 
   // If the login is successful, create a user session and return it
   return createUserSession(user.id, '/');
