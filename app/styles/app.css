@@ -5,7 +5,6 @@
   box-sizing: border-box;
   border: none;
   outline: none;
-  transition: 0.3s;
 }
 
 *::after,
@@ -1001,14 +1000,15 @@ image {
   transform: translateY(-50%);
 }
 .login-page .login-content .login-form .error-text {
-  position: absolute;
-  bottom: -25px;
+  height: 10px;
+  font-size: 12px;
   color: #DC2626;
+  line-height: 1;
 }
 .login-page .login-content .login-form .form-input {
   width: 100%;
   padding: 16px 18px 16px 44px;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   border-radius: 13px;
 }
 .login-page .login-content .login-form .form-input:focus::placeholder {

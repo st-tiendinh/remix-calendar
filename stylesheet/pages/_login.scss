@@ -22,9 +22,9 @@
       line-height: 0.8;
     }
     .login-sub-title {
-      font-size: map-get($font-size, $key: lg );
+      font-size: map-get($font-size, $key: lg);
       font-weight: 500;
-      color : map-get($color, $key: primary );
+      color: map-get($color, $key: primary);
       margin-bottom: 24px;
     }
     .login-form {
@@ -38,36 +38,37 @@
         .icon {
           position: absolute;
           left: 10px;
-          top : 50%;
+          top: 50%;
           transform: translateY(-50%);
         }
       }
       .error-text {
-        position: absolute;
-        bottom: -25px;
-        color : map-get($color, $key: red );
+        height: 10px;
+        font-size: map-get($font-size, $key: xs);
+        color: map-get($color, $key: red);
+        line-height: 1;
       }
       .form-input {
         width: 100%;
         padding: 16px 18px 16px 44px;
-        background-color: #F2F2F2;
+        background-color: #f2f2f2;
         border-radius: 13px;
-        &:focus::placeholder{
-          color : transparent;
+        &:focus::placeholder {
+          color: transparent;
         }
       }
     }
     .login-btn {
       width: 100%;
-      background-color: map-get($color, $key: primary );
+      background-color: map-get($color, $key: primary);
       padding: 17px;
       border-radius: 13px;
-      color : map-get($color, $key: secondary );
+      color: map-get($color, $key: secondary);
       font-weight: 700;
       cursor: pointer;
     }
   }
-  .login-bg{
+  .login-bg {
     width: 50%;
     height: 100%;
   }
