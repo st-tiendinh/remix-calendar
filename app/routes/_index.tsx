@@ -1,13 +1,11 @@
-import type { ActionFunction, MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 import { z } from 'zod';
-import { makeDomainFunction } from 'domain-functions';
 import { Form } from '~/shared/components/form';
-import { formAction } from '~/server/formAction.server';
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'New Remix App' },
-    { name: 'description', content: 'Welcome to Remix!' },
+    { title: 'Remix Calendar App' },
+    { name: 'description', content: 'Welcome to Remix Calendar App!' },
   ];
 };
 
@@ -22,18 +20,6 @@ const schema = z.object({
   location: z.string().min(1, { message: 'Location is required' }),
   meetingLink: z.string().optional(),
 });
-
-const mutation = makeDomainFunction(schema)(async (values) =>
-  console.log(values)
-);
-
-export const action: ActionFunction = async ({ request }) =>
-  formAction({
-    request,
-    schema,
-    mutation,
-    successPath: '/',
-  });
 
 export default function Index() {
   return (

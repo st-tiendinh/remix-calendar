@@ -15,6 +15,6 @@
 }
 
 .form-error {
-  color: red;
+  color: map-get($color, $key: red-600);
   font-size: 14px;
 }

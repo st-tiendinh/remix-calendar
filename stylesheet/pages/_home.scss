@@ -20,7 +20,7 @@
     border-radius: 13px;
     padding: 6px 12px;
     color: #fff;
-    background-color: map-get($color, $key: primary);
+    background-color: map-get($color, $key: red-600);
     cursor: pointer;
   }
 }
