@@ -1,26 +1,19 @@
 .home {
   .sidebar {
-    background-color: #18181b;
+    border-right: 1px solid #9d9d9d;
     height: 100vh;
     padding: 10px 16px;
     overflow: scroll;
   }
 
-  .form-title,
-  .form-label {
-    color: #fff;
+  .btn-add {
+    margin-top: 24px;
+    font-size: 16px;
+  }
+  .form-title {
+    margin-bottom: 14px;
   }
   .form-input-group {
-    flex-direction: column;
     margin-bottom: 10px;
-  }
-  .btn-add {
-    width: 100%;
-    margin-top: 24px;
-    border-radius: 13px;
-    padding: 6px 12px;
-    color: #fff;
-    background-color: map-get($color, $key: red-600);
-    cursor: pointer;
   }
 }

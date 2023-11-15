@@ -7,8 +7,13 @@
 }
 
 .form-input {
-  padding: 8px 14px;
-  border-radius: 13px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background-color: #f2f2f2;
+  &::placeholder {
+    font-size: 16px;
+    color: #d8d7d7;
+  }
   &:focus::placeholder {
     color: transparent;
   }
@@ -17,4 +22,23 @@
 .form-error {
   color: map-get($color, $key: red-600);
   font-size: 14px;
+}
+
+.form-label {
+  font-weight: 500;
+}
+.form-title,
+.form-label {
+  color: map-get($color, $key: primary);
+}
+.form-input-group {
+  flex-direction: column;
+}
+.btn-add {
+  width: 100%;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #fff;
+  background-color: map-get($color, $key: primary);
+  cursor: pointer;
 }

@@ -39,7 +39,7 @@ export default function FormEvent() {
               {({ Label, SmartInput, Errors }) => (
                 <>
                   <Label className="form-label">Title</Label>
-                  <SmartInput className="form-input" />
+                  <SmartInput className="form-input" placeholder="Add title" />
                   <Errors className="form-error" />
                 </>
               )}
@@ -48,7 +48,10 @@ export default function FormEvent() {
               {({ Label, SmartInput, Errors }) => (
                 <>
                   <Label className="form-label">Description</Label>
-                  <SmartInput className="form-input" />
+                  <SmartInput
+                    className="form-input"
+                    placeholder="Add descriptopn"
+                  />
                   <Errors className="form-error" />
                 </>
               )}
@@ -67,7 +70,7 @@ export default function FormEvent() {
                 {({ Label, SmartInput, Errors }) => (
                   <>
                     <Label className="form-label">Time Start</Label>
-                    <SmartInput className="form-input" />
+                    <SmartInput className="form-input" placeholder="From..." />
                     <Errors className="form-error" />
                   </>
                 )}
@@ -76,7 +79,7 @@ export default function FormEvent() {
                 {({ Label, SmartInput, Errors }) => (
                   <>
                     <Label className="form-label">Time End</Label>
-                    <SmartInput className="form-input" />
+                    <SmartInput className="form-input" placeholder="To..." />
                     <Errors className="form-error" />
                   </>
                 )}
@@ -86,7 +89,10 @@ export default function FormEvent() {
               {({ Label, SmartInput, Errors }) => (
                 <>
                   <Label className="form-label">Location</Label>
-                  <SmartInput className="form-input" />
+                  <SmartInput
+                    className="form-input"
+                    placeholder="Add location"
+                  />
                   <Errors className="form-error" />
                 </>
               )}
@@ -95,7 +101,10 @@ export default function FormEvent() {
               {({ Label, SmartInput, Errors }) => (
                 <>
                   <Label className="form-label">Meeting Link</Label>
-                  <SmartInput className="form-input" />
+                  <SmartInput
+                    className="form-input"
+                    placeholder="Add meeting link"
+                  />
                   <Errors className="form-error" />
                 </>
               )}
