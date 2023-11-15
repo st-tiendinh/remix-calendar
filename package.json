@@ -13,7 +13,9 @@
   "dependencies": {
     "@fullcalendar/core": "^6.1.9",
     "@fullcalendar/daygrid": "^6.1.9",
+    "@fullcalendar/interaction": "^6.1.9",
     "@fullcalendar/react": "^6.1.9",
+    "@fullcalendar/timegrid": "^6.1.9",
     "@prisma/client": "^5.5.2",
     "@remix-run/css-bundle": "^2.2.0",
     "@remix-run/node": "^2.2.0",
