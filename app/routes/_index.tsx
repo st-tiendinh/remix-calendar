@@ -1,5 +1,8 @@
-import type { MetaFunction } from '@remix-run/node';
-import FormEvent from '~/shared/components/FormEvent';
+import {
+  redirect,
+  type ActionFunction,
+  type MetaFunction,
+} from '@remix-run/node';
 
 export const meta: MetaFunction = () => {
   return [
@@ -7,18 +10,10 @@ export const meta: MetaFunction = () => {
     { name: 'description', content: 'Welcome to Remix Calendar App!' },
   ];
 };
+export const loader: ActionFunction = async () => {
+  return redirect('/event');
+};
 
 export default function Index() {
-  return (
-    <div className="home">
-      <div className="row">
-        <div className="col col-3">
-          <div className="sidebar">
-            <FormEvent />
-          </div>
-        </div>
-        <div className="col col-9"></div>
-      </div>
-    </div>
-  );
+  return <></>;
 }

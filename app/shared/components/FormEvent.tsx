@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { Form } from '~/shared/components/form';
 
-const schema = z.object({
+const eventSchema = z.object({
   title: z
     .string()
     .min(1, { message: 'Title is required' })
@@ -12,7 +12,7 @@ const schema = z.object({
     .max(160, { message: 'Must be 160 or fewer characters long' }),
   date: z.coerce
     .date()
-    .min(new Date(), { message: 'Please select a date and time' })
+    // .min(new Date(), { message: 'Please select a date and time' })
     .refine((data) => data > new Date(), {
       message: 'Date must be in the future',
     }),
@@ -30,9 +30,9 @@ const schema = z.object({
 
 export default function FormEvent() {
   return (
-    <>
+    <div className="form-event">
       <h2 className="form-title">Create New Event</h2>
-      <Form schema={schema}>
+      <Form schema={eventSchema} method="post">
         {({ Field, Errors, Button }) => (
           <>
             <Field name="title" className="form-input-group">
@@ -114,6 +114,6 @@ export default function FormEvent() {
           </>
         )}
       </Form>
-    </>
+    </div>
   );
 }
