@@ -8,9 +8,10 @@ import { InputError, makeDomainFunction } from 'domain-functions';
 import { toast } from 'react-hot-toast';
 
 import { login, getUser } from '~/server/auth.server';
-import { validateEmail, validatePassword } from '~/utils/validators.server';
+import { validateEmail, validatePassword } from '~/shared/utils/validators.server';
 import { Form } from '~/shared/components/form';
 import loginBg from '../../assets/images/login-bg.jpg';
+import { passwordRegex } from '~/shared/constant/validator';
 
 const schema = z.object({
   email: z
@@ -19,9 +20,9 @@ const schema = z.object({
     .email({ message: 'Please enter a valid email' }),
   password: z
     .string()
-    .min(6, { message: 'Password must be at least 6 characters long' })
+    .min(8, { message: 'Password must be at least 8 characters long' })
     .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,}$/,
+      passwordRegex,
       {
         message:
           'Password require uppercase letter, lowercase letter, number, and special symbol',
