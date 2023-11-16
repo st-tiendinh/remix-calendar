@@ -1,8 +1,8 @@
-import { emailRegex } from '../constant/validator';
+import { EMAIL_REGEX } from '../constant/validator';
 
 export const validateEmail = (email: string): string | undefined => {
   var validRegex =
-  emailRegex;
+  EMAIL_REGEX;
   if (!email.length || !validRegex.test(email)) {
     return 'Please enter a valid email address';
   }

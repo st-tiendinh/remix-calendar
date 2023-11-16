@@ -11,7 +11,7 @@ import { login, getUser } from '~/server/auth.server';
 import { validateEmail, validatePassword } from '~/shared/utils/validators.server';
 import { Form } from '~/shared/components/form';
 import loginBg from '../../assets/images/login-bg.jpg';
-import { passwordRegex } from '~/shared/constant/validator';
+import { PASSWORD_REGEX } from '~/shared/constant/validator';
 
 const schema = z.object({
   email: z
@@ -22,7 +22,7 @@ const schema = z.object({
     .string()
     .min(8, { message: 'Password must be at least 8 characters long' })
     .regex(
-      passwordRegex,
+      PASSWORD_REGEX,
       {
         message:
           'Password require uppercase letter, lowercase letter, number, and special symbol',
