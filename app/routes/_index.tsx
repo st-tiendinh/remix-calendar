@@ -1,18 +1,19 @@
-import type { MetaFunction } from '@remix-run/node';
-import CalendarWrapper from '~/shared/components/CalendarWrapper';
+import {
+  redirect,
+  type ActionFunction,
+  type MetaFunction,
+} from '@remix-run/node';
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'New Remix App' },
-    { name: 'description', content: 'Welcome to Remix!' },
+    { title: 'Remix Calendar App' },
+    { name: 'description', content: 'Welcome to Remix Calendar App!' },
   ];
 };
+export const loader: ActionFunction = async () => {
+  return redirect('/event');
+};
 
-// ./app/routes/index.tsx
 export default function Index() {
-  return (
-    <div className="">
-      <CalendarWrapper />
-    </div>
-  );
+  return <></>;
 }
