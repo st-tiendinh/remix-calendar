@@ -2,15 +2,15 @@ import { json, redirect } from '@remix-run/node';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { performMutation } from 'remix-forms';
 import { useActionData } from '@remix-run/react';
-import { useEffect, useState } from 'react';
-import { login, getUser } from '~/server/auth.server';
+import { useEffect } from 'react';
 import { z } from 'zod';
 import { InputError, makeDomainFunction } from 'domain-functions';
+import { toast } from 'react-hot-toast';
 
+import { login, getUser } from '~/server/auth.server';
 import { validateEmail, validatePassword } from '~/utils/validators.server';
 import { Form } from '~/shared/components/form';
 import loginBg from '../../assets/images/login-bg.jpg';
-import { toast } from "react-hot-toast";
 
 const schema = z.object({
   email: z
@@ -30,8 +30,8 @@ const schema = z.object({
 });
 
 const mutation = makeDomainFunction(schema)(async (values) => {
-  const email = values.email;
-  const password = values.password;
+  const email = values.email.trim();
+  const password = values.password.trim();
 
   if (typeof email !== 'string' || typeof password !== 'string') {
     throw 'Invalid Form Data';
@@ -65,7 +65,6 @@ export const action: ActionFunction = async ({ request }) => {
     mutation,
   });
 
-  console.log(result);
 
   if (!result.success) return json(result, 400);
 
@@ -78,20 +77,15 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Login() {
   const actionData: any = useActionData();
 
-  // if (!actionData) return null;
-  // console.log(actionData);
-  // const [error, setError] = useState<string | null>('');
-
   useEffect(() => {
     if (actionData?.error !== undefined) {
       toast.error(`${actionData?.error}`);
     }
   }, [actionData]);
-  console.log(actionData);
+
 
   return (
     <div className="login-page">
-
       <div className="login-wrapper">
         <div className="login-content-wrapper">
           <div className="login-content">
@@ -100,17 +94,22 @@ export default function Login() {
               We are glad to see you back with us
             </h2>
             <Form schema={schema} className="form login-form" method="post">
-              {({ Field, Errors, Button }) => (
+              {({ Field, Errors, Button, register }) => (
                 <>
                   <div className="form-field">
                     <div className="form-input-group">
                       <Field name="email">
-                        {({ Label, SmartInput, Errors }) => (
+                        {({ Label, Errors }) => (
                           <>
                             <i className={`icon icon-username`}></i>
-                            <SmartInput
+                            <input
+                              type="email"
+                              {...register('email')}
                               className="form-input"
                               placeholder="Email"
+                              onBlur={(e) => {
+                                e.target.value = e.target.value.trim();
+                              }}
                             />
                             <Errors className="error-text" />
                           </>
@@ -121,13 +120,17 @@ export default function Login() {
                   <div className="form-field">
                     <div className="form-input-group">
                       <Field name="password">
-                        {({ Label, SmartInput, Errors }) => (
+                        {({ Label, Errors }) => (
                           <>
                             <i className={`icon icon-password`}></i>
-                            <SmartInput
+                            <input
+                              type="password"
+                              {...register('password')}
                               className="form-input"
                               placeholder="Password"
-                              type="password"
+                              onBlur={(e) => {
+                                e.target.value = e.target.value.trim();
+                              }}
                             />
                             <Errors className="error-text" />
                           </>

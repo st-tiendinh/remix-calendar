@@ -8,9 +8,9 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import { Toaster } from 'react-hot-toast';
+import { ClientOnly } from 'remix-utils/client-only';
 
 import styles from './styles/app.css';
-
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }];
@@ -27,7 +27,16 @@ export default function App() {
       </head>
       <body>
         <Outlet />
-        <Toaster />
+        <ClientOnly>
+          {() => (
+            <Toaster
+              toastOptions={{
+                success: { duration: 3000 },
+                error: { duration: 3000 },
+              }}
+            />
+          )}
+        </ClientOnly>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
