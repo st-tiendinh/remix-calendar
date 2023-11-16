@@ -9,17 +9,17 @@ $breakpoints: (
 );
 
 $color: (
-  primary: #18181b,
-  red-600: #dc2626,
-  secondary: #fff,
+  primary:  #1C1C1C,
+  secondary : #FFF,
+  red : #DC2626,
   orange-a: #a17143,
   grey-a: #f3f3f3,
   black: #000000,
 );
 
 $font-size: (
-  xs: 11px,
-  sm: 13px,
+  xs:     12px,
+  sm:     13px,
   normal: 16px,
   lg: 18px,
   xl: 20px,
@@ -27,5 +27,5 @@ $font-size: (
   xxxl: 30px,
 );
 
-$font-body: san-serif;
+$font-body: Smooch Sans;
 $font-japan: serif;

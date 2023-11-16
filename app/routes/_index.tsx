@@ -1,5 +1,5 @@
-import type { MetaFunction } from '@remix-run/node';
-import CalendarWrapper from '~/shared/components/CalendarWrapper';
+import type { MetaFunction, LoaderFunction } from '@remix-run/node';
+import { requireUserId } from '~/server/auth.server'
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,11 +8,14 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-// ./app/routes/index.tsx
+export const loader: LoaderFunction = async ({ request }) => {
+  await requireUserId(request)
+  return null
+}
+
 export default function Index() {
   return (
     <div className="">
-      <CalendarWrapper />
     </div>
   );
 }
