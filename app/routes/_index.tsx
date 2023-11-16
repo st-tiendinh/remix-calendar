@@ -1,17 +1,22 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction, LoaderFunction } from '@remix-run/node';
+import { requireUserId } from '~/server/auth.server'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: 'New Remix App' },
+    { name: 'description', content: 'Welcome to Remix!' },
   ];
 };
 
-// ./app/routes/index.tsx
+export const loader: LoaderFunction = async ({ request }) => {
+  await requireUserId(request)
+  return null
+}
+
 export default function Index() {
   return (
     <div className="">
       <h2 className="text-danger">Sass Is Working!</h2>
     </div>
-  )
+  );
 }
