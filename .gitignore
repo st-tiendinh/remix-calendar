@@ -6,5 +6,5 @@ node_modules
 .env
 .DS_Store
 /app/styles
-/**/.DS_Store
+**/.DS_Store
 ```
