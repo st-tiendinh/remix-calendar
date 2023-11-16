@@ -36,7 +36,8 @@ model Event {
   title       String
   description String
   date        DateTime
-  time        Int
+  timeStart   Int
+  timeEnd     Int
   location    String
   mettingLink String?
   isPublised  Boolean  @default(true)
