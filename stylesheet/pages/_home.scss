@@ -1,0 +1,29 @@
+.home {
+  .sidebar {
+    height: 100vh;
+    border-right: 1px solid #9d9d9d;
+    padding: 14px 24px;
+    overflow: scroll;
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      .icon {
+        padding: 16px;
+        border-radius: 4px;
+        background-color: #f4f4f5;
+        cursor: pointer;
+      }
+    }
+  }
+  .btn-add {
+    margin-top: 24px;
+    font-size: 16px;
+  }
+  .form-title {
+    margin-bottom: 14px;
+  }
+  .form-input-group {
+    margin-bottom: 10px;
+  }
+}

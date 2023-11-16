@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -21,10 +21,11 @@
   -webkit-overflow-scrolling: touch;
 }
 
-html, body {
+html,
+body {
   font-size: 16px;
   font-size: 1rem;
-  font-family: Smooch Sans;
+  font-family: "Poppins", "san-serif";
   position: relative;
   font-weight: 300;
   color: #000000;
@@ -45,20 +46,220 @@ image {
 .icon {
   display: inline-block;
   background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
+  background-position: center;
 }
-.icon-username {
-  width: 20px;
-  height: 20px;
-  background-image: url("../../assets/icons/ic-username.svg");
+.icon-arrow-left {
+  width: 14px;
+  height: 14px;
+  background-image: url("../../assets/icons/ic-arrow-left.svg");
 }
-.icon-password {
-  width: 20px;
-  height: 20px;
-  background-image: url("../../assets/icons/ic-password.svg");
+.icon-list {
+  width: 14px;
+  height: 14px;
+  background-image: url("../../assets/icons/ic-list.svg");
 }
 
+.form-input-group {
+  display: flex;
+}
+
+.form-label {
+  font-size: 18px;
+}
+
+.form-input {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background-color: #f2f2f2;
+}
+.form-input::placeholder {
+  font-size: 16px;
+  color: #d8d7d7;
+}
+.form-input:focus::placeholder {
+  color: transparent;
+}
+
+.form-error {
+  font-size: 14px;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.form-title,
+.form-label {
+  color: #1C1C1C;
+}
+
+.form-input-group {
+  flex-direction: column;
+}
+
+.btn-add {
+  width: 100%;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #fff;
+  background-color: #1C1C1C;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 1152px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.col {
+  padding: 0 10px;
+}
+
+.col-1 {
+  width: 8.3333333333%;
+}
+
+.col-2 {
+  width: 16.6666666667%;
+}
+
+.col-3 {
+  width: 25%;
+}
+
+.col-4 {
+  width: 33.3333333333%;
+}
+
+.col-5 {
+  width: 41.6666666667%;
+}
+
+.col-6 {
+  width: 50%;
+}
+
+.col-7 {
+  width: 58.3333333333%;
+}
+
+.col-8 {
+  width: 66.6666666667%;
+}
+
+.col-9 {
+  width: 75%;
+}
+
+.col-10 {
+  width: 83.3333333333%;
+}
+
+.col-11 {
+  width: 91.6666666667%;
+}
+
+.col-12 {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0px 24px;
+  }
+  .col-md-1 {
+    width: 8.3333333333%;
+  }
+  .col-md-2 {
+    width: 16.6666666667%;
+  }
+  .col-md-3 {
+    width: 25%;
+  }
+  .col-md-4 {
+    width: 33.3333333333%;
+  }
+  .col-md-5 {
+    width: 41.6666666667%;
+  }
+  .col-md-6 {
+    width: 50%;
+  }
+  .col-md-7 {
+    width: 58.3333333333%;
+  }
+  .col-md-8 {
+    width: 66.6666666667%;
+  }
+  .col-md-9 {
+    width: 75%;
+  }
+  .col-md-10 {
+    width: 83.3333333333%;
+  }
+  .col-md-11 {
+    width: 91.6666666667%;
+  }
+  .col-md-12 {
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    padding: 0px 12px;
+  }
+  .row {
+    margin: 0 -4px !important;
+  }
+  .col {
+    padding: 0 4px !important;
+  }
+  .col-sm-1 {
+    width: 8.3333333333%;
+  }
+  .col-sm-2 {
+    width: 16.6666666667%;
+  }
+  .col-sm-3 {
+    width: 25%;
+  }
+  .col-sm-4 {
+    width: 33.3333333333%;
+  }
+  .col-sm-5 {
+    width: 41.6666666667%;
+  }
+  .col-sm-6 {
+    width: 50%;
+  }
+  .col-sm-7 {
+    width: 58.3333333333%;
+  }
+  .col-sm-8 {
+    width: 66.6666666667%;
+  }
+  .col-sm-9 {
+    width: 75%;
+  }
+  .col-sm-10 {
+    width: 83.3333333333%;
+  }
+  .col-sm-11 {
+    width: 91.6666666667%;
+  }
+  .col-sm-12 {
+    width: 100%;
+  }
+}
 .pd-0 {
   padding: 0px;
   padding: 0rem;
@@ -1033,6 +1234,34 @@ image {
 .login-page .login-image {
   height: 100%;
   width: 100%;
+}
+
+.home .sidebar {
+  height: 100vh;
+  border-right: 1px solid #9d9d9d;
+  padding: 14px 24px;
+  overflow: scroll;
+}
+.home .sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.home .sidebar-header .icon {
+  padding: 16px;
+  border-radius: 4px;
+  background-color: #f4f4f5;
+  cursor: pointer;
+}
+.home .btn-add {
+  margin-top: 24px;
+  font-size: 16px;
+}
+.home .form-title {
+  margin-bottom: 14px;
+}
+.home .form-input-group {
+  margin-bottom: 10px;
 }
 
 /*# sourceMappingURL=app.css.map */
