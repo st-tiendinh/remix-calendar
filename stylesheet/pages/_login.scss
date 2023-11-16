@@ -1,63 +1,78 @@
 .login-page {
   height: 100vh;
   padding: 34px;
+
   .login-wrapper {
     display: flex;
     height: 100%;
   }
+
   .login-content-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50%;
   }
+
   .login-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 350px;
+
     .login-title {
       font-size: 120px;
       font-weight: 700;
       line-height: 0.8;
     }
+
     .login-sub-title {
       font-size: map-get($font-size, $key: lg);
       font-weight: 500;
       color: map-get($color, $key: primary);
       margin-bottom: 24px;
     }
+
     .login-form {
-      width: 100%;
+      width: 350px;
+
       .form-field {
         position: relative;
       }
+
       .form-input-group {
         position: relative;
-        margin-bottom: 30px;
+        margin-bottom: 24px;
+
         .icon {
           position: absolute;
           left: 10px;
-          top: 50%;
-          transform: translateY(-50%);
+          top: 14px;
+          z-index: 10;
         }
       }
+
       .error-text {
+        margin-top: 6px;
         height: 10px;
         font-size: map-get($font-size, $key: xs);
         color: map-get($color, $key: red);
         line-height: 1;
       }
+
       .form-input {
+        position: relative;
         width: 100%;
         padding: 16px 18px 16px 44px;
         background-color: #f2f2f2;
         border-radius: 13px;
+
         &:focus::placeholder {
           color: transparent;
         }
       }
     }
+
     .login-btn {
       width: 100%;
       background-color: map-get($color, $key: primary);
@@ -68,10 +83,12 @@
       cursor: pointer;
     }
   }
+
   .login-bg {
     width: 50%;
     height: 100%;
   }
+
   .login-image {
     height: 100%;
     width: 100%;
