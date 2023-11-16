@@ -9,3 +9,13 @@ export type LoginForm = {
   email: string;
   password: string;
 };
+
+export type Event = {
+  title: string;
+  description: string;
+  date: Date;
+  timeStart: number;
+  timeEnd: number;
+  location: string;
+  authorId: string;
+};
