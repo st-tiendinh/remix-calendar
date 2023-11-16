@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
 * {
   -webkit-box-sizing: border-box;
@@ -6,7 +6,8 @@
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 }
-html, body {
+html,
+body {
   @include pxRem(font-size, 16);
   font-family: $font-body;
   position: relative;
