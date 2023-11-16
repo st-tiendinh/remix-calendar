@@ -66,7 +66,6 @@ export const action: ActionFunction = async ({ request }) => {
     mutation,
   });
 
-
   if (!result.success) return json(result, 400);
 
   const email = result.data.email;
@@ -84,7 +83,6 @@ export default function Login() {
     }
   }, [actionData]);
 
-
   return (
     <div className="login-page">
       <div className="login-wrapper">
@@ -98,25 +96,25 @@ export default function Login() {
               {({ Field, Errors, Button, register }) => (
                 <>
                   <div className="form-field">
-                    <div className="form-input-group">
-                      <Field name="email">
-                        {({ Label, Errors }) => (
-                          <>
-                            <i className={`icon icon-username`}></i>
-                            <input
-                              type="email"
-                              {...register('email')}
-                              className="form-input"
-                              placeholder="Email"
-                              onBlur={(e) => {
-                                e.target.value = e.target.value.trim();
-                              }}
-                            />
-                            <Errors className="error-text" />
-                          </>
-                        )}
-                      </Field>
-                    </div>
+                    <Field name="email">
+                      {({ Label, Errors }) => (
+                        <div className="form-input-group">
+                          <i className={`icon icon-username`}></i>
+                          <input
+                            type="email"
+                            {...register('email')}
+                            className="form-input"
+                            placeholder="Email"
+                            onBlur={(e) => {
+                              e.target.value = e.target.value.trim();
+                            }}
+                          />
+                          <div className="error-text">
+                            <Errors />
+                          </div>
+                        </div>
+                      )}
+                    </Field>
                   </div>
                   <div className="form-field">
                     <div className="form-input-group">
@@ -133,7 +131,9 @@ export default function Login() {
                                 e.target.value = e.target.value.trim();
                               }}
                             />
-                            <Errors className="error-text" />
+                            <div className="error-text">
+                              <Errors />
+                            </div>
                           </>
                         )}
                       </Field>
