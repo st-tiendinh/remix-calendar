@@ -11,3 +11,28 @@ export const createEvent = async (event: any) => {
     return json({ error, status: 400 });
   }
 };
+
+export const deleteEvent = async (eventId: string, userId: string) => {
+  const event = await prisma.event.findUnique({
+    where: {
+      id: eventId,
+    },
+  });
+  if (!event) return json({ error: 'Can not found event', status: 404 });
+
+  if (event.authorId !== userId)
+    // throw new Response('Not Found', { status: 400 });
+    return false;
+
+  const result = await prisma.event.delete({
+    where: {
+      id: eventId,
+    },
+  });
+  if (!result) {
+    // return json({ error: 'Delete Event Failed', status: 400 });
+    return false;
+  }
+  // return json({ message: 'Delete Event Success!!', status: 200 });
+  return true;
+};

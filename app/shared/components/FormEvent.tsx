@@ -28,19 +28,18 @@ const eventSchema = z.object({
   meetingLink: z.string().optional(),
 });
 
-export default function FormEvent() {
-  const handleDeleteEvent = () => {
-    if (window.confirm('Are you want to delete event?')) {
-      // handle API delete event
-    }
-  };
+export default function FormEvent({ data }: any) {
   return (
     <div className="form-event">
       <div className="form-header">
         <h2 className="form-title">Create New Event</h2>
-        <i className="icon icon-trash" onClick={handleDeleteEvent}></i>
+        <form action="/event/6556e979df5ad655ab73916d/delete" method="post">
+          <button type="submit">
+            <i className="icon icon-trash"></i>
+          </button>
+        </form>
       </div>
-      <Form schema={eventSchema} method="post">
+      <Form schema={eventSchema} method="post" values={data}>
         {({ Field, Errors, Button }) => (
           <>
             <Field name="title" className="form-input-group">
