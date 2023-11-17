@@ -8,7 +8,7 @@ export const meta: MetaFunction = () => {
   ];
 };
 export const loader: LoaderFunction = async ({request}) => {
-  return (await getUser(request)) ? redirect('/event/list') : redirect('/login');
+  return (await getUser(request)) ? redirect('/event') : redirect('/login');
 };
 
 export default function Index() {

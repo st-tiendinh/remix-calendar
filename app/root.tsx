@@ -26,7 +26,19 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <div className="home">
+          <div className="row">
+            <div className={`col col-3 sidebar`}>
+              <div className="sidebar-header">
+                <i className="icon icon-list"></i>
+                <i className="icon icon-arrow-left"></i>
+              </div>
+              <Outlet />
+            </div>
+
+            <div className="col col-9"></div>
+          </div>
+        </div>
         <ClientOnly>
           {() => (
             <Toaster
