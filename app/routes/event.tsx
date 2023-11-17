@@ -1,5 +1,10 @@
+import { type LoaderFunction, redirect } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
+import { getUser } from '~/server/auth.server';
 
+export const loader: LoaderFunction = async ({request}) => {
+  return (await getUser(request)) ? null : redirect('/login');
+};
 export default function Event() {
   return (
     <div className="home">
