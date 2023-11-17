@@ -1,4 +1,5 @@
 import { Outlet } from '@remix-run/react';
+import CalendarWrapper from '~/shared/components/CalendarWrapper';
 
 export default function Event() {
   return (
@@ -12,7 +13,9 @@ export default function Event() {
           <Outlet />
         </div>
 
-        <div className="col col-9"></div>
+        <div className="col col-9">
+          <CalendarWrapper />
+        </div>
       </div>
     </div>
   );
