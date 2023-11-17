@@ -21,3 +21,14 @@ export type Event = {
   isPublic?: boolean;
   authorId: string;
 };
+
+export type ActionData = {
+  error?: string | undefined;
+  message?: string | undefined;
+};
+
+
+export type EventDate = {
+  timeStart: number;
+  timeEnd: number;
+}

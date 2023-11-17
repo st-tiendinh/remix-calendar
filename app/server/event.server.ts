@@ -7,7 +7,7 @@ export const createEvent = async (eventData: Event) => {
     data: eventData,
   });
 
-  if (!event) return json({ message: 'Something went wrong', status: 400 });
+  if (!event) return json({ error: 'Something went wrong', status: 400 });
 
   return json({ message: 'Create Event Success!!', status: 200 });
 };
