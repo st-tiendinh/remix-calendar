@@ -29,9 +29,17 @@ const eventSchema = z.object({
 });
 
 export default function FormEvent() {
+  const handleDeleteEvent = () => {
+    if (window.confirm('Are you want to delete event?')) {
+      // handle API delete event
+    }
+  };
   return (
     <div className="form-event">
-      <h2 className="form-title">Create New Event</h2>
+      <div className="form-header">
+        <h2 className="form-title">Create New Event</h2>
+        <i className="icon icon-trash" onClick={handleDeleteEvent}></i>
+      </div>
       <Form schema={eventSchema} method="post">
         {({ Field, Errors, Button }) => (
           <>
