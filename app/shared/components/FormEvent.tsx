@@ -1,7 +1,8 @@
 import { z } from 'zod';
+
 import { Form } from '~/shared/components/form';
 
-const eventSchema = z.object({
+export const eventSchema = z.object({
   title: z
     .string()
     .min(1, { message: 'Title is required' })
@@ -10,12 +11,16 @@ const eventSchema = z.object({
     .string()
     .min(1, { message: 'Description is required' })
     .max(160, { message: 'Must be 160 or fewer characters long' }),
-  date: z.coerce
-    .date()
-    // .min(new Date(), { message: 'Please select a date and time' })
-    .refine((data) => data > new Date(), {
+  date: z.coerce.date().refine(
+    (data: Date) => {
+      const currentDate = new Date();
+      currentDate.setHours(0, 0, 0, 0); // set the time to the start of the day
+      return data >= currentDate;
+    },
+    {
       message: 'Date must be in the future',
-    }),
+    }
+  ),
   timeStart: z.coerce
     .number()
     .min(1, { message: 'Time start is required' })
