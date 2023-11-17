@@ -3,7 +3,7 @@ import { Outlet } from '@remix-run/react';
 import { getUser } from '~/server/auth.server';
 
 export const loader: LoaderFunction = async ({request}) => {
-  return (await getUser(request)) ? null : redirect('/login');
+  return (await getUser(request)) ? redirect('/event/list') : redirect('/login');
 };
 export default function Event() {
   return (
