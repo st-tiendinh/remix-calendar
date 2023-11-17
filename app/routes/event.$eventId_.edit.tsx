@@ -1,6 +1,6 @@
 import { useActionData } from '@remix-run/react';
 import { useEffect } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
@@ -49,32 +49,26 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     where: { id: params.eventId },
   });
 
-  if (!event) return json({ message: 'Event is not exist', status: 404 });
+  if (!event) return json({ error: 'Event is not exist', status: 404 });
 
   if (event.authorId !== userId)
-    return json({ message: 'You can not edit this event', status: 403 });
+    return json({ error: 'You can not edit this event', status: 403 });
 
-  if (!userId) return json({ message: 'You must to login first', status: 401 });
+  if (!userId) return json({ error: 'You must to login first', status: 401 });
 
-  const eventData = await updateEvent(
+  return await updateEvent(
     { ...result.data, authorId: userId },
     params.eventId as string
   );
-
-  return json({
-    message: 'Event updated successfully',
-    status: 200,
-    eventData,
-  });
 };
 
 export default function EventEdit() {
   const actionData: any = useActionData();
 
   useEffect(() => {
-    if (actionData?.status !== 200) {
-      toast.error(`${actionData?.message}`);
-    } else {
+    if (actionData?.error !== undefined) {
+      toast.error(`${actionData?.error}`);
+    } else if (actionData?.message) {
       toast.success(actionData.message);
     }
   }, [actionData]);
