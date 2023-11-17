@@ -3,8 +3,7 @@ import { makeDomainFunction } from 'domain-functions';
 import { performMutation } from 'remix-forms';
 import { getUserId } from '~/server/auth.server';
 import { createEvent } from '~/server/event.server';
-import FormEvent from '~/shared/components/FormEvent';
-import { eventSchema } from '~/shared/utils/schemas.server';
+import FormEvent, { eventSchema } from '~/shared/components/FormEvent';
 
 const mutation = makeDomainFunction(eventSchema)(async (values) => {
   return values;
@@ -27,7 +26,7 @@ export const action: ActionFunction = async ({ request }) => {
   if (!result.success) return json(result, 400);
 
   const eventData = { ...result.data, authorId: userId };
-  
+
   return await createEvent(eventData);
 };
 

@@ -1,7 +1,8 @@
 import { z } from 'zod';
+
 import { Form } from '~/shared/components/form';
 
-const eventSchema = z.object({
+export const eventSchema = z.object({
   title: z
     .string()
     .min(1, { message: 'Title is required' })
@@ -12,7 +13,6 @@ const eventSchema = z.object({
     .max(160, { message: 'Must be 160 or fewer characters long' }),
   date: z.coerce
     .date()
-    // .min(new Date(), { message: 'Please select a date and time' })
     .refine((data) => data > new Date(), {
       message: 'Date must be in the future',
     }),
