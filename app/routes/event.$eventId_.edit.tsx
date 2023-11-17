@@ -1,3 +1,6 @@
+import { useActionData } from '@remix-run/react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
@@ -5,6 +8,7 @@ import {
 } from '@remix-run/node';
 import { makeDomainFunction, InputError } from 'domain-functions';
 import { performMutation } from 'remix-forms';
+
 import { updateEvent } from '~/server/event.server';
 import FormEvent, {
   FormEventMethod,
@@ -13,9 +17,6 @@ import FormEvent, {
 import { validateEventDate } from '~/shared/utils/validators.server';
 import { getUserId } from '~/server/auth.server';
 import { prisma } from '~/server/prisma.server';
-import { useActionData } from '@remix-run/react';
-import { useEffect } from 'react';
-import toast from 'react-hot-toast';
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return null;
