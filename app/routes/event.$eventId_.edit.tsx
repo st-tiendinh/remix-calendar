@@ -1,43 +1,82 @@
-import { type ActionFunctionArgs, json } from '@remix-run/node';
+import {
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  json,
+} from '@remix-run/node';
+import { makeDomainFunction, InputError } from 'domain-functions';
+import { performMutation } from 'remix-forms';
+import { updateEvent } from '~/server/event.server';
+import FormEvent, {
+  FormEventMethod,
+  eventSchema,
+} from '~/shared/components/FormEvent';
+import { validateEventDate } from '~/shared/utils/validators.server';
+import { getUserId } from '~/server/auth.server';
 import { prisma } from '~/server/prisma.server';
+import { useActionData } from '@remix-run/react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
-// export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-//   // return redirect(`/event/${params.eventId}`);
-// };
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+  return null;
+};
+
+const mutation = makeDomainFunction(eventSchema)(async (values) => {
+  const eventDate = values.date;
+  const errors = {
+    date: validateEventDate(eventDate),
+  };
+
+  if (errors.date) {
+    throw new InputError(errors.date, 'date');
+  }
+
+  return values;
+});
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
-  const updatedEvent = await request.formData();
-  const event = await prisma.event.update({
-    where: { id: params.eventId },
-    data: {
-      title: updatedEvent.get('title') as string,
-      description: updatedEvent.get('description') as string,
-      date: updatedEvent.get('date') as string,
-      timeStart: parseInt(updatedEvent.get('timeStart') as string),
-      timeEnd: parseInt(updatedEvent.get('timeEnd') as string),
-      location: updatedEvent.get('location') as string,
-      mettingLink: updatedEvent.get('mettingLink') as string,
-      isPublised: true,
-      authorId: '6554698f48c5c41902cc2430',
-    },
+  const result = await performMutation({
+    request,
+    schema: eventSchema,
+    mutation,
   });
-  console.log(event);
-  return json({ message: 'Event updated successfully', updatedEvent });
+
+  if (!result.success) return json(result, 400);
+
+  const userId = await getUserId(request);
+  const event = await prisma.event.findUnique({
+    where: { id: params.eventId },
+  });
+
+  if (!event) return json({ message: 'Event is not exist', status: 404 });
+
+  if (event.authorId !== userId)
+    return json({ message: 'You can not edit this event', status: 403 });
+
+  if (!userId) return json({ message: 'You must to login first', status: 401 });
+
+  const eventData = await updateEvent(
+    { ...result.data, authorId: userId },
+    params.eventId as string
+  );
+
+  return json({
+    message: 'Event updated successfully',
+    status: 200,
+    eventData,
+  });
 };
 
 export default function EventEdit() {
-  // return (
-  //   <Form method="post">
-  //     <input type="text" name="title" id="" value={''} />
-  //     <input type="text" name="description" id="" value={''} />
-  //     <input type="date" name="date" id="" value={''} />
-  //     <input type="text" name="timeStart" id="" value={''} />
-  //     <input type="text" name="timeEnd" id="" value={''} />
-  //     <input type="text" name="location" id="" value={''} />
-  //     <input type="text" name="isPublic" id="" value={'false'} />
-  //     <input type="text" name="meetingLink" id="" value={''} />
-  //     <button type="submit">Save</button>
-  //   </Form>
-  // );
-  return <></>;
+  const actionData: any = useActionData();
+
+  useEffect(() => {
+    if (actionData?.status !== 200) {
+      toast.error(`${actionData?.message}`);
+    } else {
+      toast.success(actionData.message);
+    }
+  }, [actionData]);
+
+  return <FormEvent method={FormEventMethod.UPDATE} />;
 }

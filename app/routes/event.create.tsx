@@ -1,5 +1,5 @@
-import FormEvent from '~/shared/components/FormEvent';
+import FormEvent, { FormEventMethod } from '~/shared/components/FormEvent';
 
 export default function EventCreate() {
-  return <FormEvent />;
+  return <FormEvent method={FormEventMethod.CREATE} />;
 }

@@ -144,7 +144,7 @@ function getUserSession(request: Request) {
  * @param {Request} request - The incoming request.
  * @returns {Promise<string|null>} A Promise that resolves to the user ID if it exists in the session, or null otherwise.
  */
-async function getUserId(request: Request) {
+export async function getUserId(request: Request) {
   // Get the user session from the request
   const session = await getUserSession(request);
 
