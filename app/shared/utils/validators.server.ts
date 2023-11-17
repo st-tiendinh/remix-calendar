@@ -18,11 +18,22 @@ export const validateName = (name: string): string | undefined => {
 };
 
 export const validateEventDate = (date: Date): string | undefined => {
-  if (!date) return 'Please enter a date';
-
-  const eventDate = new Date(date);
-  if (isNaN(eventDate.getTime())) return 'Please enter a valid date';
-
   const currentDate = new Date();
-  if (eventDate < currentDate) return 'Event date cannot be in the past';
+
+  if (date.getDate() < currentDate.getDate() && date.getDate() !== currentDate.getDate()) return 'Event date must be in the future';
+};
+
+export const validateEventTime = (
+  date: Date,
+  timeStart: number,
+  timeEnd: number
+): string | undefined => {
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+
+  if (date === currentDate && timeStart <= currentHour)
+    return 'Event time must be later than the current time';
+
+  if (timeStart >= timeEnd)
+    return 'Event start time must be earlier than the end time';
 };

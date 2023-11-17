@@ -17,7 +17,18 @@ export type EventData = {
   timeStart: number;
   timeEnd: number;
   location: string;
-  isPublic?: boolean
   meetingLink?: string;
+  isPublic?: boolean;
   authorId: string;
 };
+
+export type ActionData = {
+  error?: string | undefined;
+  message?: string | undefined;
+};
+
+
+export type EventDate = {
+  timeStart: number;
+  timeEnd: number;
+}

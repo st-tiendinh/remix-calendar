@@ -7,16 +7,16 @@
     &-dayGridMonth-button,
     &-timeGridDay-button {
       &.fc-button-primary {
+        margin: 0 4px;
+        padding: 4px 22px;
+        border: none;
+        border-radius: 10px !important;
+        outline: none;
         background-color: white !important;
         color: #71717A;
         font-weight: 600;
-        padding: 4px 22px;
-        border: none;
-        outline: none;
-        border-radius: 10px !important;
-        text-transform: capitalize;
         font-weight: 600;
-        margin: 0 4px;
+        text-transform: capitalize;
         transition: all .3s;
 
         &:hover {
