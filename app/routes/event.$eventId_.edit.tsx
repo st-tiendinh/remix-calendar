@@ -13,7 +13,6 @@ import FormEvent, {
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
   const action = formData.get('_action') as string;
-  console.log('ac',action);
 
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
@@ -31,7 +30,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const userId = await getUserId(request);
   if (action === 'delete') {
-    console.log(action)
     if (!userId) {
       return json({ error: 'You must login to delete' });
     }
@@ -41,9 +39,8 @@ export const action: ActionFunction = async ({ request, params }) => {
   const event = await prisma.event.findUnique({
     where: { id: params.eventId },
   });
-  
+
   if(!title || !dateValue || !timeStart || !timeEnd || !description || !location) {
-    console.log(title,dateValue,timeStart,timeEnd,description,location,meetingLink)
     return json({ error: 'You must fill all fields' });
   }
   if (!dateFormat) {
