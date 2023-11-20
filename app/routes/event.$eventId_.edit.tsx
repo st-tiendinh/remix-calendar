@@ -11,6 +11,7 @@ import FormEvent, {
   FormEventMethod,
   eventSchema,
 } from '~/shared/components/FormEvent';
+import { EventData } from '~/shared/utils/types.server';
 import { validateEventDate } from '~/shared/utils/validators.server';
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -75,7 +76,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
 export default function EventEdit() {
   const actionData: any = useActionData();
-  const { event } = useLoaderData<typeof loader>();
+  const { event }: any = useLoaderData<typeof loader>();
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
