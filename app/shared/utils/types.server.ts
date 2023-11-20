@@ -10,7 +10,7 @@ export type LoginForm = {
   password: string;
 };
 
-export type Event = {
+export type EventData = {
   title: string;
   description: string;
   date: Date;
@@ -27,8 +27,7 @@ export type ActionData = {
   message?: string | undefined;
 };
 
-
 export type EventDate = {
   timeStart: number;
   timeEnd: number;
-}
+};

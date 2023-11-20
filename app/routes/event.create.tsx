@@ -1,14 +1,17 @@
 import { type ActionFunction, json } from '@remix-run/node';
 import { useActionData } from '@remix-run/react';
-import { InputError, makeDomainFunction } from 'domain-functions';
-import { Input } from 'postcss';
+
+import { performMutation } from 'remix-forms';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { performMutation } from 'remix-forms';
+import { InputError, makeDomainFunction } from 'domain-functions';
 
 import { getUserId } from '~/server/auth.server';
 import { createEvent } from '~/server/event.server';
-import FormEvent, { eventSchema } from '~/shared/components/FormEvent';
+import FormEvent, {
+  FormEventMethod,
+  eventSchema,
+} from '~/shared/components/FormEvent';
 import { type ActionData } from '~/shared/utils/types.server';
 import {
   validateEventDate,
@@ -20,7 +23,11 @@ const mutation = makeDomainFunction(eventSchema)(async (values) => {
 
   if (errorDate) throw new InputError(errorDate, 'date');
 
-  const errorTime = validateEventTime(values.date,values.timeStart, values.timeEnd);
+  const errorTime = validateEventTime(
+    values.date,
+    values.timeStart,
+    values.timeEnd
+  );
 
   if (errorTime) throw new InputError(errorTime, 'timeStart');
 
@@ -59,5 +66,5 @@ export default function EventCreate() {
     }
   }, [actionData]);
 
-  return <FormEvent />;
+  return <FormEvent method={FormEventMethod.CREATE} />;
 }
