@@ -1,4 +1,9 @@
-import { ActionFunction, LoaderFunctionArgs, json } from '@remix-run/node';
+import {
+  ActionFunction,
+  LoaderFunctionArgs,
+  json,
+  redirect,
+} from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
@@ -29,7 +34,8 @@ export const action: ActionFunction = async ({ request, params }) => {
       return json({ error: 'You must login to delete' });
     }
     if (!params.eventId) return json({ error: 'Event not found' });
-    return await deleteEvent(params.eventId, userId);
+    await deleteEvent(params.eventId, userId);
+    return redirect('/event');
   } else {
     const event = await prisma.event.findUnique({
       where: { id: params.eventId },
@@ -65,10 +71,8 @@ export const action: ActionFunction = async ({ request, params }) => {
       location,
       meetingLink,
     };
-    return await updateEvent(
-      { ...data, authorId: userId },
-      params.eventId as string
-    );
+    await updateEvent({ ...data, authorId: userId }, params.eventId as string);
+    return redirect('/event');
   }
 };
 
