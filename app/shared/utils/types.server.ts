@@ -20,8 +20,6 @@ export type EventData = {
   meetingLink?: string;
   isPublic?: boolean;
   authorId: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 };
 
 export type ActionData = {

@@ -51,6 +51,11 @@ export default function FormEvent({ method, event }: FormEventProps) {
           ? 'Create New Event'
           : 'Update Event'}
       </h2>
+      <form method="post">
+        <button type="submit" name="_action" value='delete'>
+          <i className="icon icon-trash"></i>
+        </button>
+      </form>
       <Form schema={eventSchema} method="post" values={event}>
         {({ Field, Errors, Button }) => (
           <>
