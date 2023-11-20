@@ -39,7 +39,7 @@ model Event {
   timeStart   Int
   timeEnd     Int
   location    String
-  mettingLink String?
+  meetingLink String?
   isPublised  Boolean  @default(true)
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String   @db.ObjectId

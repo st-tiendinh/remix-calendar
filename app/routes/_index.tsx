@@ -1,7 +1,7 @@
 import {
   redirect,
-  type LoaderFunction,
   type MetaFunction,
+  type LoaderFunction,
 } from '@remix-run/node';
 import { getUser } from '~/server/auth.server';
 
