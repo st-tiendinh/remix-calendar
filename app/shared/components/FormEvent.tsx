@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { Form } from '~/shared/components/form';
 import { EventData } from '../utils/types.server';
+import { useLocation } from '@remix-run/react';
 
 export const eventSchema = z.object({
   title: z
@@ -44,18 +45,30 @@ interface FormEventProps {
 }
 
 export default function FormEvent({ method, event }: FormEventProps) {
+  const location = useLocation();
+  console.log('LOCA', location);
+
   return (
     <div className="form-event">
-      <h2 className="form-title">
-        {method === FormEventMethod.CREATE
-          ? 'Create New Event'
-          : 'Update Event'}
-      </h2>
-      <form method="post">
-        <button type="submit" name="_action" value='delete'>
-          <i className="icon icon-trash"></i>
-        </button>
-      </form>
+      <div className="form-header">
+        <h2 className="form-title">
+          {method === FormEventMethod.CREATE
+            ? 'Create New Event'
+            : 'Update Event'}
+        </h2>
+        {location.pathname.endsWith('/edit') && (
+          <form method="post">
+            <button
+              className="btn-delete"
+              type="submit"
+              name="_action"
+              value="delete"
+            >
+              <i className="icon icon-trash"></i>
+            </button>
+          </form>
+        )}
+      </div>
       <Form schema={eventSchema} method="post" values={event}>
         {({ Field, Errors, Button }) => (
           <>
