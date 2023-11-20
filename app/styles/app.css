@@ -43,10 +43,110 @@ image {
   width: 100%;
 }
 
+.calendar-wrapper {
+  margin-top: 20px;
+}
+.calendar-wrapper .fc-timeGridWeek-button.fc-button-primary, .calendar-wrapper .fc-dayGridMonth-button.fc-button-primary, .calendar-wrapper .fc-timeGridDay-button.fc-button-primary {
+  margin: 0 4px;
+  padding: 4px 22px;
+  border: none;
+  border-radius: 10px !important;
+  outline: none;
+  background-color: white !important;
+  color: #71717A;
+  font-weight: 600;
+  font-weight: 600;
+  text-transform: capitalize;
+  transition: all 0.3s;
+}
+.calendar-wrapper .fc-timeGridWeek-button.fc-button-primary:hover, .calendar-wrapper .fc-dayGridMonth-button.fc-button-primary:hover, .calendar-wrapper .fc-timeGridDay-button.fc-button-primary:hover {
+  background-color: #DC2626 !important;
+  color: #fff;
+}
+.calendar-wrapper .fc-timeGridDay-button.fc-button-primary:not(:disabled).fc-button-active, .calendar-wrapper .fc-timeGridWeek-button.fc-button-primary:not(:disabled).fc-button-active, .calendar-wrapper .fc-dayGridMonth-button.fc-button-primary:not(:disabled).fc-button-active {
+  background-color: #DC2626 !important;
+  color: #fff;
+}
+.calendar-wrapper .fc-button-primary:not(:disabled).fc-button-active:focus, .calendar-wrapper .fc-button-primary:not(:disabled):active:focus {
+  box-shadow: none;
+}
+.calendar-wrapper .fc-today-button.fc-button.fc-button-primary {
+  color: #18181B;
+  background-color: #F4F4F5;
+}
+.calendar-wrapper .fc-today-button.fc-button.fc-button-primary:hover {
+  background-color: none;
+}
+.calendar-wrapper .fc-today-button.fc-button.fc-button-primary, .calendar-wrapper .fc-prev-button.fc-button.fc-button-primary, .calendar-wrapper .fc-next-button.fc-button.fc-button-primary {
+  background-color: #F4F4F5 !important;
+  border: none;
+  margin: 0 1px;
+  text-transform: capitalize;
+}
+.calendar-wrapper .fc-today-button.fc-button.fc-button-primary {
+  color: #000;
+  font-weight: 600;
+}
+.calendar-wrapper .fc-prev-button.fc-button.fc-button-primary, .calendar-wrapper .fc-next-button.fc-button.fc-button-primary {
+  background-color: #F4F4F5 !important;
+  border: none;
+  margin: 0 1px;
+  text-transform: capitalize;
+}
+.calendar-wrapper .fc-next-button.fc-button.fc-button-primary {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.calendar-wrapper .fc-prev-button.fc-button.fc-button-primary {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.calendar-wrapper .fc-icon.fc-icon-chevron-right, .calendar-wrapper .fc-icon.fc-icon-chevron-left {
+  color: #000 !important;
+  font-weight: 600;
+}
+.calendar-wrapper .fc-col-header-cell.fc-day {
+  padding: 8px 64px 8px 0;
+}
+.calendar-wrapper .fc-col-header-cell.fc-day.fc-day-sun.fc-day-future {
+  border-left: none;
+}
+.calendar-wrapper .fc-col-header-cell-cushion {
+  text-transform: uppercase;
+  padding-right: 100px;
+  padding-left: 8px;
+}
+.calendar-wrapper .fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+  text-transform: uppercase;
+}
+.calendar-wrapper .fc-direction-ltr .fc-timegrid-slot-label-frame {
+  text-align: left;
+}
+.calendar-wrapper .fc-timegrid-slot.fc-timegrid-slot-label.fc-scrollgrid-shrink, .calendar-wrapper .fc-timegrid-slot.fc-timegrid-slot-label.fc-timegrid-slot-minor {
+  padding-bottom: 20px;
+  text-align: left !important;
+  color: #71717A;
+  font-weight: 500;
+  border: none;
+}
+.calendar-wrapper .fc-col-header-cell.fc-day.fc-day-sun.fc-day-past {
+  border-left: none !important;
+}
+.calendar-wrapper .fc-theme-standard .fc-scrollgrid {
+  border: none;
+}
+.calendar-wrapper .fc-timegrid-axis {
+  border: none;
+}
+.calendar-wrapper .fc colgroup > col {
+  width: 80px !important;
+}
+
 .icon {
   display: inline-block;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 }
 .icon-arrow-left {
   width: 14px;
@@ -57,6 +157,11 @@ image {
   width: 14px;
   height: 14px;
   background-image: url("../../assets/icons/ic-list.svg");
+}
+.icon-trash {
+  width: 24px;
+  height: 24px;
+  background-image: url("../../assets/icons/ic-trash.svg");
 }
 
 .form-input-group {
@@ -1245,23 +1350,29 @@ image {
 .home .sidebar-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
-.home .sidebar-header .icon {
+.home .sidebar .icon {
   padding: 16px;
   border-radius: 4px;
   background-color: #f4f4f5;
   cursor: pointer;
 }
-.home .btn-add {
+.home .sidebar .form-event .form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.home .sidebar .form-event .icon-trash {
+  color: #DC2626;
+}
+.home .sidebar .form-event .btn-add {
   margin-top: 24px;
   font-size: 16px;
 }
-.home .form-title {
-  margin-bottom: 14px;
-}
-.home .form-input-group {
-  margin-bottom: 10px;
+.home .sidebar .form-event .form-input-group {
+  margin-bottom: 12px;
 }
 
 /*# sourceMappingURL=app.css.map */
