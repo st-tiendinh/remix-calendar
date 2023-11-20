@@ -7,23 +7,31 @@
     &-header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 16px;
-      .icon {
-        padding: 16px;
-        border-radius: 4px;
-        background-color: #f4f4f5;
-        cursor: pointer;
+      margin-bottom: 20px;
+    }
+    .icon {
+      padding: 16px;
+      border-radius: 4px;
+      background-color: #f4f4f5;
+      cursor: pointer;
+    }
+    .form-event {
+      .form-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .icon-trash {
+        color: map-get($color, $key: red);
+      }
+      .btn-add {
+        margin-top: 24px;
+        font-size: 16px;
+      }
+      .form-input-group {
+        margin-bottom: 12px;
       }
     }
-  }
-  .btn-add {
-    margin-top: 24px;
-    font-size: 16px;
-  }
-  .form-title {
-    margin-bottom: 14px;
-  }
-  .form-input-group {
-    margin-bottom: 10px;
   }
 }
