@@ -27,8 +27,7 @@ export type ActionData = {
   message?: string | undefined;
 };
 
-
 export type EventDate = {
   timeStart: number;
   timeEnd: number;
-}
+};
