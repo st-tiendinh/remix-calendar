@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { Form } from '~/shared/components/form';
+import { EventData } from '../utils/types.server';
 
 export const eventSchema = z.object({
   title: z
@@ -39,9 +40,10 @@ export enum FormEventMethod {
 }
 interface FormEventProps {
   method: FormEventMethod;
+  event?: EventData;
 }
 
-export default function FormEvent({ method }: FormEventProps) {
+export default function FormEvent({ method, event }: FormEventProps) {
   return (
     <div className="form-event">
       <h2 className="form-title">
@@ -49,7 +51,12 @@ export default function FormEvent({ method }: FormEventProps) {
           ? 'Create New Event'
           : 'Update Event'}
       </h2>
-      <Form schema={eventSchema} method="post">
+      <form method="post">
+        <button type="submit" name="_action" value='delete'>
+          <i className="icon icon-trash"></i>
+        </button>
+      </form>
+      <Form schema={eventSchema} method="post" values={event}>
         {({ Field, Errors, Button }) => (
           <>
             <Field name="title" className="form-input-group">
