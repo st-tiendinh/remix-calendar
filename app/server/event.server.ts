@@ -34,7 +34,6 @@ export const deleteEvent = async (eventId: string, userId: string) => {
 
   if (event.authorId !== userId)
     return json({ error: 'Not Found', status: 400 });
-  // return false;
 
   const result = await prisma.event.delete({
     where: {
@@ -43,10 +42,8 @@ export const deleteEvent = async (eventId: string, userId: string) => {
   });
   if (!result) {
     return json({ error: 'Delete Event Failed', status: 400 });
-    // return false;
   }
   return json({ message: 'Delete Event Success!!', status: 200 });
-  // return true;
 };
 
 export const getEvents = async () => {
