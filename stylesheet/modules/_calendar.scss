@@ -2,6 +2,10 @@
   margin-top: 20px;
 
   .fc {
+    .fc-toolbar-title {
+      font-size: 24px;
+      font-weight: 400;
+    }
 
     &-timeGridWeek-button,
     &-dayGridMonth-button,
@@ -13,15 +17,15 @@
         border-radius: 10px !important;
         outline: none;
         background-color: white !important;
-        color: #71717A;
+        color: #71717a;
         font-weight: 600;
         font-weight: 600;
         text-transform: capitalize;
-        transition: all .3s;
+        transition: all 0.3s;
 
         &:hover {
-          background-color: #DC2626 !important;
-          color: #fff
+          background-color: #dc2626 !important;
+          color: #fff;
         }
       }
     }
@@ -29,8 +33,8 @@
     &-timeGridDay-button.fc-button-primary:not(:disabled).fc-button-active,
     &-timeGridWeek-button.fc-button-primary:not(:disabled).fc-button-active,
     &-dayGridMonth-button.fc-button-primary:not(:disabled).fc-button-active {
-      background-color: #DC2626 !important;
-      color: #fff
+      background-color: #dc2626 !important;
+      color: #fff;
     }
 
     &-button-primary:not(:disabled).fc-button-active:focus,
@@ -39,8 +43,8 @@
     }
 
     &-today-button.fc-button.fc-button-primary {
-      color: #18181B;
-      background-color: #F4F4F5;
+      color: #18181b;
+      background-color: #f4f4f5;
 
       &:hover {
         background-color: none;
@@ -50,7 +54,7 @@
     &-today-button.fc-button.fc-button-primary,
     &-prev-button.fc-button.fc-button-primary,
     &-next-button.fc-button.fc-button-primary {
-      background-color: #F4F4F5 !important;
+      background-color: #f4f4f5 !important;
       border: none;
       margin: 0 1px;
       text-transform: capitalize;
@@ -63,7 +67,7 @@
 
     &-prev-button.fc-button.fc-button-primary,
     &-next-button.fc-button.fc-button-primary {
-      background-color: #F4F4F5 !important;
+      background-color: #f4f4f5 !important;
       border: none;
       margin: 0 1px;
       text-transform: capitalize;
@@ -111,7 +115,7 @@
     &-timegrid-slot.fc-timegrid-slot-label.fc-timegrid-slot-minor {
       padding-bottom: 20px;
       text-align: left !important;
-      color: #71717A;
+      color: #71717a;
       font-weight: 500;
       border: none;
     }
@@ -128,10 +132,8 @@
       border: none;
     }
 
-    colgroup>col {
+    colgroup > col {
       width: 80px !important;
     }
   }
-
-
 }
