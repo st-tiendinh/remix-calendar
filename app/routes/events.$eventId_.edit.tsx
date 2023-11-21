@@ -1,4 +1,5 @@
-import { ActionFunction, LoaderFunctionArgs, json } from '@remix-run/node';
+import type { ActionFunction, LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
@@ -18,8 +19,8 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (typeof dateValue === 'string') {
     dateFormat = new Date(dateValue);
   }
-  const timeStart = parseInt(formData.get('timeStart') as string);
-  const timeEnd = parseInt(formData.get('timeEnd') as string);
+  const timeStart = formData.get('timeStart') as string;
+  const timeEnd = formData.get('timeEnd') as string;
   const location = formData.get('location') as string;
   const meetingLink = formData.get('meetingLink') as string;
 
