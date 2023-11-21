@@ -44,9 +44,10 @@ export enum FormEventMethod {
 interface FormEventProps {
   method: FormEventMethod;
   event?: EventData;
+  eventId?: string;
 }
 
-export default function FormEvent({ method, event }: FormEventProps) {
+export default function FormEvent({ method, event, eventId }: FormEventProps) {
   const minDate = () => {
     const today = new Date().toISOString().split('T')[0];
     return today;
@@ -62,7 +63,7 @@ export default function FormEvent({ method, event }: FormEventProps) {
         </h2>
         {location.pathname.startsWith('/events') &&
           location.pathname.endsWith('/edit') && (
-            <Form schema={deleteEventSchema}  onSubmit={(e) => e.preventDefault()}  method="post">
+            <Form schema={deleteEventSchema} method="post"  action={`/events/${eventId}/delete`}>
             {({ Button }) => (  <Button
                 className="btn-delete"
                 type="submit"

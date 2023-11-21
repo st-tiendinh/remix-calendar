@@ -5,35 +5,18 @@ import {
   redirect,
 } from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
-import { makeDomainFunction } from 'domain-functions';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { performMutation } from 'remix-forms';
-import { getUserId } from '~/server/auth.server';
-import { deleteEvent, updateEvent } from '~/server/event.server';
-import { prisma } from '~/server/prisma.server';
-import FormEvent, {
-  FormEventMethod,
-  deleteEventSchema,
-} from '~/shared/components/FormEvent';
-import { ID_REGEX } from '~/shared/constant/validator';
 
-const mutation = makeDomainFunction(deleteEventSchema)(async (values) => {
-  const action = 'delete';
-  return action;
-});
+import { getUserId } from '~/server/auth.server';
+import { updateEvent } from '~/server/event.server';
+import { prisma } from '~/server/prisma.server';
+import FormEvent, { FormEventMethod } from '~/shared/components/FormEvent';
+import { ID_REGEX } from '~/shared/constant/validator';
+import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const result = await performMutation({
-    request,
-    schema: deleteEventSchema,
-    mutation,
-  });
-
-  if (!result.success) return json(result, 400);
-
   const formData = await request.formData();
-  const action = result?.data as string;
 
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
@@ -48,54 +31,46 @@ export const action: ActionFunction = async ({ request, params }) => {
   const meetingLink = formData.get('meetingLink') as string;
 
   const userId = await getUserId(request);
-  if (action === 'delete') {
-    if (!userId) {
-      return json({ error: 'You must login to delete', status: 403 });
-    }
+  const event = await prisma.event.findUnique({
+    where: { id: params.eventId },
+  });
 
-    if (!params.eventId) return json({ error: 'Event not found', status: 404 });
+  if (
+    !title ||
+    !dateValue ||
+    !timeStart ||
+    !timeEnd ||
+    !description ||
+    !location
+  ) {
+    return json({ error: 'You must fill all fields' });
+  }
+  if (!dateFormat) {
+    return json({ error: 'Date is not valid' });
+  }
+  if (!userId) return json({ error: 'You must to login first', status: 401 });
 
-    return await deleteEvent(params.eventId, userId);
-  } else {
-    const event = await prisma.event.findUnique({
-      where: { id: params.eventId },
+  if (!event) return json({ error: 'Event is not exist', status: 404 });
+
+  if (event.authorId !== userId)
+    return json({
+      error: 'You do not have permission to edit this event',
+      status: 403,
     });
 
-    if (
-      !title ||
-      !dateValue ||
-      !timeStart ||
-      !timeEnd ||
-      !description ||
-      !location
-    ) {
-      return json({ error: 'You must fill all fields' });
-    }
-    if (!dateFormat) {
-      return json({ error: 'Date is not valid' });
-    }
-    if (!userId) return json({ error: 'You must to login first', status: 401 });
-
-    if (!event) return json({ error: 'Event is not exist', status: 404 });
-
-    if (event.authorId !== userId)
-      return json({
-        error: 'You do not have permission to edit this event',
-        status: 403,
-      });
-
-    const data = {
-      title,
-      description,
-      date: dateFormat,
-      timeStart,
-      timeEnd,
-      location,
-      meetingLink,
-    };
-    await updateEvent({ ...data, authorId: userId }, params.eventId as string);
-    return redirect('/events');
-  }
+  const data = {
+    title,
+    description,
+    date: dateFormat,
+    timeStart,
+    timeEnd,
+    location,
+    meetingLink,
+  };
+  return await updateEvent(
+    { ...data, authorId: userId },
+    params.eventId as string
+  );
 };
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -110,12 +85,17 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   if (!event) return redirect('/404');
 
-  return json({ event });
+  const messages = getSearchParams({ url: request.url });
+  if (messages) {
+    return json({ event, eventId: params.eventId, messages });
+  } else {
+    return json({ event, eventId: params.eventId });
+  }
 };
 
 export default function EventEdit() {
   const actionData: any = useActionData();
-  const { event }: any = useLoaderData<typeof loader>();
+  const { event, eventId }: any = useLoaderData<typeof loader>();
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
@@ -125,5 +105,11 @@ export default function EventEdit() {
     }
   }, [actionData]);
 
-  return <FormEvent method={FormEventMethod.UPDATE} event={event} />;
+  return (
+    <FormEvent
+      method={FormEventMethod.UPDATE}
+      event={event}
+      eventId={eventId}
+    />
+  );
 }

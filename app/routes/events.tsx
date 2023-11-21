@@ -5,21 +5,22 @@ import toast from 'react-hot-toast';
 import { getUserId } from '~/server/auth.server';
 import { getEvents } from '~/server/event.server';
 import Sidebar from '~/shared/components/Sidebar';
+import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = getUserId(request);
 
   if (!userId) return redirect('/login');
 
-  const url = new URL(request.url);
-  const message = url.searchParams.get('message');
+  // const url = new URL(request.url);
+  const messages = getSearchParams({ url: request.url ,});
 
   const events = await getEvents();
 
   if (!events) return json({ message: 'No events found' }, 404);
 
-  if (message) {
-    return json({ events: events, message });
+  if (messages) {
+    return json({ events: events, messages});
   }
 
   return json({ events: events });
@@ -28,13 +29,15 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function EventList() {
   const data = useLoaderData<typeof loader>();
 
-  const { events, message } = data;
+  const { events, messages } = data;
 
   useEffect(() => {
-    if (message) {
-      toast.success(`${message}`);
-    }
-  }, [message]);
+    if (messages.success) {
+      toast.success(`${messages.success}`);
+    } else if (messages.error) {
+      toast.error(`${messages.error}`);
+    } 
+  }, [messages]);
 
   return (
     <>

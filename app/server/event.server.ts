@@ -23,9 +23,7 @@ export const createEvent = async (eventData: EventData) => {
 
   if (!event) return json({ error: 'Something went wrong', status: 400 });
 
-  json({ message: 'Create Event Success!!', status: 200 });
-
-  return redirect('/events?message=Create Event Success!!');
+  return redirect('/events?success=Create Event Success!!');
 };
 
 export const deleteEvent = async (eventId: string, userId: string) => {
@@ -37,26 +35,28 @@ export const deleteEvent = async (eventId: string, userId: string) => {
 
   if (!event) return json({ error: 'Can not found event', status: 404 });
 
-  if (event.authorId !== userId)
-    return json({ error: 'You do not have permission to delete this event', status: 403 });
+  if (event.authorId !== userId) {
+    return redirect(
+      `/events/${eventId}/edit?error=You are not authorized to delete this event`
+    );
+  } else {
+    const result = await prisma.event.delete({
+      where: {
+        id: eventId,
+      },
+    });
 
-  const result = await prisma.event.delete({
-    where: {
-      id: eventId,
-    },
-  });
-
-  if (!result) {
-    return json({ error: 'Delete Event Failed', status: 400 });
+    if (!result) {
+      return json({ error: 'Delete Event Failed', status: 400 });
+    }
+    return redirect('/events?success=Deleted Event Success!!');
   }
-
-  return redirect('/events?message=Deleted Event Success!!');
 };
 
 export const getEvents = async () => {
   const event = await prisma.event.findMany();
 
   if (!event) throw new Response('Something went wrong', { status: 400 });
-  
+
   return event;
 };
