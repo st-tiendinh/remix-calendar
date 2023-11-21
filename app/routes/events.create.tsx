@@ -20,7 +20,6 @@ import {
 
 const mutation = makeDomainFunction(eventSchema)(async (values) => {
   const errorDate = validateEventDate(values.date);
-console.log(values)
   if (errorDate) throw new InputError(errorDate, 'date');
 
   const errorTime = validateEventTime(
