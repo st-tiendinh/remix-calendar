@@ -24,10 +24,10 @@ export default function EventList() {
               <i className="icon icon-list"></i>
               <i className="icon icon-arrow-left"></i>
             </div>
-            {location.pathname === '/event' ? (
+            {location.pathname === '/events' ? (
               events.map((event: any) => (
                 <div key={event.id}>
-                  <Link to={`/event/${event.id}/edit`}>{event.title}</Link>
+                  <Link to={`/events/${event.id}/edit`}>{event.title}</Link>
                 </div>
               ))
             ) : (
