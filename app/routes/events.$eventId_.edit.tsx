@@ -5,16 +5,35 @@ import {
   redirect,
 } from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
+import { makeDomainFunction } from 'domain-functions';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { performMutation } from 'remix-forms';
 import { getUserId } from '~/server/auth.server';
 import { deleteEvent, updateEvent } from '~/server/event.server';
 import { prisma } from '~/server/prisma.server';
-import FormEvent, { FormEventMethod } from '~/shared/components/FormEvent';
+import FormEvent, {
+  FormEventMethod,
+  deleteEventSchema,
+} from '~/shared/components/FormEvent';
+import { ID_REGEX } from '~/shared/constant/validator';
+
+const mutation = makeDomainFunction(deleteEventSchema)(async (values) => {
+  const action = 'delete';
+  return action;
+});
 
 export const action: ActionFunction = async ({ request, params }) => {
+  const result = await performMutation({
+    request,
+    schema: deleteEventSchema,
+    mutation,
+  });
+
+  if (!result.success) return json(result, 400);
+
   const formData = await request.formData();
-  const action = formData.get('_action') as string;
+  const action = result?.data as string;
 
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
@@ -31,11 +50,12 @@ export const action: ActionFunction = async ({ request, params }) => {
   const userId = await getUserId(request);
   if (action === 'delete') {
     if (!userId) {
-      return json({ error: 'You must login to delete' });
+      return json({ error: 'You must login to delete', status: 403 });
     }
-    if (!params.eventId) return json({ error: 'Event not found' });
-    await deleteEvent(params.eventId, userId);
-    return redirect('/event');
+
+    if (!params.eventId) return json({ error: 'Event not found', status: 404 });
+
+    return await deleteEvent(params.eventId, userId);
   } else {
     const event = await prisma.event.findUnique({
       where: { id: params.eventId },
@@ -54,13 +74,15 @@ export const action: ActionFunction = async ({ request, params }) => {
     if (!dateFormat) {
       return json({ error: 'Date is not valid' });
     }
+    if (!userId) return json({ error: 'You must to login first', status: 401 });
 
     if (!event) return json({ error: 'Event is not exist', status: 404 });
 
     if (event.authorId !== userId)
-      return json({ error: 'You can not edit this event', status: 403 });
-
-    if (!userId) return json({ error: 'You must to login first', status: 401 });
+      return json({
+        error: 'You do not have permission to edit this event',
+        status: 403,
+      });
 
     const data = {
       title,
@@ -77,11 +99,16 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+  if (!params.eventId || !ID_REGEX.test(params.eventId)) {
+    return redirect('/404');
+  }
   const event = await prisma.event.findUnique({
     where: {
       id: params.eventId,
     },
   });
+
+  if (!event) return redirect('/404');
 
   return json({ event });
 };
