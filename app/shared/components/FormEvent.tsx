@@ -35,6 +35,8 @@ export const eventSchema = z.object({
   meetingLink: z.string().optional(),
 });
 
+export const deleteEventSchema = z.object({
+});
 export enum FormEventMethod {
   CREATE = 'create',
   UPDATE = 'update',
@@ -60,16 +62,16 @@ export default function FormEvent({ method, event }: FormEventProps) {
         </h2>
         {location.pathname.startsWith('/events') &&
           location.pathname.endsWith('/edit') && (
-            <form method="post">
-              <button
+            <Form schema={deleteEventSchema}  onSubmit={(e) => e.preventDefault()}  method="post">
+            {({ Button }) => (  <Button
                 className="btn-delete"
                 type="submit"
                 name="_action"
                 value="delete"
               >
                 <i className="icon icon-trash"></i>
-              </button>
-            </form>
+              </Button>)}
+            </Form>
           )}
       </div>
       <Form schema={eventSchema} method="post" values={event}>
@@ -110,7 +112,11 @@ export default function FormEvent({ method, event }: FormEventProps) {
                 {({ Label, SmartInput, Errors }) => (
                   <>
                     <Label className="form-label">Time Start</Label>
-                    <SmartInput type='time' className="form-input" placeholder="From..." />
+                    <SmartInput
+                      type="time"
+                      className="form-input"
+                      placeholder="From..."
+                    />
                     <Errors className="form-error" />
                   </>
                 )}
@@ -119,7 +125,11 @@ export default function FormEvent({ method, event }: FormEventProps) {
                 {({ Label, SmartInput, Errors }) => (
                   <>
                     <Label className="form-label">Time End</Label>
-                    <SmartInput type='time' className="form-input" placeholder="To..." />
+                    <SmartInput
+                      type="time"
+                      className="form-input"
+                      placeholder="To..."
+                    />
                     <Errors className="form-error" />
                   </>
                 )}

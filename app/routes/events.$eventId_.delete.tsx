@@ -11,7 +11,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   if (!params.eventId) return json({ error: 'Event not found' });
   const result = await deleteEvent(params.eventId, userId);
   if (!result) {
-    return redirect(`/event/${params.eventId}/edit?result=false`);
+    return redirect(`/events/${params.eventId}/edit?result=false`);
   }
   return redirect('/');
 };
