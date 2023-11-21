@@ -23,7 +23,15 @@ export default function EventList() {
           <div className={`col col-3 sidebar`}>
             <div className="sidebar-header">
               <i className="icon icon-list"></i>
-              <i className="icon icon-arrow-left"></i>
+              {location.pathname === '/events' ? (
+                <Link to={'/events/create'}>
+                  <i className="icon icon-plus"></i>
+                </Link>
+              ) : (
+                <Link to={'/events'}>
+                  <i className="icon icon-arrow-left"></i>
+                </Link>
+              )}
             </div>
             {location.pathname === '/events' ? (
               events.map((event: any) => (
