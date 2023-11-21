@@ -12,7 +12,7 @@ export const meta: MetaFunction = () => {
   ];
 };
 export const loader: LoaderFunction = async ({ request }) => {
-  return (await getUser(request)) ? redirect('/event') : redirect('/login');
+  return (await getUser(request)) ? redirect('/events') : redirect('/login');
 };
 
 export default function Index() {

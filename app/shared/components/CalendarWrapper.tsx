@@ -2,10 +2,25 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { formatNumberToDateString } from '../utils/formatNumberToDateString';
 
-export default function CalendarWrapper() {
+type CalendarWrapperProps = {
+  eventList: any;
+};
+
+export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const handleSelect = (info: any) => {};
-  
+
+  const formatDateArray = eventList.map((event: any) => {
+    console.log(formatNumberToDateString(event.timeStart, event.date));
+    return {
+      title: event.title,
+      start: formatNumberToDateString(event.timeStart, event.date),
+      end: formatNumberToDateString(event.timeEnd, event.date),
+      durationEditable: true,
+    };
+  });
+
   return (
     <div className="calendar-wrapper">
       <FullCalendar
@@ -20,14 +35,7 @@ export default function CalendarWrapper() {
         editable={true}
         selectable={true}
         select={handleSelect}
-        events={[
-          {
-            title: 'Play video game',
-            start: '2023-11-11T10:00:00',
-            end: '2023-11-11T12:00:00',
-            durationEditable: true
-          },
-        ]}
+        events={formatDateArray}
       />
     </div>
   );
