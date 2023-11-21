@@ -1,13 +1,12 @@
-import { redirect, type LoaderFunction } from '@remix-run/node';
+import { type LoaderFunction } from '@remix-run/node';
 import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react';
-import { getUserId } from '~/server/auth.server';
 import { getEvents } from '~/server/event.server';
+import CalendarWrapper from '~/shared/components/CalendarWrapper';
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const userId = getUserId(request);
+  // const userId = await getUserId(request);
 
-  if (!userId) return redirect('/login');
-
+  // if (!userId) return redirect('/login');
   return await getEvents();
 };
 
@@ -36,7 +35,9 @@ export default function EventList() {
             )}
           </div>
 
-          <div className="col col-9"></div>
+          <div className="col col-9">
+            <CalendarWrapper eventList={events} />
+          </div>
         </div>
       </div>
     </>

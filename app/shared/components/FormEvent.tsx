@@ -1,7 +1,8 @@
 import { z } from 'zod';
+import { TimePicker } from 'antd';
 
 import { Form } from '~/shared/components/form';
-import { EventData } from '../utils/types.server';
+import type { EventData } from '../utils/types.server';
 
 export const eventSchema = z.object({
   title: z
@@ -46,13 +47,14 @@ interface FormEventProps {
 export default function FormEvent({ method, event }: FormEventProps) {
   return (
     <div className="form-event">
+      <TimePicker />
       <h2 className="form-title">
         {method === FormEventMethod.CREATE
           ? 'Create New Event'
           : 'Update Event'}
       </h2>
       <form method="post">
-        <button type="submit" name="_action" value='delete'>
+        <button type="submit" name="_action" value="delete">
           <i className="icon icon-trash"></i>
         </button>
       </form>
