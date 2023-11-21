@@ -1,33 +1,52 @@
+import { useNavigate } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-export default function CalendarWrapper() {
-  const handleSelect = (info: any) => {};
-  
+import { formatNumberToDateString } from '../utils/formatNumberToDateString';
+
+type CalendarWrapperProps = {
+  eventList: any;
+};
+
+export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
+  const navigate = useNavigate();
+
+  const formatDateArray = eventList.map((event: any) => {
+    return {
+      id: event.id,
+      title: event.title,
+      start: formatNumberToDateString(event.timeStart, event.date),
+      end: formatNumberToDateString(event.timeEnd, event.date),
+      durationEditable: true,
+    };
+  });
+
+  const handleSelect = (info: any) => {
+    console.log('info: ', info);
+  };
+
+  const handleEventClick = (info: any) => {
+    navigate(`/events/${info.event._def.publicId}`);
+  };
+
   return (
     <div className="calendar-wrapper">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
-        dateClick={handleSelect}
         headerToolbar={{
           start: 'prev,today,next',
-          center: 'timeGridWeek,dayGridMonth,timeGridDay',
-          end: '',
+          center: 'title',
+          end: 'timeGridWeek,dayGridMonth,timeGridDay',
         }}
         allDaySlot={false}
         editable={true}
         selectable={true}
         select={handleSelect}
-        events={[
-          {
-            title: 'Play video game',
-            start: '2023-11-11T10:00:00',
-            end: '2023-11-11T12:00:00',
-            durationEditable: true
-          },
-        ]}
+        events={formatDateArray}
+        eventClick={handleEventClick}
+        dayMaxEventRows={true}
       />
     </div>
   );

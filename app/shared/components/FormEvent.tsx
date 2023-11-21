@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { Form } from '~/shared/components/form';
-import { EventData } from '../utils/types.server';
+import type { EventData } from '../utils/types.server';
 
 export const eventSchema = z.object({
   title: z
@@ -52,7 +52,7 @@ export default function FormEvent({ method, event }: FormEventProps) {
           : 'Update Event'}
       </h2>
       <form method="post">
-        <button type="submit" name="_action" value='delete'>
+        <button type="submit" name="_action" value="delete">
           <i className="icon icon-trash"></i>
         </button>
       </form>
