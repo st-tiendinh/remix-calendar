@@ -1,17 +1,18 @@
 import { z } from 'zod';
+import { useLocation } from '@remix-run/react';
 
 import { Form } from '~/shared/components/form';
-import type { EventData } from '../utils/types.server';
+import { type EventData } from '../utils/types.server';
 
 export const eventSchema = z.object({
   title: z
     .string()
-    .min(1, { message: 'Title is required' })
-    .max(40, { message: 'Must be 40 or fewer characters long' }),
+    .min(1, { message: '*Title is required' })
+    .max(40, { message: '*Must be 40 or fewer characters long' }),
   description: z
     .string()
-    .min(1, { message: 'Description is required' })
-    .max(160, { message: 'Must be 160 or fewer characters long' }),
+    .min(1, { message: '*Description is required' })
+    .max(160, { message: '*Must be 160 or fewer characters long' }),
   date: z.coerce.date().refine(
     (data: Date) => {
       const currentDate = new Date();
@@ -19,21 +20,22 @@ export const eventSchema = z.object({
       return data >= currentDate;
     },
     {
-      message: 'Date must be in the future',
+      message: '*Date must be in the future',
     }
   ),
   timeStart: z.coerce
-    .number()
-    .min(1, { message: 'Time start is required' })
+    .string()
+    .min(1, { message: '*Time start is required' })
     .max(24),
   timeEnd: z.coerce
-    .number()
-    .min(1, { message: 'Time End is required' })
+    .string()
+    .min(1, { message: '*Time End is required' })
     .max(24),
-  location: z.string().min(1, { message: 'Location is required' }),
+  location: z.string().min(1, { message: '*Location is required' }),
   meetingLink: z.string().optional(),
 });
 
+export const deleteEventSchema = z.object({});
 export enum FormEventMethod {
   CREATE = 'create',
   UPDATE = 'update',
@@ -41,42 +43,85 @@ export enum FormEventMethod {
 interface FormEventProps {
   method: FormEventMethod;
   event?: EventData;
+  eventId?: string;
 }
 
-export default function FormEvent({ method, event }: FormEventProps) {
+export default function FormEvent({ method, event, eventId }: FormEventProps) {
+  const minDate = () => {
+    const today = new Date().toISOString().split('T')[0];
+    return today;
+  };
+  const location = useLocation();
   return (
     <div className="form-event">
-      <h2 className="form-title">
-        {method === FormEventMethod.CREATE
-          ? 'Create New Event'
-          : 'Update Event'}
-      </h2>
-      <form method="post">
-        <button type="submit" name="_action" value="delete">
-          <i className="icon icon-trash"></i>
-        </button>
-      </form>
-      <Form schema={eventSchema} method="post" values={event}>
-        {({ Field, Errors, Button }) => (
+      <div className="form-header">
+        <h2 className="form-title">
+          {method === FormEventMethod.CREATE
+            ? 'Create New Event'
+            : 'Update Event'}
+        </h2>
+        {location.pathname.startsWith('/events') &&
+          location.pathname.endsWith('/edit') && (
+            <Form
+              schema={deleteEventSchema}
+              method="post"
+              action={`/events/${eventId}/delete`}
+            >
+              {({ Button }) => (
+                <Button className="btn-delete">
+                  <i className="icon icon-trash"></i>
+                </Button>
+              )}
+            </Form>
+          )}
+      </div>
+      <Form
+        schema={eventSchema}
+        method="post"
+        action={
+          method === FormEventMethod.CREATE
+            ? '/events/create'
+            : `/events/${eventId}/edit`
+        }
+        values={event}
+      >
+        {({ Field, Errors, Button, register }) => (
           <>
             <Field name="title" className="form-input-group">
-              {({ Label, SmartInput, Errors }) => (
+              {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Title</Label>
-                  <SmartInput className="form-input" placeholder="Add title" />
-                  <Errors className="form-error" />
+                  <input
+                    type="text"
+                    {...register('title')}
+                    className="form-input"
+                    placeholder="Add Title"
+                    onBlur={(e) => {
+                      e.target.value = e.target.value.trim();
+                    }}
+                  />
+                  <div className="error-text">
+                    <Errors />
+                  </div>
                 </>
               )}
             </Field>
             <Field name="description" className="form-input-group">
-              {({ Label, SmartInput, Errors }) => (
+            {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Description</Label>
-                  <SmartInput
+                  <input
+                    type="text"
+                    {...register('description')}
                     className="form-input"
-                    placeholder="Add descriptopn"
+                    placeholder="Add Description"
+                    onBlur={(e) => {
+                      e.target.value = e.target.value.trim();
+                    }}
                   />
-                  <Errors className="form-error" />
+                  <div className="error-text">
+                    <Errors />
+                  </div>
                 </>
               )}
             </Field>
@@ -84,7 +129,7 @@ export default function FormEvent({ method, event }: FormEventProps) {
               {({ Label, SmartInput, Errors }) => (
                 <>
                   <Label className="form-label">Date</Label>
-                  <SmartInput className="form-input" />
+                  <input className="form-input" min={minDate()} />
                   <Errors className="form-error" />
                 </>
               )}
@@ -94,7 +139,11 @@ export default function FormEvent({ method, event }: FormEventProps) {
                 {({ Label, SmartInput, Errors }) => (
                   <>
                     <Label className="form-label">Time Start</Label>
-                    <SmartInput className="form-input" placeholder="From..." />
+                    <SmartInput
+                      type="time"
+                      className="form-input"
+                      placeholder="From..."
+                    />
                     <Errors className="form-error" />
                   </>
                 )}
@@ -103,33 +152,51 @@ export default function FormEvent({ method, event }: FormEventProps) {
                 {({ Label, SmartInput, Errors }) => (
                   <>
                     <Label className="form-label">Time End</Label>
-                    <SmartInput className="form-input" placeholder="To..." />
+                    <SmartInput
+                      type="time"
+                      className="form-input"
+                      placeholder="To..."
+                    />
                     <Errors className="form-error" />
                   </>
                 )}
               </Field>
             </div>
             <Field name="location" className="form-input-group">
-              {({ Label, SmartInput, Errors }) => (
+            {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Location</Label>
-                  <SmartInput
+                  <input
+                    type="text"
+                    {...register('location')}
                     className="form-input"
-                    placeholder="Add location"
+                    placeholder="Location"
+                    onBlur={(e) => {
+                      e.target.value = e.target.value.trim();
+                    }}
                   />
-                  <Errors className="form-error" />
+                  <div className="error-text">
+                    <Errors />
+                  </div>
                 </>
               )}
             </Field>
             <Field name="meetingLink" className="form-input-group">
-              {({ Label, SmartInput, Errors }) => (
+            {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Meeting Link</Label>
-                  <SmartInput
+                  <input
+                    type="text"
+                    {...register('meetingLink')}
                     className="form-input"
-                    placeholder="Add meeting link"
+                    placeholder="Meeting Link"
+                    onBlur={(e) => {
+                      e.target.value = e.target.value.trim();
+                    }}
                   />
-                  <Errors className="form-error" />
+                  <div className="error-text">
+                    <Errors />
+                  </div>
                 </>
               )}
             </Field>

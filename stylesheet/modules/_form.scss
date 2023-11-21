@@ -20,8 +20,8 @@
 }
 
 .form-error {
-  color: map-get($color, $key: red-600);
-  font-size: 14px;
+  color: map-get($color, $key: red);
+  font-size: 12px;
 }
 
 .form-label {

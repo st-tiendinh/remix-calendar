@@ -1,43 +1,45 @@
-import { type LoaderFunction } from '@remix-run/node';
-import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react';
+import { type LoaderFunction, json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+
 import { getEvents } from '~/server/event.server';
-import CalendarWrapper from '~/shared/components/CalendarWrapper';
+import Sidebar from '~/shared/components/Sidebar';
+import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
-  // const userId = await getUserId(request);
+  const messages = getSearchParams({ url: request.url });
 
-  // if (!userId) return redirect('/login');
-  return await getEvents();
+  const events = await getEvents();
+
+  if (!events) return json({ message: 'No events found' }, 404);
+
+  if (messages) {
+    return json({ events: events, messages });
+  }
+
+  return json({ events: events });
 };
 
 export default function EventList() {
-  const data: any = useLoaderData();
-  const location = useLocation();
-  const events = data?.event;
+  const data = useLoaderData<typeof loader>();
+
+  const { events, messages } = data;
+
+  useEffect(() => {
+    if (messages.success) {
+      toast.success(`${messages.success}`);
+    } else if (messages.error) {
+      toast.error(`${messages.error}`);
+    }
+  }, [messages]);
 
   return (
     <>
       <div className="home">
         <div className="row">
-          <div className={`col col-3 sidebar`}>
-            <div className="sidebar-header">
-              <i className="icon icon-list"></i>
-              <i className="icon icon-arrow-left"></i>
-            </div>
-            {location.pathname === '/events' ? (
-              events.map((event: any) => (
-                <div key={event.id}>
-                  <Link to={`/events/${event.id}/edit`}>{event.title}</Link>
-                </div>
-              ))
-            ) : (
-              <Outlet />
-            )}
-          </div>
-
-          <div className="col col-9">
-            <CalendarWrapper eventList={events} />
-          </div>
+          <Sidebar events={events} />
+          <div className="col col-9"></div>
         </div>
       </div>
     </>
