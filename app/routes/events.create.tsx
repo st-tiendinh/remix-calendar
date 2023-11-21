@@ -1,4 +1,4 @@
-import { type ActionFunction, json, redirect } from '@remix-run/node';
+import { type ActionFunction, json } from '@remix-run/node';
 import { useActionData } from '@remix-run/react';
 
 import { performMutation } from 'remix-forms';
@@ -52,8 +52,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   const eventData = { ...result.data, authorId: userId };
 
-  await createEvent(eventData);
-  return redirect('/events');
+  return await createEvent(eventData);
 };
 
 export default function EventCreate() {
