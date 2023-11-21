@@ -23,11 +23,11 @@ export const eventSchema = z.object({
     }
   ),
   timeStart: z.coerce
-    .number()
+    .string()
     .min(1, { message: 'Time start is required' })
     .max(24),
   timeEnd: z.coerce
-    .number()
+    .string()
     .min(1, { message: 'Time End is required' })
     .max(24),
   location: z.string().min(1, { message: 'Location is required' }),
@@ -94,7 +94,7 @@ export default function FormEvent({ method, event }: FormEventProps) {
                 {({ Label, SmartInput, Errors }) => (
                   <>
                     <Label className="form-label">Time Start</Label>
-                    <SmartInput className="form-input" placeholder="From..." />
+                    <SmartInput type='time' className="form-input" placeholder="From..." />
                     <Errors className="form-error" />
                   </>
                 )}
@@ -103,7 +103,7 @@ export default function FormEvent({ method, event }: FormEventProps) {
                 {({ Label, SmartInput, Errors }) => (
                   <>
                     <Label className="form-label">Time End</Label>
-                    <SmartInput className="form-input" placeholder="To..." />
+                    <SmartInput type='time' className="form-input" placeholder="To..." />
                     <Errors className="form-error" />
                   </>
                 )}

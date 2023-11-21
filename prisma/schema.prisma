@@ -36,8 +36,8 @@ model Event {
   title       String
   description String
   date        DateTime
-  timeStart   Int
-  timeEnd     Int
+  timeStart   String
+  timeEnd     String
   location    String
   meetingLink String?
   isPublised  Boolean  @default(true)
