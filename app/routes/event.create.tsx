@@ -53,7 +53,7 @@ export const action: ActionFunction = async ({ request }) => {
   const eventData = { ...result.data, authorId: userId };
 
   await createEvent(eventData);
-  return redirect('/event');
+  return redirect('/events');
 };
 
 export default function EventCreate() {

@@ -72,7 +72,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       meetingLink,
     };
     await updateEvent({ ...data, authorId: userId }, params.eventId as string);
-    return redirect('/event');
+    return redirect('/events');
   }
 };
 
