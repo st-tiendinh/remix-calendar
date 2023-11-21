@@ -25,6 +25,12 @@
       .icon-trash {
         color: map-get($color, $key: red);
       }
+      .btn-delete {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+      }
       .btn-add {
         margin-top: 24px;
         font-size: 16px;
