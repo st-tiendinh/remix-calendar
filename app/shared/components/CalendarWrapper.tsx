@@ -12,7 +12,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const handleSelect = (info: any) => {};
 
   const formatDateArray = eventList.map((event: any) => {
-    console.log(formatNumberToDateString(event.timeStart, event.date));
     return {
       title: event.title,
       start: formatNumberToDateString(event.timeStart, event.date),
