@@ -85,26 +85,43 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
         }
         values={event}
       >
-        {({ Field, Errors, Button }) => (
+        {({ Field, Errors, Button, register }) => (
           <>
             <Field name="title" className="form-input-group">
-              {({ Label, SmartInput, Errors }) => (
+              {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Title</Label>
-                  <SmartInput className="form-input" placeholder="Add title" />
-                  <Errors className="form-error" />
+                  <input
+                    type="text"
+                    {...register('title')}
+                    className="form-input"
+                    placeholder="Add Title"
+                    onBlur={(e) => {
+                      e.target.value = e.target.value.trim();
+                    }}
+                  />
+                  <div className="error-text">
+                    <Errors />
+                  </div>
                 </>
               )}
             </Field>
             <Field name="description" className="form-input-group">
-              {({ Label, SmartInput, Errors }) => (
+            {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Description</Label>
-                  <SmartInput
+                  <input
+                    type="text"
+                    {...register('description')}
                     className="form-input"
-                    placeholder="Add descriptopn"
+                    placeholder="Add Description"
+                    onBlur={(e) => {
+                      e.target.value = e.target.value.trim();
+                    }}
                   />
-                  <Errors className="form-error" />
+                  <div className="error-text">
+                    <Errors />
+                  </div>
                 </>
               )}
             </Field>
@@ -146,26 +163,40 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               </Field>
             </div>
             <Field name="location" className="form-input-group">
-              {({ Label, SmartInput, Errors }) => (
+            {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Location</Label>
-                  <SmartInput
+                  <input
+                    type="text"
+                    {...register('location')}
                     className="form-input"
-                    placeholder="Add location"
+                    placeholder="Location"
+                    onBlur={(e) => {
+                      e.target.value = e.target.value.trim();
+                    }}
                   />
-                  <Errors className="form-error" />
+                  <div className="error-text">
+                    <Errors />
+                  </div>
                 </>
               )}
             </Field>
             <Field name="meetingLink" className="form-input-group">
-              {({ Label, SmartInput, Errors }) => (
+            {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Meeting Link</Label>
-                  <SmartInput
+                  <input
+                    type="text"
+                    {...register('meetingLink')}
                     className="form-input"
-                    placeholder="Add meeting link"
+                    placeholder="Meeting Link"
+                    onBlur={(e) => {
+                      e.target.value = e.target.value.trim();
+                    }}
                   />
-                  <Errors className="form-error" />
+                  <div className="error-text">
+                    <Errors />
+                  </div>
                 </>
               )}
             </Field>
