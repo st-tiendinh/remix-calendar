@@ -28,6 +28,6 @@ export type ActionData = {
 };
 
 export type EventDate = {
-  timeStart: number;
-  timeEnd: number;
+  timeStart: string;
+  timeEnd: string;
 };

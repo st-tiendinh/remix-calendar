@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { TimePicker } from 'antd';
 
 import { Form } from '~/shared/components/form';
 import type { EventData } from '../utils/types.server';
@@ -47,7 +46,6 @@ interface FormEventProps {
 export default function FormEvent({ method, event }: FormEventProps) {
   return (
     <div className="form-event">
-      <TimePicker />
       <h2 className="form-title">
         {method === FormEventMethod.CREATE
           ? 'Create New Event'

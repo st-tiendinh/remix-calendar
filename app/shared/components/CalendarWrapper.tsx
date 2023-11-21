@@ -40,14 +40,3 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     </div>
   );
 }
-
-/* 
-[
-  {
-    title: 'Play video game',
-    start: '2023-11-11T10:15:00',
-    end: '2023-11-11T12:15:00',
-    durationEditable: true,
-  },
-];
-*/
