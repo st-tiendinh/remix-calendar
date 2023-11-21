@@ -14,8 +14,8 @@ export type EventData = {
   title: string;
   description: string;
   date: Date;
-  timeStart: number;
-  timeEnd: number;
+  timeStart: string;
+  timeEnd: string;
   location: string;
   meetingLink?: string;
   isPublic?: boolean;

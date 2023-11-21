@@ -25,15 +25,27 @@ export const validateEventDate = (date: Date): string | undefined => {
 
 export const validateEventTime = (
   date: Date,
-  timeStart: number,
-  timeEnd: number
+  timeStart: string,
+  timeEnd: string
 ): string | undefined => {
   const currentDate = new Date();
   const currentHour = currentDate.getHours();
-
-  if (date === currentDate && timeStart <= currentHour)
+  const currentMinute = currentDate.getMinutes();
+  
+  const eventDate = new Date(date);
+  const [eventHour, eventMinute] = timeStart.split(':').map(Number);
+  const [startHour, startMinute] = timeStart.split(':').map(Number);
+  const [endHour, endMinute] = timeEnd.split(':').map(Number);
+  
+  if (
+    eventDate.toDateString() === currentDate.toDateString() &&
+    (eventHour < currentHour || (eventHour === currentHour && eventMinute <= currentMinute))
+  ) {
     return 'Event time must be later than the current time';
+  }
 
-  if (timeStart >= timeEnd)
+  
+  if (startHour > endHour || (startHour === endHour && startMinute >= endMinute)) {
     return 'Event start time must be earlier than the end time';
+  }
 };

@@ -23,8 +23,8 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (typeof dateValue === 'string') {
     dateFormat = new Date(dateValue);
   }
-  const timeStart = parseInt(formData.get('timeStart') as string);
-  const timeEnd = parseInt(formData.get('timeEnd') as string);
+  const timeStart = formData.get('timeStart') as string;
+  const timeEnd = formData.get('timeEnd') as string;
   const location = formData.get('location') as string;
   const meetingLink = formData.get('meetingLink') as string;
 
