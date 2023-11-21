@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 import { Form } from '~/shared/components/form';
 import { EventData } from '../utils/types.server';
-import { useLocation } from '@remix-run/react';
 
 export const eventSchema = z.object({
   title: z
@@ -45,30 +44,22 @@ interface FormEventProps {
 }
 
 export default function FormEvent({ method, event }: FormEventProps) {
-  const location = useLocation();
-  console.log('LOCA', location);
-
+  const minDate = () => {
+    const today = new Date().toISOString().split('T')[0];
+    return today;
+  };
   return (
     <div className="form-event">
-      <div className="form-header">
-        <h2 className="form-title">
-          {method === FormEventMethod.CREATE
-            ? 'Create New Event'
-            : 'Update Event'}
-        </h2>
-        {location.pathname.endsWith('/edit') && (
-          <form method="post">
-            <button
-              className="btn-delete"
-              type="submit"
-              name="_action"
-              value="delete"
-            >
-              <i className="icon icon-trash"></i>
-            </button>
-          </form>
-        )}
-      </div>
+      <h2 className="form-title">
+        {method === FormEventMethod.CREATE
+          ? 'Create New Event'
+          : 'Update Event'}
+      </h2>
+      <form method="post">
+        <button type="submit" name="_action" value="delete">
+          <i className="icon icon-trash"></i>
+        </button>
+      </form>
       <Form schema={eventSchema} method="post" values={event}>
         {({ Field, Errors, Button }) => (
           <>
@@ -97,7 +88,7 @@ export default function FormEvent({ method, event }: FormEventProps) {
               {({ Label, SmartInput, Errors }) => (
                 <>
                   <Label className="form-label">Date</Label>
-                  <SmartInput className="form-input" />
+                  <input className="form-input" min={minDate()} />
                   <Errors className="form-error" />
                 </>
               )}
