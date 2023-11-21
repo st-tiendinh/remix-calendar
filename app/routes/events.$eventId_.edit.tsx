@@ -1,6 +1,6 @@
 import {
-  ActionFunction,
-  LoaderFunctionArgs,
+  type ActionFunction,
+  type LoaderFunctionArgs,
   json,
   redirect,
 } from '@remix-run/node';

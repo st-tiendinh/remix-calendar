@@ -1,26 +1,21 @@
-import { redirect, type LoaderFunction, json } from '@remix-run/node';
+import { type LoaderFunction, json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { getUserId } from '~/server/auth.server';
+
 import { getEvents } from '~/server/event.server';
 import Sidebar from '~/shared/components/Sidebar';
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const userId = getUserId(request);
-
-  if (!userId) return redirect('/login');
-
-  // const url = new URL(request.url);
-  const messages = getSearchParams({ url: request.url ,});
+  const messages = getSearchParams({ url: request.url });
 
   const events = await getEvents();
 
   if (!events) return json({ message: 'No events found' }, 404);
 
   if (messages) {
-    return json({ events: events, messages});
+    return json({ events: events, messages });
   }
 
   return json({ events: events });
@@ -36,7 +31,7 @@ export default function EventList() {
       toast.success(`${messages.success}`);
     } else if (messages.error) {
       toast.error(`${messages.error}`);
-    } 
+    }
   }, [messages]);
 
   return (

@@ -1,5 +1,6 @@
 import { Link, Outlet, useLocation } from '@remix-run/react';
-import { EventData } from '../utils/types.server';
+
+import { type EventData } from '../utils/types.server';
 
 interface SidebarProps {
   events: EventData[];

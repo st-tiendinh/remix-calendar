@@ -1,8 +1,8 @@
 import { z } from 'zod';
+import { useLocation } from '@remix-run/react';
 
 import { Form } from '~/shared/components/form';
-import { EventData } from '../utils/types.server';
-import { useLocation } from '@remix-run/react';
+import { type EventData } from '../utils/types.server';
 
 export const eventSchema = z.object({
   title: z
