@@ -35,8 +35,7 @@ export const eventSchema = z.object({
   meetingLink: z.string().optional(),
 });
 
-export const deleteEventSchema = z.object({
-});
+export const deleteEventSchema = z.object({});
 export enum FormEventMethod {
   CREATE = 'create',
   UPDATE = 'update',
@@ -63,19 +62,29 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
         </h2>
         {location.pathname.startsWith('/events') &&
           location.pathname.endsWith('/edit') && (
-            <Form schema={deleteEventSchema} method="post"  action={`/events/${eventId}/delete`}>
-            {({ Button }) => (  <Button
-                className="btn-delete"
-                type="submit"
-                name="_action"
-                value="delete"
-              >
-                <i className="icon icon-trash"></i>
-              </Button>)}
+            <Form
+              schema={deleteEventSchema}
+              method="post"
+              action={`/events/${eventId}/delete`}
+            >
+              {({ Button }) => (
+                <Button className="btn-delete">
+                  <i className="icon icon-trash"></i>
+                </Button>
+              )}
             </Form>
           )}
       </div>
-      <Form schema={eventSchema} method="post" values={event}>
+      <Form
+        schema={eventSchema}
+        method="post"
+        action={
+          method === FormEventMethod.CREATE
+            ? '/events/create'
+            : `/events/${eventId}/edit`
+        }
+        values={event}
+      >
         {({ Field, Errors, Button }) => (
           <>
             <Field name="title" className="form-input-group">

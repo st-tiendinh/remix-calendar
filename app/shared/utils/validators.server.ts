@@ -19,8 +19,7 @@ export const validateName = (name: string): string | undefined => {
 
 export const validateEventDate = (date: Date): string | undefined => {
   const currentDate = new Date();
-
-  if (date.getDate() < currentDate.getDate() && date.getDate() !== currentDate.getDate()) return 'Event date must be in the future';
+  if (date < currentDate) return 'Event date must be in the future';
 };
 
 export const validateEventTime = (
