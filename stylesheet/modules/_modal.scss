@@ -3,7 +3,46 @@
   top:50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 200px;
-  height: 200px;
-  background-color: red;
+  .modal-confirm {
+    width: 400px;
+    height: 120px;
+    border-radius: 12px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 16px;
+    &-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap:16px;
+
+      .btn-confirm{
+        height: 40px;
+        padding: 6px 16px;
+        border-radius: 8px;
+        border: none;
+        background-color: map-get($color, red );
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        &:hover {
+          background-color: darken(map-get($color, red ), 10%);
+        }
+      }
+
+      .btn-cancel{
+        height: 40px;
+        padding: 6px 16px;
+        border-radius: 8px;
+        border: 1px solid map-get($color, grey-a );
+        color: map-get($color, black );
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        &:hover {
+          background-color: darken(#fdfdfd, 5%);
+        }
+      }
+    }
+  }
 }
