@@ -11,17 +11,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const yearParams = myParams.get('year');
 
   if (filterParams && filterParams === 'day') {
-    if (dayParams && monthParams && yearParams) {
-      return getEventsByDay(`${yearParams}-${monthParams}-${dayParams}`);
-    } else {
-      return getEventsByDay(new Date().toISOString());
-    }
+    return getEventsByDay(`${yearParams}-${monthParams}-${dayParams}`);
   } else {
     // return month data here
   }
 
   // Modify return getEventsByMonth() when merge Viet's pull request
-  return getEvents()
+  return getEvents();
 };
 
 export default function EventList() {

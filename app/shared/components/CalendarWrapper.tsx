@@ -5,14 +5,16 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 import { formatNumberToDateString } from '../utils/formatNumberToDateString';
+import { useRef } from 'react';
 
 type CalendarWrapperProps = {
   eventList: any;
 };
 
 export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
-  const navigate = useNavigate();
   const [params] = useSearchParams();
+  const navigate = useNavigate();
+  const calendarRef = useRef(null);
 
   const formatDateArray = eventList.map((event: any) => {
     return {
@@ -60,6 +62,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   return (
     <div className="calendar-wrapper">
       <FullCalendar
+        ref={calendarRef}
         customButtons={{
           day: {
             text: 'Day',
@@ -67,17 +70,26 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
           },
           next: {
             text: 'Next',
-            click: () => handleMoveDay(1),
+            click: () => {
+              handleMoveDay(1);
+              if (calendarRef.current) {
+                (calendarRef.current as any).getApi().next();
+              }
+            },
           },
           prev: {
             text: 'Prev',
-            click: () => handleMoveDay(-1),
+            click: () => {
+              handleMoveDay(-1);
+              if (calendarRef.current) {
+                (calendarRef.current as any).getApi().prev();
+              }
+            },
           },
         }}
         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
         headerToolbar={{
-          start:
-            'prev,today,next',
+          start: 'prev,today,next',
           center: 'title',
           end: 'timeGridWeek,dayGridMonth,timeGridDay',
         }}
