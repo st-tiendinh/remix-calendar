@@ -74,3 +74,25 @@ export const getEventsByDay = async (date: string) => {
   });
   return json({ events, status: 200 });
 };
+
+export const getEventsByMonth = async (
+  monthParam: string,
+  yearParam: string
+) => {
+  const month = monthParam ? monthParam : new Date().getMonth() + 1;
+  const year = yearParam ? yearParam : new Date().getFullYear();
+  const lastDay = new Date(Number(year), Number(month) + 1, 0).getDate();
+  const eventFilter = await prisma.event.findMany({
+    where: {
+      date: {
+        gte: new Date(`${year}-${month}-1`),
+        lte: new Date(`${year}-${month}-${lastDay}`),
+      },
+    },
+  });
+
+  if (!eventFilter) {
+    return json({ error: 'Events Not Found', status: 404 });
+  }
+  return json({ events: eventFilter, status: 200 });
+};

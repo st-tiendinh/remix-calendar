@@ -1,6 +1,6 @@
 import { type LoaderFunction } from '@remix-run/node';
 import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react';
-import { getEvents, getEventsByDay } from '~/server/event.server';
+import { getEventsByDay, getEventsByMonth } from '~/server/event.server';
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -11,13 +11,14 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const yearParams = myParams.get('year');
 
   if (filterParams && filterParams === 'day') {
-    return getEventsByDay(`${yearParams}-${monthParams}-${dayParams}`);
+    if (dayParams && monthParams && yearParams) {
+      return getEventsByDay(`${yearParams}-${monthParams}-${dayParams}`);
+    } else {
+      return getEventsByDay(`${new Date().toLocaleDateString()}`);
+    }
   } else {
-    // return month data here
+    return getEventsByMonth(monthParams as string, yearParams as string);
   }
-
-  // Modify return getEventsByMonth() when merge Viet's pull request
-  return getEvents();
 };
 
 export default function EventList() {
@@ -34,7 +35,7 @@ export default function EventList() {
               <i className="icon icon-list"></i>
               <i className="icon icon-arrow-left"></i>
             </div>
-            {location.pathname === '/events' ? (
+            {events && location.pathname === '/events' ? (
               events.map((event: any) => (
                 <div key={event.id}>
                   <Link to={`/events/${event.id}/edit`}>{event.title}</Link>
