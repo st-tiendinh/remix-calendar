@@ -1,6 +1,6 @@
 import { type LoaderFunction } from '@remix-run/node';
 import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react';
-import { getEventsByDay } from '~/server/event.server';
+import { getEvents, getEventsByDay } from '~/server/event.server';
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -10,7 +10,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const monthParams = myParams.get('month');
   const yearParams = myParams.get('year');
 
-  if (filterParams === 'day') {
+  if (filterParams && filterParams === 'day') {
     if (dayParams && monthParams && yearParams) {
       return getEventsByDay(`${yearParams}-${monthParams}-${dayParams}`);
     } else {
@@ -19,6 +19,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   } else {
     // return month data here
   }
+
+  // Modify return getEventsByMonth() when merge Viet's pull request
+  return getEvents()
 };
 
 export default function EventList() {
