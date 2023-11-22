@@ -68,6 +68,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     location,
     meetingLink,
   };
+
   return await updateEvent(
     { ...data, authorId: userId },
     params.eventId as string
