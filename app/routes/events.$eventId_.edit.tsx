@@ -14,6 +14,7 @@ import { prisma } from '~/server/prisma.server';
 import FormEvent, { FormEventMethod } from '~/shared/components/FormEvent';
 import { ID_REGEX } from '~/shared/constant/validator';
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
+import Modal, { type ModalProps } from '~/shared/components/Modal';
 
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
@@ -85,17 +86,28 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   if (!event) return redirect('/404');
 
-  const messages = getSearchParams({ url: request.url });
-  if (messages) {
-    return json({ event, eventId: params.eventId, messages });
+  const paramsValue = getSearchParams({ url: request.url });
+  const modalAction = paramsValue.modalAction as ModalProps;
+  const modalType = paramsValue.modalType as ModalProps;
+
+  if (paramsValue && modalAction && modalType) {
+    return json({
+      event,
+      eventId: params.eventId,
+      modalProps: {
+        action: modalAction,
+        type: modalType,
+        deleteEventId: params.eventId,
+      },
+    });
   } else {
     return json({ event, eventId: params.eventId });
   }
 };
 
 export default function EventEdit() {
-  const actionData: any = useActionData();
-  const { event, eventId }: any = useLoaderData<typeof loader>();
+  const actionData = useActionData<typeof action>();
+  const { event, eventId, modalProps }: any = useLoaderData<typeof loader>();
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
@@ -104,12 +116,15 @@ export default function EventEdit() {
       toast.success(actionData.message);
     }
   }, [actionData]);
-
   return (
-    <FormEvent
-      method={FormEventMethod.UPDATE}
-      event={event}
-      eventId={eventId}
-    />
+    <>
+      <Modal modalProps={modalProps} />
+
+      <FormEvent
+        method={FormEventMethod.UPDATE}
+        event={event}
+        eventId={eventId}
+      />
+    </>
   );
 }

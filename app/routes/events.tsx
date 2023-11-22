@@ -8,14 +8,14 @@ import Sidebar from '~/shared/components/Sidebar';
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const messages = getSearchParams({ url: request.url });
+  const paramsValue = getSearchParams({ url: request.url });
 
   const events = await getEvents();
 
   if (!events) return json({ message: 'No events found' }, 404);
 
-  if (messages) {
-    return json({ events: events, messages });
+  if (paramsValue) {
+    return json({ events: events, paramsValue });
   }
 
   return json({ events: events });
@@ -24,15 +24,15 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function EventList() {
   const data = useLoaderData<typeof loader>();
 
-  const { events, messages } = data;
+  const { events, paramsValue } = data;
 
   useEffect(() => {
-    if (messages.success) {
-      toast.success(`${messages.success}`);
-    } else if (messages.error) {
-      toast.error(`${messages.error}`);
+    if (paramsValue.success) {
+      toast.success(`${paramsValue.success}`);
+    } else if (paramsValue.error) {
+      toast.error(`${paramsValue.error}`);
     }
-  }, [messages]);
+  }, [paramsValue]);
 
   return (
     <>
