@@ -1,4 +1,4 @@
-import { useNavigate } from '@remix-run/react';
+import { useNavigate, useSearchParams } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -12,6 +12,7 @@ type CalendarWrapperProps = {
 
 export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
 
   const formatDateArray = eventList.map((event: any) => {
     return {
@@ -31,12 +32,52 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     navigate(`/events/${info.event._def.publicId}`);
   };
 
+  const handleGetAllDayEvents = (info: any) => {
+    navigate(`/events?filter=day`);
+  };
+
+  const handleMoveDay = (step: number) => {
+    let originalDay = params.get('day')
+      ? Number(params.get('day'))
+      : new Date().getDate();
+    let originalMonth = params.get('month')
+      ? Number(params.get('month')) - 1
+      : new Date().getMonth();
+    let originalYear = params.get('year')
+      ? Number(params.get('year'))
+      : new Date().getFullYear();
+
+    const now = new Date(originalYear, originalMonth, originalDay);
+    now.setDate(now.getDate() + step);
+
+    const day = now.getDate();
+    const month = now.getMonth() + 1;
+    const year = now.getFullYear();
+
+    navigate(`/events?filter=day&day=${day}&month=${month}&year=${year}`);
+  };
+
   return (
     <div className="calendar-wrapper">
       <FullCalendar
+        customButtons={{
+          day: {
+            text: 'Day',
+            click: handleGetAllDayEvents,
+          },
+          next: {
+            text: 'Next',
+            click: () => handleMoveDay(1),
+          },
+          prev: {
+            text: 'Prev',
+            click: () => handleMoveDay(-1),
+          },
+        }}
         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
         headerToolbar={{
-          start: 'prev,today,next',
+          start:
+            'prev,today,next',
           center: 'title',
           end: 'timeGridWeek,dayGridMonth,timeGridDay',
         }}
