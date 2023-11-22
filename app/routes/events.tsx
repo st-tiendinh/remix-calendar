@@ -1,19 +1,29 @@
 import { type LoaderFunction } from '@remix-run/node';
 import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react';
-import { getEvents } from '~/server/event.server';
+import { getEvents, getEventsByDay } from '~/server/event.server';
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
 
-export const loader: LoaderFunction = async ({ request }) => {
-  // const userId = await getUserId(request);
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const myParams = new URL(request.url).searchParams;
+  const filterParams = myParams.get('filter');
+  const dayParams = myParams.get('day');
+  const monthParams = myParams.get('month');
+  const yearParams = myParams.get('year');
 
-  // if (!userId) return redirect('/login');
-  return await getEvents();
+  if (filterParams && filterParams === 'day') {
+    return getEventsByDay(`${yearParams}-${monthParams}-${dayParams}`);
+  } else {
+    // return month data here
+  }
+
+  // Modify return getEventsByMonth() when merge Viet's pull request
+  return getEvents();
 };
 
 export default function EventList() {
   const data: any = useLoaderData();
   const location = useLocation();
-  const events = data?.event;
+  const events = data?.events;
 
   return (
     <>

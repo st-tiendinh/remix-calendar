@@ -47,9 +47,30 @@ export const deleteEvent = async (eventId: string, userId: string) => {
 };
 
 export const getEvents = async () => {
-  const event = await prisma.event.findMany();
+  const events = await prisma.event.findMany();
 
-  if (!event) throw new Response('Something went wrong', { status: 400 });
+  if (!events) throw new Response('Something went wrong', { status: 400 });
 
-  return json({ event, status: 200 });
+  return json({ events, status: 200 });
+};
+
+export const getEventsByDay = async (date: string) => {
+  let targetDate = new Date(date);
+
+  const startDate = new Date(
+    targetDate.toISOString().split('T')[0] + 'T00:00:00.000Z'
+  );
+  const endDate = new Date(
+    targetDate.toISOString().split('T')[0] + 'T23:59:59.999Z'
+  );
+
+  const events = await prisma.event.findMany({
+    where: {
+      date: {
+        gte: startDate,
+        lte: endDate,
+      },
+    },
+  });
+  return json({ events, status: 200 });
 };
