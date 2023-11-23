@@ -63,8 +63,12 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
         </h2>
         {location.pathname.startsWith('/events') &&
           location.pathname.endsWith('/edit') && (
-            <Link to={`?modal-type=${ModalType.CONFIRM}&modal-action=${ModalAction.DELETE_EVENT}`}>
-              <i className="icon icon-trash"></i>
+            <Link
+              to={`?modal-type=${ModalType.CONFIRM}&modal-action=${ModalAction.DELETE_EVENT}`}
+            >
+              <button className="btn">
+                <i className="icon icon-trash"></i>
+              </button>
             </Link>
           )}
       </div>
