@@ -1,15 +1,7 @@
+import { Link } from '@remix-run/react';
+import { formatDate } from '~/shared/utils/convertDateString';
+
 export default function ShowEventDetail({ event }: any) {
-  console.log('haha', event);
-  // const [event, setEvent] = useState();
-  // useEffect(() => {
-  //   fetch(`/events/${eventId}`)
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data));
-  //   // .then((data) => setEvent(data));
-  // }, [eventId]);
-
-  // console.log('modal',event);
-
   const handleCopy = () => {
     let copyText =
       document.querySelector<HTMLInputElement>('.event-detail-link');
@@ -33,88 +25,115 @@ export default function ShowEventDetail({ event }: any) {
   };
   return (
     <div className="modal-event-wrapper">
+      <div className="modal-event-header">
+        <Link to={`/events/${event.id}/edit`} className="btn btn-modal-link">
+          <i className="icon icon-pen"></i>
+        </Link>
+        <Link to={'/events'} className="btn btn-modal-link">
+          <i className="icon icon-bin"></i>
+        </Link>
+        <Link to={'/events'} className="btn btn-modal-close">
+          <i className="icon icon-close"></i>
+        </Link>
+      </div>
       <div className="event-detail-wrapper">
         <ul className="event-info-list">
           <li className="event-info-item">
             <div className="event-detail">
-              <span className="event-detail-icon align-items-center">
+              <span className="event-detail-icon vertical-center">
                 <i className="icon icon-active"></i>
               </span>
               <div className="event-detail-info">
                 <h4 className="event-detail-title">{event.title}</h4>
               </div>
             </div>
-            <div className="event-detail-date-wrapper">
-              <div className="event-detail-date">{event.date}</div>
-              <div className="event-detail-time">
-                <span className="event-detail-timestamp">
-                  {event.timeStart}
-                </span>
-                -<span className="event-detail-timestamp">{event.timeEnd}</span>
-              </div>
-            </div>
           </li>
 
           <li className="event-info-item">
             <div className="event-detail">
-              <span className="event-detail-icon align-items-center">
-                <i className="icon icon-meeting-link"></i>
+              <span className="event-detail-icon vertical-center">
+                <i className="icon icon-calendar"></i>
               </span>
-              <div className="event-detail-info d-flex align-items-center">
-                <input
-                  type="text"
-                  className="event-detail-link"
-                  value={'http://localhost:3000'}
-                  onChange={() => {}}
-                />
-              </div>
-              <div className="tooltip">
-                <button
-                  className="btn btn-copy"
-                  onClick={handleCopy}
-                  onMouseDown={handleMouseDown}
-                >
-                  <span className="tooltiptext" id="myTooltip">
-                    Copy to clipboard
-                  </span>
-                  <i className="icon icon-copy"></i>
-                </button>
+              <div className="event-detail-info">
+                <div className="event-detail-date-wrapper">
+                  <div className="event-detail-date">
+                    {formatDate(event.date)}
+                  </div>
+                  <div className="event-detail-time">
+                    <span className="event-detail-timestamp">
+                      {event.timeStart}
+                    </span>
+                    -
+                    <span className="event-detail-timestamp">
+                      {event.timeEnd}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </li>
 
+          {event.meetingLink && (
+            <li className="event-info-item">
+              <div className="event-detail">
+                <span className="event-detail-icon vertical-center">
+                  <i className="icon icon-meeting-link"></i>
+                </span>
+                <div className="event-detail-info vertical-center">
+                  <input
+                    type="text"
+                    className="event-detail-link"
+                    value={event.meetingLink}
+                    onChange={() => {}}
+                  />
+                </div>
+                <div className="tooltip">
+                  <button
+                    className="btn btn-copy"
+                    onClick={handleCopy}
+                    onMouseDown={handleMouseDown}
+                  >
+                    <span className="tooltiptext" id="myTooltip">
+                      Copy to clipboard
+                    </span>
+                    <i className="icon icon-copy"></i>
+                  </button>
+                </div>
+              </div>
+            </li>
+          )}
+
           <li className="event-info-item">
             <div className="event-detail">
-              <span className="event-detail-icon">
+              <span className="event-detail-icon pt-1">
                 <i className="icon icon-desc"></i>
               </span>
               <div className="event-detail-info">
-                <p className="event-detail-desc">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Maxime, asperiores?
-                </p>
+                <p className="event-detail-desc">{event.description}</p>
               </div>
             </div>
           </li>
 
           <li className="event-info-item">
             <div className="event-detail">
-              <span className="event-detail-icon">
+              <span className="event-detail-icon vertical-center">
                 <i className="icon icon-room"></i>
               </span>
               <div className="event-detail-info">
-                <p className="event-detail-location">Mars</p>
+                <p className="event-detail-location">{event.location}</p>
               </div>
             </div>
           </li>
 
           <li className="event-info-item">
             <div className="event-detail">
-              <span className="event-detail-icon">
+              <span className="event-detail-icon vertical-center">
                 <i className="icon icon-user"></i>
               </span>
               <div className="event-detail-info">
-                <span className="event-detail-desc">Tien Dinh N.</span>
+                <span className="event-detail-desc">
+                  {`${event.authorName.firstName} ${event.authorName.lastName}`}
+                </span>
               </div>
             </div>
           </li>

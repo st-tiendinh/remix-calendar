@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import ConfirmDeleteEvent from './modals_form/ConfirmDeleteEvent';
 import ShowEventDetail from './modals_form/ShowEventDetail';
 
@@ -31,17 +32,26 @@ export type ModalProps =
   | null;
 
 const Modal: React.FC<{ modalProps: ModalProps }> = ({ modalProps }) => {
-  console.log(modalProps);
+  useEffect(() => {
+    if (modalProps) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalProps]);
+
   return (
-    <div className="modal" hidden={!modalProps}>
-      {modalProps?.type === ModalType.CONFIRM &&
-        modalProps?.action === ModalAction.DELETE_EVENT && (
-          <ConfirmDeleteEvent eventId={modalProps.event} />
-        )}
-      {modalProps?.type === ModalType.DATA &&
-        modalProps?.action === ModalAction.SHOW_EVENT && (
-          <ShowEventDetail event={modalProps.event} />
-        )}
+    <div className="modal-wrapper" hidden={!modalProps}>
+      <div className="modal">
+        {modalProps?.type === ModalType.CONFIRM &&
+          modalProps?.action === ModalAction.DELETE_EVENT && (
+            <ConfirmDeleteEvent eventId={modalProps.event} />
+          )}
+        {modalProps?.type === ModalType.DATA &&
+          modalProps?.action === ModalAction.SHOW_EVENT && (
+            <ShowEventDetail event={modalProps.event} />
+          )}
+      </div>
     </div>
   );
 };

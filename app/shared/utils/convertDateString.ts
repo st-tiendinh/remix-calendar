@@ -1,13 +1,3 @@
-export default function convertDateString() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-
-  const dateString = `${year}-${month}-${day}`;
-  return dateString;
-}
-
 export function convertDateToString(date: Date) {
   const dateConvert = new Date(date);
   const year = dateConvert.getFullYear();
@@ -16,4 +6,13 @@ export function convertDateToString(date: Date) {
 
   const dateString = `${day}-${month}-${year}`;
   return dateString;
+}
+
+export function formatDate(dateString: Date) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  });
 }

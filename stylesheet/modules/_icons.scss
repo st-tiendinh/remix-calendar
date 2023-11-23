@@ -36,8 +36,8 @@
     background-image: url('../../assets/icons/ic-plus.svg');
   }
   &.icon-active {
-    width: 20px;
-    height: 20px;
+    width: 8px;
+    height: 8px;
     background-image: url('../../assets/icons/ic-active.svg');
   }
   &.icon-meeting-link {
@@ -75,5 +75,20 @@
     width: 14px;
     height: 14px;
     background-image: url('../../assets/icons/ic-time.svg');
+  }
+  &.icon-close {
+    width: 18px;
+    height: 18px;
+    background-image: url('../../assets/icons/ic-close.svg');
+  }
+  &.icon-pen {
+    width: 18px;
+    height: 18px;
+    background-image: url('../../assets/icons/ic-pen.svg');
+  }
+  &.icon-bin {
+    width: 18px;
+    height: 18px;
+    background-image: url('../../assets/icons/ic-bin.svg');
   }
 }

@@ -1,7 +1,21 @@
 .calendar-wrapper {
-  margin-top: 20px;
+  padding: 20px;
+  height: 100vh;
+  overflow-y: hidden;
+
+  .fc-scrollgrid-sync-table {
+    height: calc(100vh + 40px) !important;
+    overflow-y: scroll !important;
+  }
 
   .fc {
+    &.fc-media-screen.fc-direction-ltr.fc-theme-standard {
+      height: 100%;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+
     .fc-toolbar-title {
       font-size: 24px;
       font-weight: 400;

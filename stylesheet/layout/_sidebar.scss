@@ -1,0 +1,97 @@
+.sidebar {
+  height: 100vh;
+  padding: 20px 24px;
+  overflow: scroll;
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .icon-plus,
+  .icon-list,
+  .icon-arrow-left {
+    cursor: pointer;
+  }
+  .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+    border-radius: 4px;
+    background-color: #f4f4f5;
+  }
+  .form-event {
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .icon-trash {
+      color: map-get($color, $key: red);
+    }
+    .btn-delete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+    .btn-add {
+      margin-top: 24px;
+      font-size: 16px;
+    }
+    .form-input-group {
+      margin-bottom: 12px;
+    }
+  }
+  .event {
+    &-link {
+      color: map-get($color, $key: primary);
+      text-decoration: none;
+    }
+    &-list {
+      list-style: none;
+    }
+    &-item {
+      display: flex;
+      margin-bottom: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      cursor: pointer;
+      &:hover {
+        transform: translate3d(-3px, -3px, -3px);
+        transition: all 0.2s;
+      }
+    }
+    &-time {
+      display: flex;
+      align-items: center;
+      font-size: map-get($font-size, $key: xs);
+    }
+    &-title {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    &-meeting-link {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .icon-time {
+      margin-right: 6px;
+    }
+    &-header {
+      display: flex;
+      .date-name,
+      .event-date {
+        font-size: map-get($font-size, $key: sm);
+        font-weight: 600;
+        color: #757575;
+      }
+      .date-name {
+        margin-right: 10px;
+      }
+    }
+  }
+}
