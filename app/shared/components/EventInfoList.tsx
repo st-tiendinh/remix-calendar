@@ -30,7 +30,7 @@ export default function EventDetail({ event }: EventDetailProps) {
       <ul className="event-info-list">
         <li className="event-info-item">
           <div className="event-detail">
-            <span className="event-detail-icon">
+            <span className="event-detail-icon align-items-center">
               <i className="icon icon-active"></i>
             </span>
             <div className="event-detail-info">
@@ -48,10 +48,10 @@ export default function EventDetail({ event }: EventDetailProps) {
 
         <li className="event-info-item">
           <div className="event-detail">
-            <span className="event-detail-icon">
+            <span className="event-detail-icon align-items-center">
               <i className="icon icon-meeting-link"></i>
             </span>
-            <div className="event-detail-info">
+            <div className="event-detail-info d-flex align-items-center">
               <input
                 type="text"
                 className="event-detail-link"
