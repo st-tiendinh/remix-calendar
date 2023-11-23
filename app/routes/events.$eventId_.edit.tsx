@@ -14,7 +14,8 @@ import { prisma } from '~/server/prisma.server';
 import FormEvent, { FormEventMethod } from '~/shared/components/FormEvent';
 import { ID_REGEX } from '~/shared/constant/validator';
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
-import Modal, { type ModalProps } from '~/shared/components/Modal';
+import Modal from '~/shared/components/Modal';
+import { resolveModal } from '~/shared/helper/resolveModal.server';
 
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
@@ -88,22 +89,11 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   if (!event) return redirect('/404');
 
   const paramsValue = getSearchParams({ url: request.url });
-  const modalAction = paramsValue.modalAction as ModalProps;
-  const modalType = paramsValue.modalType as ModalProps;
 
-  if (paramsValue && modalAction && modalType) {
-    return json({
-      event,
-      eventId: params.eventId,
-      modalProps: {
-        action: modalAction,
-        type: modalType,
-        deleteEventId: params.eventId,
-      },
-    });
-  } else {
-    return json({ event, eventId: params.eventId });
-  }
+  return resolveModal(paramsValue, params.eventId, {
+    event,
+    eventId: params.eventId,
+  });
 };
 
 export default function EventEdit() {

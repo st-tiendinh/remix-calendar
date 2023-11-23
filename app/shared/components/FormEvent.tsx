@@ -3,7 +3,7 @@ import { Link, useLocation } from '@remix-run/react';
 
 import { Form } from '~/shared/components/form';
 import { type EventData } from '../utils/types.server';
-import { ModalAction } from './Modal';
+import { ModalAction, ModalType } from './Modal';
 
 export const eventSchema = z.object({
   title: z
@@ -63,7 +63,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
         </h2>
         {location.pathname.startsWith('/events') &&
           location.pathname.endsWith('/edit') && (
-            <Link to={`?modal-type=confirm&modal-action=${ModalAction.DELETE_EVENT}`}>
+            <Link to={`?modal-type=${ModalType.CONFIRM}&modal-action=${ModalAction.DELETE_EVENT}`}>
               <i className="icon icon-trash"></i>
             </Link>
           )}
