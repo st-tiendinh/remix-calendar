@@ -1,7 +1,6 @@
 .home {
   .sidebar {
     height: 100vh;
-    border-right: 1px solid #9d9d9d;
     padding: 14px 24px;
     overflow: scroll;
     &-header {
@@ -9,7 +8,9 @@
       justify-content: space-between;
       margin-bottom: 20px;
     }
-    .icon {
+    .icon-plus,
+    .icon-list,
+    .icon-arrow-left {
       padding: 16px;
       border-radius: 4px;
       background-color: #f4f4f5;
@@ -37,6 +38,55 @@
       }
       .form-input-group {
         margin-bottom: 12px;
+      }
+    }
+    .event {
+      &-link {
+        color: map-get($color, $key: primary);
+        text-decoration: none;
+      }
+      &-list {
+        list-style: none;
+      }
+      &-item {
+        display: flex;
+        margin-bottom: 16px;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: rgba(238, 238, 238, 0.8) 1.95px 1.95px 3px;
+        cursor: pointer;
+        &:hover {
+          transform: translate3d(-3px, -3px, -3px);
+          transition: all 0.2s;
+        }
+      }
+      &-time {
+        display: flex;
+        align-items: center;
+        font-size: map-get($font-size, $key: xs);
+      }
+      &-title {
+        font-size: 17px;
+        font-weight: 600;
+      }
+      &-meeting-link {
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .icon-time {
+        margin-right: 6px;
+      }
+      &-header {
+        display: flex;
+        .date-name,
+        .event-date {
+          font-size: map-get($font-size, $key: sm);
+          font-weight: 600;
+          color: #757575;
+        }
+        .date-name {
+          margin-right: 10px;
+        }
       }
     }
   }
