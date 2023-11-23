@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const dayParams = myParams.get('day');
   const monthParams = myParams.get('month');
   const yearParams = myParams.get('year');
-  const messages = getSearchParams({ url: request.url });
+  const paramsValue = getSearchParams({ url: request.url });
 
   let events;
 
@@ -35,21 +35,20 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (!events) {
     return json({ error: 'Events Not Found', status: 404 });
   }
-  return json({ events, status: 200, messages });
+  return json({ events, status: 200, paramsValue });
 };
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
-  const { events, messages } = data;
-  // const { events } = data;
+  const { events, paramsValue } = data;
 
   useEffect(() => {
-    if (messages?.success) {
-      toast.success(`${messages?.success}`);
-    } else if (messages?.error) {
-      toast.error(`${messages?.error}`);
+    if (paramsValue?.success) {
+      toast.success(`${paramsValue?.success}`);
+    } else if (paramsValue?.error) {
+      toast.error(`${paramsValue?.error}`);
     }
-  }, [messages]);
+  }, [paramsValue]);
 
   return (
     <>
