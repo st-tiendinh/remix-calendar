@@ -11,7 +11,6 @@ export let loader: LoaderFunction = async ({ params }) => {
 
 export default function Event() {
   const data = useLoaderData<typeof loader>();
-  console.log(data);
 
   return <></>;
 }
