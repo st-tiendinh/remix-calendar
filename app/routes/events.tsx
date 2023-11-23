@@ -1,10 +1,13 @@
-import { json, type LoaderFunction } from '@remix-run/node';
+import { json, redirect, type LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { getEventsByDay, getEventsByMonth } from '~/server/event.server';
+import { prisma } from '~/server/prisma.server';
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
+import Modal from '~/shared/components/Modal';
 import Sidebar from '~/shared/components/Sidebar';
+import { resolveModal } from '~/shared/helper/resolveModal.server';
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -31,16 +34,40 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       yearParams as string
     );
   }
-
   if (!events) {
     return json({ error: 'Events Not Found', status: 404 });
   }
+
+  const id = paramsValue.eventId;
+
+  if (id) {
+    const event = await prisma.event.findUnique({
+      where: { id },
+    });
+
+    if (!event) return redirect('?error= Event not found!!');
+
+    const author = await prisma.user.findUnique({
+      where: { id: event.authorId },
+    });
+
+    return resolveModal(
+      paramsValue,
+      { ...event, authorName: author?.profile },
+      {
+        events,
+        status: 200,
+        paramsValue,
+      }
+    );
+  }
+
   return json({ events, status: 200, paramsValue });
 };
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
-  const { events, paramsValue } = data;
+  const { events, paramsValue, modalProps } = data;
 
   useEffect(() => {
     if (paramsValue?.success) {
@@ -52,6 +79,7 @@ export default function EventList() {
 
   return (
     <>
+      <Modal modalProps={modalProps} />
       <div className="home">
         <div className="row">
           <Sidebar events={events} />

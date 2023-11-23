@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from '../form';
+import { Form } from '../Form';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
 

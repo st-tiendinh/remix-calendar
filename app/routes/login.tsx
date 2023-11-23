@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 
 import { login, getUser } from '~/server/auth.server';
 import { validateEmail, validatePassword } from '~/shared/utils/validators.server';
-import { Form } from '~/shared/components/form';
+import { Form } from '~/shared/components/Form';
 import loginBg from '../../assets/images/login-bg.jpg';
 import { PASSWORD_REGEX } from '~/shared/constant/validator';
 
