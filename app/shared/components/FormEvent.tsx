@@ -1,8 +1,9 @@
 import { z } from 'zod';
-import { useLocation } from '@remix-run/react';
+import { Link, useLocation } from '@remix-run/react';
 
 import { Form } from '~/shared/components/form';
 import { type EventData } from '../utils/types.server';
+import { ModalAction, ModalType } from './Modal';
 
 export const eventSchema = z.object({
   title: z
@@ -62,17 +63,13 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
         </h2>
         {location.pathname.startsWith('/events') &&
           location.pathname.endsWith('/edit') && (
-            <Form
-              schema={deleteEventSchema}
-              method="post"
-              action={`/events/${eventId}/delete`}
+            <Link
+              to={`?modal-type=${ModalType.CONFIRM}&modal-action=${ModalAction.DELETE_EVENT}`}
             >
-              {({ Button }) => (
-                <Button className="btn-delete">
-                  <i className="icon icon-trash"></i>
-                </Button>
-              )}
-            </Form>
+              <button className="btn">
+                <i className="icon icon-trash"></i>
+              </button>
+            </Link>
           )}
       </div>
       <Form
@@ -107,7 +104,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               )}
             </Field>
             <Field name="description" className="form-input-group">
-            {({ Label, Errors }) => (
+              {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Description</Label>
                   <input
@@ -163,7 +160,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               </Field>
             </div>
             <Field name="location" className="form-input-group">
-            {({ Label, Errors }) => (
+              {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Location</Label>
                   <input
@@ -182,7 +179,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               )}
             </Field>
             <Field name="meetingLink" className="form-input-group">
-            {({ Label, Errors }) => (
+              {({ Label, Errors }) => (
                 <>
                   <Label className="form-label">Meeting Link</Label>
                   <input

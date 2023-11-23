@@ -1,7 +1,7 @@
 .home {
   .sidebar {
     height: 100vh;
-    padding: 14px 24px;
+    padding: 20px 24px;
     overflow: scroll;
     &-header {
       display: flex;
@@ -11,10 +11,15 @@
     .icon-plus,
     .icon-list,
     .icon-arrow-left {
-      padding: 16px;
+      cursor: pointer;
+    }
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 6px;
       border-radius: 4px;
       background-color: #f4f4f5;
-      cursor: pointer;
     }
     .form-event {
       .form-header {

@@ -1,8 +1,7 @@
 .icon {
   display: inline-block;
   background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
+  background-size: contain;
 
   &-username {
     width: 20px;
@@ -14,5 +13,67 @@
     width: 20px;
     height: 20px;
     background-image: url('../../assets/icons/ic-password.svg');
+  }
+
+  &.icon-arrow-left {
+    width: 18px;
+    height: 18px;
+    background-image: url('../../assets/icons/ic-arrow-left.svg');
+  }
+  &.icon-list {
+    width: 18px;
+    height: 18px;
+    background-image: url('../../assets/icons/ic-list.svg');
+  }
+  &.icon-trash {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../assets/icons/ic-trash.svg');
+  }
+  &.icon-plus {
+    width: 18px;
+    height: 18px;
+    background-image: url('../../assets/icons/ic-plus.svg');
+  }
+  &.icon-active {
+    width: 20px;
+    height: 20px;
+    background-image: url('../../assets/icons/ic-active.svg');
+  }
+  &.icon-meeting-link {
+    width: 22px;
+    height: 22px;
+    background-image: url('../../assets/icons/ic-meeting-link.svg');
+  }
+  &.icon-desc {
+    width: 20px;
+    height: 20px;
+    background-image: url('../../assets/icons/ic-desc.svg');
+  }
+  &.icon-room {
+    width: 20px;
+    height: 20px;
+    background-image: url('../../assets/icons/ic-room.svg');
+  }
+  &.icon-calendar {
+    width: 20px;
+    height: 20px;
+    background-image: url('../../assets/icons/ic-calendar.svg');
+  }
+  &.icon-user {
+    width: 20px;
+    height: 20px;
+    background-image: url('../../assets/icons/ic-user.svg');
+  }
+  &.icon-copy {
+    width: 20px;
+    height: 20px;
+    background-image: url('../../assets/icons/ic-copy.svg');
+    cursor: pointer;
+  }
+  &.icon-time {
+    width: 14px;
+    height: 14px;
+    background-image: url('../../assets/icons/ic-time.svg');
   }
 }

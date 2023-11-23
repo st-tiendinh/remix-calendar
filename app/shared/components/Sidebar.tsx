@@ -9,17 +9,24 @@ interface SidebarProps {
 
 export default function Sidebar({ events }: SidebarProps) {
   const location = useLocation();
+
   return (
     <div className="col col-3 sidebar">
       <div className="sidebar-header">
-        <i className="icon icon-list"></i>
+        <button className="btn">
+          <i className="icon icon-list"></i>
+        </button>
         {location.pathname === '/events' ? (
           <Link to={'/events/create'}>
-            <i className="icon icon-plus"></i>
+            <button className="btn">
+              <i className="icon icon-plus"></i>
+            </button>
           </Link>
         ) : (
           <Link to={'/events'}>
-            <i className="icon icon-arrow-left"></i>
+            <button className="btn">
+              <i className="icon icon-arrow-left"></i>
+            </button>
           </Link>
         )}
       </div>

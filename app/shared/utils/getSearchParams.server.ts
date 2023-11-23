@@ -1,14 +1,14 @@
 type Params = {
   url: string;
-  success?: string;
-  error?: string;
 };
 
-export const getSearchParams = ({ url, success, error }: Params) => {
-  const newUrl = new URL(url);
+export const getSearchParams = ({ url}: Params) => {
+  const newUrl = new URL(url).searchParams;
   const messages = {
-    success: newUrl.searchParams.get('success') || success,
-    error:newUrl.searchParams.get('error') || error,
+    success: newUrl.get('success'),
+    error:newUrl.get('error'),
+    modalType: newUrl.get('modal-type'),
+    modalAction: newUrl.get('modal-action'),
   };
 
   return messages;
