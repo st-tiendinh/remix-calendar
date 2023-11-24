@@ -17,7 +17,7 @@ export type ModalProps =
   | {
       type?: ModalType.CONFIRM;
       action: ModalAction.DELETE_EVENT;
-      event: string;
+      event: any;
     }
   | {
       type?: ModalType.CONFIRM;
@@ -45,11 +45,11 @@ const Modal: React.FC<{ modalProps: ModalProps }> = ({ modalProps }) => {
       <div className="modal">
         {modalProps?.type === ModalType.CONFIRM &&
           modalProps?.action === ModalAction.DELETE_EVENT && (
-            <ConfirmDeleteEvent eventId={modalProps.event} />
+            <ConfirmDeleteEvent eventId={modalProps.event.eventId} />
           )}
         {modalProps?.type === ModalType.DATA &&
           modalProps?.action === ModalAction.SHOW_EVENT && (
-            <ShowEventDetail event={modalProps.event} />
+            <ShowEventDetail event={modalProps.event.eventData} />
           )}
       </div>
     </div>
