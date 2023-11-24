@@ -8,8 +8,11 @@ import { InputError, makeDomainFunction } from 'domain-functions';
 import { toast } from 'react-hot-toast';
 
 import { login, getUser } from '~/server/auth.server';
-import { validateEmail, validatePassword } from '~/shared/utils/validators.server';
-import { Form } from '~/shared/components/Form';
+import {
+  validateEmail,
+  validatePassword,
+} from '~/shared/utils/validators.server';
+import { Form } from '~/shared/components/RemixForm';
 import loginBg from '../../assets/images/login-bg.jpg';
 import { PASSWORD_REGEX } from '~/shared/constant/validator';
 
@@ -21,13 +24,10 @@ const schema = z.object({
   password: z
     .string()
     .min(8, { message: 'Password must be at least 8 characters long' })
-    .regex(
-      PASSWORD_REGEX,
-      {
-        message:
-          'Password require uppercase letter, lowercase letter, number, and special symbol',
-      }
-    ),
+    .regex(PASSWORD_REGEX, {
+      message:
+        'Password require uppercase letter, lowercase letter, number, and special symbol',
+    }),
 });
 
 const mutation = makeDomainFunction(schema)(async (values) => {

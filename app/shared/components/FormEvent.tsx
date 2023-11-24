@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { Link, useLocation } from '@remix-run/react';
 
-import { Form } from '~/shared/components/Form';
+import { Form } from '~/shared/components/RemixForm';
 import { type EventData } from '../utils/types.server';
 import { ModalAction, ModalType } from './Modal';
 
