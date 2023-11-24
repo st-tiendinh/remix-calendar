@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from '../Form';
+import { Form } from '../RemixForm';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
 import { useLocation } from '@remix-run/react';
