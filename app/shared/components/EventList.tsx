@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react';
 import { convertDateToString } from '../utils/convertDateString';
 import { convertDateToNameDate } from '../utils/date';
-import { EventData } from '../utils/types.server';
+import type { EventData } from '../utils/types.server';
 
 interface EventListProps {
   events: EventData[];
@@ -14,7 +14,11 @@ export default function EventList({ events }: EventListProps) {
           return new Date(a.date).getTime() - new Date(b.date).getTime();
         })
         .map((event: any) => (
-          <Link className="event-link" to={`/events/${event.id}`}>
+          <Link
+            key={event.id}
+            className="event-link"
+            to={`/events/${event.id}`}
+          >
             <li key={event.id} className="event-item">
               <div className="event">
                 <div className="event-header">

@@ -1,7 +1,9 @@
-import { Link } from '@remix-run/react';
+import { Link, useLocation } from '@remix-run/react';
 import { formatDate } from '~/shared/utils/convertDateString';
 
 export default function ShowEventDetail({ event }: any) {
+  const location = useLocation();
+
   const handleCopy = () => {
     let copyText =
       document.querySelector<HTMLInputElement>('.event-detail-link');
@@ -32,7 +34,7 @@ export default function ShowEventDetail({ event }: any) {
         <Link to={'/events'} className="btn btn-modal-link">
           <i className="icon icon-bin"></i>
         </Link>
-        <Link to={'/events'} className="btn btn-modal-close">
+        <Link to={`${location.pathname}`} className="btn btn-modal-close">
           <i className="icon icon-close"></i>
         </Link>
       </div>
