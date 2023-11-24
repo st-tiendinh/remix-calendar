@@ -3,9 +3,10 @@ import { type ModalProps } from '../components/Modal';
 
 export const resolveModal = (
   paramsValue: any,
-  eventId: any,
+  event: string |object|null,
   objReturn: any
 ) => {
+
   const modalAction = paramsValue.modalAction as ModalProps;
   const modalType = paramsValue.modalType as ModalProps;
   if (paramsValue && modalAction && modalType) {
@@ -14,10 +15,10 @@ export const resolveModal = (
       modalProps: {
         action: modalAction,
         type: modalType,
-        deleteEventId: eventId,
+        event,
       },
     });
   } else {
-    return json({ objReturn });
+    return json( objReturn );
   }
 };

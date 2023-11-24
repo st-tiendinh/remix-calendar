@@ -1,10 +1,14 @@
 import React from 'react';
-import { Form } from '../form';
+import { Form } from '../Form';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
+import { useLocation } from '@remix-run/react';
 
 const deleteEventSchema = z.object({});
 const ConfirmDeleteEvent = ({ eventId }: { eventId: string }) => {
+  const location = useLocation();
+  console.log(location);
+
   return (
     <>
       <div className="modal-confirm">
@@ -20,7 +24,10 @@ const ConfirmDeleteEvent = ({ eventId }: { eventId: string }) => {
             <>
               <div className="modal-confirm-footer">
                 <Button className="btn-confirm">Yes</Button>
-                <Link className="btn-cancel" to={`/events/${eventId}/edit`}>
+                <Link
+                  className="btn-cancel"
+                  to={`?modal-type=data&modal-action=show-event&event-id=${eventId}`}
+                >
                   Cancel
                 </Link>
               </div>

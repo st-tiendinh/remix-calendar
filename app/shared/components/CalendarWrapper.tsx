@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 import { formatNumberToDateString } from '../utils/formatNumberToDateString';
 import { useRef } from 'react';
+import { ModalAction, ModalType } from './Modal';
 
 type CalendarWrapperProps = {
   eventList: any;
@@ -31,7 +32,9 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   };
 
   const handleEventClick = (info: any) => {
-    navigate(`/events/${info.event._def.publicId}`);
+    navigate(
+      `/events?modal-type=${ModalType.DATA}&modal-action=${ModalAction.SHOW_EVENT}&event-id=${info.event._def.publicId}`
+    );
   };
 
   const handleGetAllDayEvents = () => {
@@ -101,7 +104,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     const filter = params.get('filter');
     const now = new Date().toLocaleDateString();
     const month = now.split('/')[0];
-    const day = now.split('/')[1];
     const year = now.split('/')[2];
 
     if (filter === 'day') {

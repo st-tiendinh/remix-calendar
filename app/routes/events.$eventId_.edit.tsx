@@ -90,10 +90,19 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const paramsValue = getSearchParams({ url: request.url });
 
-  return resolveModal(paramsValue, params.eventId, {
-    event,
-    eventId: params.eventId,
+  const author = await prisma.user.findUnique({
+    where: { id: event.authorId },
   });
+
+  const eventData = { ...event, authorName: author?.profile };
+  return resolveModal(
+    paramsValue,
+    { eventData, eventId: params.eventId },
+    {
+      event,
+      eventId: params.eventId,
+    }
+  );
 };
 
 export default function EventEdit() {
