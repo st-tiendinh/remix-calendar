@@ -51,9 +51,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       where: { id: event.authorId },
     });
 
+    const eventData = { ...event, authorName: author?.profile };
+
     return resolveModal(
       paramsValue,
-      { ...event, authorName: author?.profile },
+      { eventData, eventId: id },
       {
         events,
         status: 200,
