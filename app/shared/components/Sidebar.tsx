@@ -1,7 +1,8 @@
-import { Link, Outlet, useLocation } from '@remix-run/react';
+import { Link, Outlet, useLocation, useNavigation } from '@remix-run/react';
 
 import { type EventData } from '../utils/types.server';
 import EventList from './EventList';
+import { Spinner } from './Spinner';
 
 interface SidebarProps {
   events: EventData[];
@@ -9,6 +10,8 @@ interface SidebarProps {
 
 export default function Sidebar({ events }: SidebarProps) {
   const location = useLocation();
+  const navigation = useNavigation();
+  console.log(navigation.state);
 
   return (
     <div className="col col-3 sidebar">
@@ -30,10 +33,16 @@ export default function Sidebar({ events }: SidebarProps) {
           </Link>
         )}
       </div>
-      {location.pathname === '/events' ? (
-        <EventList events={events} />
+      {navigation.state !== 'idle' ? (
+        <Spinner />
       ) : (
-        <Outlet />
+        <>
+          {location.pathname === '/events' ? (
+            <EventList events={events} />
+          ) : (
+            <Outlet />
+          )}
+        </>
       )}
     </div>
   );

@@ -752,6 +752,7 @@ image {
 }
 
 .sidebar {
+  position: relative;
   height: 100vh;
   padding: 20px 24px;
   overflow: scroll;
