@@ -33,7 +33,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
 
   const handleEventClick = (info: any) => {
     navigate(
-      `?modal-type=${ModalType.DATA}&modal-action=${ModalAction.SHOW_EVENT}&event-id=${info.event._def.publicId}`
+      `/events?modal-type=${ModalType.DATA}&modal-action=${ModalAction.SHOW_EVENT}&event-id=${info.event._def.publicId}`
     );
   };
 

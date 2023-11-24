@@ -24,7 +24,7 @@
     align-items: center;
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: 50% !important;
 
     &:hover {
       background-color: map-get($color, 'gray-f4');
@@ -37,7 +37,7 @@
     align-items: center;
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: 50% !important;
     background-color: map-get($color, 'gray-f4');
   }
 }

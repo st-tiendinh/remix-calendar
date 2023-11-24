@@ -1,5 +1,6 @@
 import { Link, useLocation } from '@remix-run/react';
 import { formatDate } from '~/shared/utils/convertDateString';
+import { ModalAction, ModalType } from '../Modal';
 
 export default function ShowEventDetail({ event }: any) {
   const location = useLocation();
@@ -31,7 +32,10 @@ export default function ShowEventDetail({ event }: any) {
         <Link to={`/events/${event.id}/edit`} className="btn btn-modal-link">
           <i className="icon icon-pen"></i>
         </Link>
-        <Link to={'/events'} className="btn btn-modal-link">
+        <Link
+          to={`?modal-type=${ModalType.CONFIRM}&modal-action=${ModalAction.DELETE_EVENT}&event-id=${event.id}`}
+          className="btn btn-modal-link"
+        >
           <i className="icon icon-bin"></i>
         </Link>
         <Link to={`${location.pathname}`} className="btn btn-modal-close">

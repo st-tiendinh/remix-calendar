@@ -17,7 +17,7 @@ export default function EventList({ events }: EventListProps) {
           <Link
             key={event.id}
             className="event-link"
-            to={`/events/${event.id}`}
+            to={`/events/${event.id}/edit`}
           >
             <li key={event.id} className="event-item">
               <div className="event">
