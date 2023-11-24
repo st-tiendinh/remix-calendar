@@ -1,7 +1,7 @@
 import { json, redirect } from '@remix-run/node';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { performMutation } from 'remix-forms';
-import { useActionData } from '@remix-run/react';
+import { useActionData, useNavigation } from '@remix-run/react';
 import { useEffect } from 'react';
 import { z } from 'zod';
 import { InputError, makeDomainFunction } from 'domain-functions';
@@ -76,6 +76,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Login() {
   const actionData: any = useActionData();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
@@ -93,7 +94,7 @@ export default function Login() {
               We are glad to see you back with us
             </h2>
             <Form schema={schema} className="form login-form" method="post">
-              {({ Field, Errors, Button, register }) => (
+              {({ Field, Errors, register }) => (
                 <>
                   <div className="form-field">
                     <Field name="email">
@@ -140,7 +141,14 @@ export default function Login() {
                     </div>
                   </div>
                   <Errors className="error-text" />
-                  <Button className="login-btn" />
+                  <button
+                    className={`btn login-btn ${
+                      navigation.state !== 'idle' ? 'loading' : ''
+                    }`}
+                    disabled={navigation.state !== 'idle' ? true : false}
+                  >
+                    Login
+                  </button>
                 </>
               )}
             </Form>
