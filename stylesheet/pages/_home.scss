@@ -1,37 +1,5 @@
 .home {
-  .sidebar {
-    height: 100vh;
-    border-right: 1px solid #9d9d9d;
-    padding: 14px 24px;
-    overflow: scroll;
-    &-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .icon {
-      padding: 16px;
-      border-radius: 4px;
-      background-color: #f4f4f5;
-      cursor: pointer;
-    }
-    .form-event {
-      .form-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-      }
-      .icon-trash {
-        color: map-get($color, $key: red);
-      }
-      .btn-add {
-        margin-top: 24px;
-        font-size: 16px;
-      }
-      .form-input-group {
-        margin-bottom: 12px;
-      }
-    }
-  }
+  overflow-x: hidden;
+  overflow-y: hidden;
+  height: 100vh;
 }

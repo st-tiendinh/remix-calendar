@@ -1,15 +1,18 @@
 import { json, redirect } from '@remix-run/node';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { performMutation } from 'remix-forms';
-import { useActionData } from '@remix-run/react';
+import { useActionData, useNavigation } from '@remix-run/react';
 import { useEffect } from 'react';
 import { z } from 'zod';
 import { InputError, makeDomainFunction } from 'domain-functions';
 import { toast } from 'react-hot-toast';
 
 import { login, getUser } from '~/server/auth.server';
-import { validateEmail, validatePassword } from '~/shared/utils/validators.server';
-import { Form } from '~/shared/components/form';
+import {
+  validateEmail,
+  validatePassword,
+} from '~/shared/utils/validators.server';
+import { Form } from '~/shared/components/RemixForm';
 import loginBg from '../../assets/images/login-bg.jpg';
 import { PASSWORD_REGEX } from '~/shared/constant/validator';
 
@@ -21,13 +24,10 @@ const schema = z.object({
   password: z
     .string()
     .min(8, { message: 'Password must be at least 8 characters long' })
-    .regex(
-      PASSWORD_REGEX,
-      {
-        message:
-          'Password require uppercase letter, lowercase letter, number, and special symbol',
-      }
-    ),
+    .regex(PASSWORD_REGEX, {
+      message:
+        'Password require uppercase letter, lowercase letter, number, and special symbol',
+    }),
 });
 
 const mutation = makeDomainFunction(schema)(async (values) => {
@@ -56,7 +56,7 @@ const mutation = makeDomainFunction(schema)(async (values) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
   // If there's already a user in the session, redirect to the home page
-  return (await getUser(request)) ? redirect('/event') : null;
+  return (await getUser(request)) ? redirect('/events') : null;
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -76,6 +76,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Login() {
   const actionData: any = useActionData();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
@@ -93,7 +94,7 @@ export default function Login() {
               We are glad to see you back with us
             </h2>
             <Form schema={schema} className="form login-form" method="post">
-              {({ Field, Errors, Button, register }) => (
+              {({ Field, Errors, register }) => (
                 <>
                   <div className="form-field">
                     <Field name="email">
@@ -140,7 +141,14 @@ export default function Login() {
                     </div>
                   </div>
                   <Errors className="error-text" />
-                  <Button className="login-btn" />
+                  <button
+                    className={`btn login-btn ${
+                      navigation.state !== 'idle' ? 'loading' : ''
+                    }`}
+                    disabled={navigation.state !== 'idle' ? true : false}
+                  >
+                    Login
+                  </button>
                 </>
               )}
             </Form>
