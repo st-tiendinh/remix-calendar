@@ -117,11 +117,11 @@ export const getEventsByDay = async (date: string) => {
         gte: startDate,
         lte: endDate,
       },
-      deletedAt: null,
     },
   });
 
-  return events;
+  const validEvents = events.filter((e) => e.deletedAt === null);
+  return validEvents;
 };
 
 export const getEventsByMonth = async (
@@ -137,9 +137,8 @@ export const getEventsByMonth = async (
         gte: new Date(`${year}-${month}-1`),
         lte: new Date(`${year}-${month}-${lastDay}`),
       },
-      deletedAt: null,
     },
   });
-
-  return events;
+  const validEvents = events.filter((e) => e.deletedAt === null);
+  return validEvents;
 };

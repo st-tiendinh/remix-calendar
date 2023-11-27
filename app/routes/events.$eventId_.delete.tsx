@@ -10,7 +10,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   }
 
   if (!params.eventId) return json({ error: 'Event not found', status: 404 });
-  console.log(await deleteEvent(params.eventId, userId));
+  
   return await deleteEvent(params.eventId, userId);
 };
 
