@@ -9,7 +9,7 @@ export const deleteEventMiddleWare = () => {
       // Set field value
       params.args['data'] = { deletedAt: new Date() };
     }
-    console.log('middleware is called');
+
     return next(params);
   });
 };
