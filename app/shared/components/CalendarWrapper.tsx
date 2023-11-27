@@ -165,6 +165,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         events={formatDateArray}
         eventClick={handleEventClick}
         dayMaxEventRows={true}
+        fixedWeekCount={false}
       />
     </div>
   );
