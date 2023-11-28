@@ -1,6 +1,7 @@
 import { json, redirect } from '@remix-run/node';
 import { prisma } from './prisma.server';
 import type { EventData } from '~/shared/utils/types.server';
+import { deleteEventMiddleWare } from '~/shared/middleware/softDeleteEvent';
 
 export const updateEvent = async (eventData: EventData, id: string) => {
   const event = await prisma.event.update({
@@ -37,6 +38,7 @@ export const deleteEvent = async (eventId: string, userId: string) => {
       `/events/${eventId}/edit?error=You are not authorized to delete this event`
     );
   } else {
+    deleteEventMiddleWare();
     const result = await prisma.event.delete({
       where: {
         id: eventId,
@@ -50,10 +52,51 @@ export const deleteEvent = async (eventId: string, userId: string) => {
   }
 };
 
-export const getEvents = async () => {
-  const events = await prisma.event.findMany();
+export const restoreEvent = async (eventId: string, userId: string) => {
+  const event = await prisma.event.findUnique({
+    where: {
+      id: eventId,
+    },
+  });
 
-  if (!events) throw new Response('Something went wrong', { status: 400 });
+  if (!event) return json({ error: 'Can not found event', status: 404 });
+
+  if (event.authorId !== userId) {
+    return redirect(
+      `/events/${eventId}/edit?error=You are not authorized to restore this event`
+    );
+  } else {
+    const result = await prisma.event.update({
+      where: {
+        id: eventId,
+      },
+      data: {
+        deletedAt: null,
+      },
+    });
+
+    if (!result) {
+      return json({ error: 'Restore Event Failed', status: 400 });
+    }
+    return redirect('/events?success=Restored Event Success!!');
+  }
+};
+
+export const getDeletedEvents = async (userId: string) => {
+  const events = await prisma.event.findMany({
+    where: {
+      AND: [
+        {
+          deletedAt: {
+            not: null,
+          },
+        },
+        {
+          authorId: userId,
+        },
+      ],
+    },
+  });
 
   return json({ events, status: 200 });
 };
@@ -76,8 +119,9 @@ export const getEventsByDay = async (date: string) => {
       },
     },
   });
-  // return json({ events, status: 200 });
-  return events;
+
+  const validEvents = events.filter((e) => e.deletedAt === null);
+  return validEvents;
 };
 
 export const getEventsByMonth = async (
@@ -95,6 +139,6 @@ export const getEventsByMonth = async (
       },
     },
   });
-
-  return events;
+  const validEvents = events.filter((e) => e.deletedAt === null);
+  return validEvents;
 };

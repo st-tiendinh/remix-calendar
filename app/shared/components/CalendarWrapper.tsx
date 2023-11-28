@@ -3,11 +3,9 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-
-import { formatNumberToDateString } from '../utils/formatNumberToDateString';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
+import { formatTimeToISOString } from '../utils/formatNumberToDateString';
 import { ModalAction, ModalType } from './Modal';
-import { EventData } from '../utils/types.server';
 
 type CalendarWrapperProps = {
   eventList: any;
@@ -18,8 +16,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const calendarRef = useRef(null);
-
-  const [events, setEvents] = useState<EventData[]>();
 
   useEffect(() => {
     const filter = params.get('filter');
@@ -32,9 +28,9 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
       };
       (calendarRef.current as any).getApi().changeView(viewType[`${filter}`]);
       (calendarRef.current as any).getApi().gotoDate(currentDate);
-      // setEvents(eventList);
     }
   }, [params]);
+
   const initialDate = () => {
     const day = params.get('day') ? params.get('day') : new Date().getDate();
     const month = params.get('month')
@@ -62,15 +58,17 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     }
   };
 
-  const formatDateArray = events?.map((event: any) => {
-    return {
-      id: event.id,
-      title: event.title,
-      start: formatNumberToDateString(event.timeStart, event.date),
-      end: formatNumberToDateString(event.timeEnd, event.date),
-      durationEditable: true,
-    };
-  });
+  const formatDateArray = useMemo(() => {
+    return eventList.map((event: any) => {
+      return {
+        id: event.id,
+        title: event.title,
+        start: formatTimeToISOString(event.timeStart, event.date),
+        end: formatTimeToISOString(event.timeEnd, event.date),
+        durationEditable: true,
+      };
+    });
+  }, [eventList]);
 
   const handleSelect = (info: any) => {
     console.log('info: ', info);

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 *,
 *::after,
 *::before {
@@ -29,11 +29,11 @@ html,
 body {
   font-size: 16px;
   font-size: 1rem;
-  font-family: "Inter", "san-serif";
+  font-family: "Roboto", "san-serif";
   position: relative;
   font-weight: 300;
   color: #000000;
-  line-height: 1.7;
+  line-height: 1.6;
   letter-spacing: 0.8px;
   overscroll-behavior: contain;
   text-rendering: optimizeLegibility;
@@ -68,9 +68,14 @@ image {
   background-image: url("../../assets/icons/ic-arrow-left.svg");
 }
 .icon.icon-list {
-  width: 18px;
-  height: 18px;
+  width: 26px;
+  height: 26px;
   background-image: url("../../assets/icons/ic-list.svg");
+}
+.icon.icon-plus-circle {
+  width: 32px;
+  height: 32px;
+  background-image: url("../../assets/icons/ic-plus-circle.svg");
 }
 .icon.icon-trash {
   width: 24px;
@@ -86,6 +91,16 @@ image {
   width: 8px;
   height: 8px;
   background-image: url("../../assets/icons/ic-active.svg");
+}
+.icon.icon-active-event {
+  width: 12px;
+  height: 12px;
+  background-image: url("../../assets/icons/ic-active-event.svg");
+}
+.icon.icon-camera {
+  width: 8px;
+  height: 8px;
+  background-image: url("../../assets/icons/ic-camera.svg");
 }
 .icon.icon-meeting-link {
   width: 22px;
@@ -647,13 +662,10 @@ image {
 }
 .calendar-wrapper .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
   height: 100%;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .calendar-wrapper .fc .fc-toolbar-title {
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 500;
 }
 .calendar-wrapper .fc-timeGridWeek-button.fc-button-primary, .calendar-wrapper .fc-dayGridMonth-button.fc-button-primary, .calendar-wrapper .fc-timeGridDay-button.fc-button-primary {
   margin: 0 4px;
@@ -669,11 +681,11 @@ image {
   transition: all 0.3s;
 }
 .calendar-wrapper .fc-timeGridWeek-button.fc-button-primary:hover, .calendar-wrapper .fc-dayGridMonth-button.fc-button-primary:hover, .calendar-wrapper .fc-timeGridDay-button.fc-button-primary:hover {
-  background-color: #dc2626 !important;
+  background-color: #FF385C !important;
   color: #fff;
 }
 .calendar-wrapper .fc-timeGridDay-button.fc-button-primary:not(:disabled).fc-button-active, .calendar-wrapper .fc-timeGridWeek-button.fc-button-primary:not(:disabled).fc-button-active, .calendar-wrapper .fc-dayGridMonth-button.fc-button-primary:not(:disabled).fc-button-active {
-  background-color: #dc2626 !important;
+  background-color: #FF385C !important;
   color: #fff;
 }
 .calendar-wrapper .fc-button-primary:not(:disabled).fc-button-active:focus, .calendar-wrapper .fc-button-primary:not(:disabled):active:focus {
@@ -751,16 +763,115 @@ image {
   width: 80px !important;
 }
 
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 .sidebar {
   position: relative;
   height: 100vh;
-  padding: 20px 24px;
+  padding: 20px 24px 20px 34px;
   overflow: scroll;
+  border-right: 1px solid #d6d6d6;
+  animation: slideInFromLeft 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .sidebar-header {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
   margin-bottom: 20px;
+}
+.sidebar-header .logo {
+  height: 38px;
+}
+.sidebar-header .logo .logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sidebar .btn-create {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff385c;
+  font-size: 16px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.sidebar .btn-create-text {
+  color: #fff;
+  font-weight: 600;
+}
+.sidebar .sm {
+  height: 50px;
+  width: 50px;
+  padding: 0;
+}
+.sidebar .today-event .event-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #3b82f6;
+  margin-bottom: 16px;
+}
+.sidebar .today-event .event-header-title {
+  font-weight: 700;
+}
+.sidebar .today-event .event-header .event-date {
+  font-weight: 500;
+}
+.sidebar .today-event .event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  line-height: 16px;
+}
+.sidebar .today-event .event-list .event-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: start;
+  gap: 8px;
+}
+.sidebar .today-event .event-list .event-item .event-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sidebar .today-event .event-list .event-item .event-detail .event-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sidebar .today-event .event-list .event-item .event-detail .event-info .event-time {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px;
+  color: #a1a1aa;
+}
+.sidebar .today-event .event-list .event-item .event-detail .event-title {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+}
+.sidebar .today-event .event-list .event-item .event-detail .event-meeting-link {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #a1a1aa;
+}
+.sidebar .hide {
+  display: none;
 }
 .sidebar .icon-plus,
 .sidebar .icon-list,
@@ -773,7 +884,7 @@ image {
   align-items: center;
   padding: 6px;
   border-radius: 4px;
-  background-color: #f4f4f5;
+  background: rgba(244, 244, 245, 0.4);
 }
 .sidebar .form-event .form-header {
   display: flex;
@@ -796,53 +907,6 @@ image {
 }
 .sidebar .form-event .form-input-group {
   margin-bottom: 12px;
-}
-.sidebar .event-link {
-  color: #1c1c1c;
-  text-decoration: none;
-}
-.sidebar .event-list {
-  list-style: none;
-}
-.sidebar .event-item {
-  display: flex;
-  margin-bottom: 16px;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  cursor: pointer;
-}
-.sidebar .event-item:hover {
-  transform: translate3d(-3px, -3px, -3px);
-  transition: all 0.2s;
-}
-.sidebar .event-time {
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-}
-.sidebar .event-title {
-  font-size: 17px;
-  font-weight: 600;
-}
-.sidebar .event-meeting-link {
-  font-size: 12px;
-  font-weight: 500;
-}
-.sidebar .event .icon-time {
-  margin-right: 6px;
-}
-.sidebar .event-header {
-  display: flex;
-}
-.sidebar .event-header .date-name,
-.sidebar .event-header .event-date {
-  font-size: 14px;
-  font-weight: 600;
-  color: #757575;
-}
-.sidebar .event-header .date-name {
-  margin-right: 10px;
 }
 
 .pd-0 {
@@ -1825,6 +1889,15 @@ image {
   overflow-x: hidden;
   overflow-y: hidden;
   height: 100vh;
+}
+
+.full-calendar {
+  width: calc(100% - 109px);
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar-sm {
+  width: 109px;
 }
 
 /*# sourceMappingURL=app.css.map */

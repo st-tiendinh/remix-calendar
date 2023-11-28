@@ -1,13 +1,24 @@
-# Welcome to Remix!
-
-- [Remix Docs](https://remix.run/docs)
+# Welcome to FE Calendar!
 
 ## Development
 
 From your terminal:
 
 ```sh
+npm install
+```
+```sh
+npx prisma db push
+```
+then
+```sh
 npm run dev
+```
+
+Some variables in .env file:
+```sh
+DATABASE_URL=""
+SESSION_SECRET=""
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 * {
   -webkit-box-sizing: border-box;
@@ -13,7 +13,7 @@ body {
   position: relative;
   font-weight: 300;
   color: map-get($color, black);
-  line-height: 1.7;
+  line-height: 1.6;
   letter-spacing: 0.8px;
   background-color: map-get($color, white);
   overscroll-behavior: contain;
