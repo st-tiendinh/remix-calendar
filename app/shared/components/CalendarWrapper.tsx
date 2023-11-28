@@ -22,12 +22,94 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
       return {
         id: event.id,
         title: event.title,
+        meetingLink: event.meetingLink,
         start: formatTimeToISOString(event.timeStart, event.date),
         end: formatTimeToISOString(event.timeEnd, event.date),
         durationEditable: true,
       };
     });
   }, [eventList]);
+
+  const customizeDayHeaderContent = (info: any) => {
+    switch (info.date.getUTCDay()) {
+      case 0:
+        return (
+          <>
+            <span className="day-header-name">Sun</span>
+            <span className="day-header-value">{info.date.getDate()}</span>
+          </>
+        );
+      case 1:
+        return (
+          <>
+            <span className="day-header-name">Mon</span>
+            <span className="day-header-value">{info.date.getDate()}</span>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <span className="day-header-name">Tue</span>
+            <span className="day-header-value">{info.date.getDate()}</span>
+          </>
+        );
+      case 3:
+        return (
+          <>
+            <span className="day-header-name">Wed</span>
+            <span className="day-header-value">{info.date.getDate()}</span>
+          </>
+        );
+      case 4:
+        return (
+          <>
+            <span className="day-header-name">Thu</span>
+            <span className="day-header-value">{info.date.getDate()}</span>
+          </>
+        );
+      case 5:
+        return (
+          <>
+            <span className="day-header-name">Fri</span>
+            <span className="day-header-value">{info.date.getDate()}</span>
+          </>
+        );
+      case 6:
+        return (
+          <>
+            <span className="day-header-name">Sat</span>
+            <span className="day-header-value">{info.date.getDate()}</span>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const customEventCell = (info: any) => {
+    const { event, el, timeText } = info;
+    const isHasMeetingLink = !!event._def.extendedProps.meetingLink;
+    if (isHasMeetingLink) {
+      el.classList.add('meeting-link');
+    } else {
+      el.classList.add('no-meeting-link');
+    }
+    const eventTime = el.querySelector('.fc-event-time') as any;
+    eventTime.innerHTML = `
+      ${
+        isHasMeetingLink
+          ? `
+      <span class='event-icon-wrapper ${
+        isHasMeetingLink ? 'bg-violet' : 'bg-blue'
+      }'>
+        <i class="icon icon-camera"></i>
+      </span>
+      `
+          : ''
+      }
+      <span class='event-time'>${timeText}</span>
+    `;
+  };
 
   const handleSelect = (info: any) => {
     console.log('info: ', info);
@@ -118,6 +200,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
 
   return (
     <div className="calendar-wrapper">
+      <i className="icon icon-camera"></i>
       <FullCalendar
         ref={calendarRef}
         customButtons={{
@@ -154,6 +237,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
             },
           },
         }}
+        initialView="timeGridWeek"
         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
         headerToolbar={{
           start: 'prev,today,next',
@@ -164,9 +248,16 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         editable={true}
         selectable={true}
         select={handleSelect}
+        dayMaxEventRows={true}
+        dayHeaderContent={customizeDayHeaderContent}
         events={formatDateArray}
         eventClick={handleEventClick}
-        dayMaxEventRows={true}
+        eventTimeFormat={{
+          hour: 'numeric',
+          minute: '2-digit',
+          meridiem: false,
+        }}
+        eventDidMount={customEventCell}
       />
     </div>
   );
