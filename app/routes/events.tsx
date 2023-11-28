@@ -2,6 +2,7 @@ import { json, redirect, type LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { getUserId } from '~/server/auth.server';
 import { getEventsByDay, getEventsByMonth } from '~/server/event.server';
 import { prisma } from '~/server/prisma.server';
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
@@ -51,7 +52,15 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       where: { id: event.authorId },
     });
 
-    const eventData = { ...event, authorName: author?.profile };
+    const currentUserId = await getUserId(request);
+
+    const eventData = {
+      ...event,
+      author: {
+        name: author?.profile,
+        ...(author?.id === currentUserId && { id: currentUserId }),
+      },
+    };
 
     return resolveModal(
       paramsValue,
