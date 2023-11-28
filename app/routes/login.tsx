@@ -89,10 +89,8 @@ export default function Login() {
       <div className="login-wrapper">
         <div className="login-content-wrapper">
           <div className="login-content">
-            <h1 className="login-title">Welcome</h1>
-            <h2 className="login-sub-title">
-              We are glad to see you back with us
-            </h2>
+            <h1 className="login-title">LOGIN</h1>
+            <h2 className="login-sub-title">Welcome to FE Calendar</h2>
             <Form schema={schema} className="form login-form" method="post">
               {({ Field, Errors, register }) => (
                 <>
@@ -147,7 +145,7 @@ export default function Login() {
                     }`}
                     disabled={navigation.state !== 'idle' ? true : false}
                   >
-                    Login
+                    LOGIN NOW
                   </button>
                 </>
               )}

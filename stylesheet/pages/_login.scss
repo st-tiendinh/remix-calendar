@@ -1,6 +1,5 @@
 .login-page {
   height: 100vh;
-  padding: 34px;
 
   .login-wrapper {
     display: flex;
@@ -21,15 +20,15 @@
     min-width: 350px;
 
     .login-title {
-      font-size: 120px;
+      font-size: 32px;
       font-weight: 700;
       line-height: 0.8;
     }
 
     .login-sub-title {
-      font-size: map-get($font-size, $key: lg);
+      font-size: 16px;
       font-weight: 500;
-      color: map-get($color, $key: primary);
+      color: #525252;
       margin-bottom: 24px;
     }
 
@@ -64,18 +63,22 @@
         position: relative;
         width: 100%;
         padding: 16px 18px 16px 44px;
-        background-color: #f2f2f2;
-        border-radius: 13px;
+        background-color: #fff;
+        border: 1px solid #d3d8e0;
+        color: #757575;
+        border-radius: 8px;
 
         &:focus::placeholder {
           color: transparent;
         }
       }
+      .login-btn {
+        background-color: #ff385c;
+      }
     }
   }
 
   .login-bg {
-    width: 50%;
     height: 100%;
   }
 
