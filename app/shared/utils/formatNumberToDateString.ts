@@ -12,3 +12,11 @@ export const formatNumberToDateString = (
   date.setHours(+newHours, +newMin, +newSecs);
   return date.toISOString();
 };
+
+export const formatTimeToISOString = (time: string, date: string): string => {
+  const [hours, minutes] = time.split(':').map(Number);
+  const dateObj = new Date(date);
+  dateObj.setHours(hours);
+  dateObj.setMinutes(minutes);
+  return dateObj.toISOString();
+};
