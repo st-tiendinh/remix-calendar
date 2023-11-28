@@ -1,12 +1,13 @@
-import { useNavigate, useSearchParams } from '@remix-run/react';
+import { useNavigate, useNavigation, useSearchParams } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 import { formatNumberToDateString } from '../utils/formatNumberToDateString';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ModalAction, ModalType } from './Modal';
+import { EventData } from '../utils/types.server';
 
 type CalendarWrapperProps = {
   eventList: any;
@@ -15,9 +16,53 @@ type CalendarWrapperProps = {
 export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const [params] = useSearchParams();
   const navigate = useNavigate();
+  const navigation = useNavigation();
   const calendarRef = useRef(null);
 
-  const formatDateArray = eventList.map((event: any) => {
+  const [events, setEvents] = useState<EventData[]>();
+
+  useEffect(() => {
+    const filter = params.get('filter');
+    if (filter) {
+      const currentDate = initialDate();
+      const viewType: any = {
+        day: 'timeGridDay',
+        week: 'timeGridWeek',
+        month: 'dayGridMonth',
+      };
+      (calendarRef.current as any).getApi().changeView(viewType[`${filter}`]);
+      (calendarRef.current as any).getApi().gotoDate(currentDate);
+      // setEvents(eventList);
+    }
+  }, [params]);
+  const initialDate = () => {
+    const day = params.get('day') ? params.get('day') : new Date().getDate();
+    const month = params.get('month')
+      ? params.get('month')
+      : new Date().getMonth() + 1;
+    const year = params.get('year')
+      ? params.get('year')
+      : new Date().getFullYear();
+    return new Date(`${year}-${month}-${day}`);
+  };
+
+  const initialView = () => {
+    const filter = params.get('filter');
+    if (filter) {
+      switch (filter) {
+        case 'day':
+          return 'timeGridDay';
+        case 'month':
+          return 'dayGridMonth';
+        case 'week':
+          return 'timeGridWeek';
+        default:
+          break;
+      }
+    }
+  };
+
+  const formatDateArray = events?.map((event: any) => {
     return {
       id: event.id,
       title: event.title,
@@ -47,57 +92,64 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     navigate(`/events?filter=day&day=${day}&month=${month}&year=${year}`);
   };
 
-  const handleMoveDay = (step: number) => {
+  const handleMoveDate = (step: number) => {
     if (step > 0) {
       (calendarRef.current as any).getApi().next();
     } else {
       (calendarRef.current as any).getApi().prev();
     }
-    let originalDay = params.get('day')
+    const filter = params.get('filter') || 'month';
+    const originalDay = params.get('day')
       ? Number(params.get('day'))
       : new Date().getDate();
-    let originalMonth = params.get('month')
-      ? Number(params.get('month')) - 1
-      : new Date().getMonth();
-    let originalYear = params.get('year')
+    const originalMonth = params.get('month')
+      ? Number(params.get('month'))
+      : new Date().getMonth() + 1;
+    const originalYear = params.get('year')
       ? Number(params.get('year'))
       : new Date().getFullYear();
 
-    const now = new Date(originalYear, originalMonth, originalDay);
-    now.setDate(now.getDate() + step);
+    const now = new Date(originalYear, originalMonth - 1, originalDay);
 
-    const day = now.getDate();
-    const month = now.getMonth() + 1;
-    const year = now.getFullYear();
-
-    navigate(`/events?filter=day&day=${day}&month=${month}&year=${year}`);
-  };
-
-  const handleMoveMonth = (step: number) => {
-    if (step > 0) {
-      (calendarRef.current as any).getApi().next();
-    } else {
-      (calendarRef.current as any).getApi().prev();
+    switch (filter) {
+      case 'day':
+        now.setDate(now.getDate() + step);
+        break;
+      case 'week':
+        now.setDate(now.getDate() + 7 * step);
+        break;
+      case 'month':
+        now.setMonth(now.getMonth() + step);
+        break;
+      default:
+        break;
     }
-    let month = params.get('month')
-      ? Number(params.get('month')) + step
-      : new Date().getMonth() + 1 + step;
-    month = month > 12 ? 1 : month < 1 ? 12 : month;
 
-    let year = params.get('year')
-      ? Number(params.get('year'))
-      : new Date().getFullYear();
-    year = month > 12 ? year + 1 : month < 1 ? year - 1 : year;
-    navigate(`/events?filter=month&month=${month}&year=${year}`);
+    navigate(
+      `/events?filter=${filter}&day=${now.getDate()}&month=${
+        now.getMonth() + 1
+      }&year=${now.getFullYear()}`
+    );
   };
 
   const handleChangeViewToMonth = () => {
-    let month = params.get('month');
-    month = month ? month : (new Date().getMonth() + 1).toString();
-    let year = params.get('year');
-    year = year ? year : new Date().getFullYear().toString();
+    const currentDate = initialDate();
     (calendarRef.current as any).getApi().changeView('dayGridMonth');
-    navigate(`/events?filter=month&month=${month}&year=${year}`);
+    navigate(
+      `/events?filter=month&month=${
+        currentDate.getMonth() + 1
+      }&year=${currentDate.getFullYear()}`
+    );
+  };
+
+  const handleChangeViewToWeek = () => {
+    const currentDate = initialDate();
+    (calendarRef.current as any).getApi().changeView('timeGridWeek');
+    navigate(
+      `/events?filter=week&day=${currentDate.getDate()}&month=${
+        currentDate.getMonth() + 1
+      }&year=${currentDate.getFullYear()}`
+    );
   };
 
   const handleBackToday = () => {
@@ -131,23 +183,23 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
             text: 'Month',
             click: handleChangeViewToMonth,
           },
+          timeGridWeek: {
+            text: 'Week',
+            click: handleChangeViewToWeek,
+          },
           next: {
             text: 'Next',
             click: () => {
-              if (params.get('filter') === 'day') {
-                handleMoveDay(1);
-              } else {
-                handleMoveMonth(1);
+              if (navigation.state !== 'loading') {
+                handleMoveDate(1);
               }
             },
           },
           prev: {
             text: 'Prev',
             click: () => {
-              if (params.get('filter') === 'day') {
-                handleMoveDay(-1);
-              } else {
-                handleMoveMonth(-1);
+              if (navigation.state !== 'loading') {
+                handleMoveDate(-1);
               }
             },
           },
@@ -165,6 +217,8 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         events={formatDateArray}
         eventClick={handleEventClick}
         dayMaxEventRows={true}
+        initialView={initialView()}
+        initialDate={initialDate()}
       />
     </div>
   );
