@@ -1897,14 +1897,12 @@ image {
   padding: 34px;
 }
 .login-page .login-wrapper {
-  display: flex;
   height: 100%;
 }
 .login-page .login-content-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50%;
 }
 .login-page .login-content {
   display: flex;
@@ -1913,15 +1911,17 @@ image {
   min-width: 350px;
 }
 .login-page .login-content .login-title {
-  font-size: 120px;
+  font-size: 32px;
   font-weight: 700;
-  line-height: 0.8;
+  line-height: 1;
 }
 .login-page .login-content .login-sub-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   color: #1c1c1c;
   margin-bottom: 24px;
+  text-wrap: wrap;
+  text-align: center;
 }
 .login-page .login-content .login-form {
   width: 350px;
@@ -1957,14 +1957,20 @@ image {
   color: transparent;
 }
 .login-page .login-bg {
-  width: 50%;
   height: 100%;
 }
 .login-page .login-image {
   height: 100%;
   width: 100%;
+  object-fit: cover;
+  border-radius: 30px;
 }
 
+@media screen and (max-width: 1024px) {
+  .login-page .login-bg {
+    display: none;
+  }
+}
 .home {
   overflow-x: hidden;
   overflow-y: hidden;
