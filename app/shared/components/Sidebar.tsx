@@ -26,7 +26,8 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
           </h1>
         </Link>
       </div>
-      {navigation.state !== 'idle' ? (
+      {navigation.state !== 'idle' &&
+      navigation.location?.search.includes('?filter') ? (
         <Spinner />
       ) : (
         <>

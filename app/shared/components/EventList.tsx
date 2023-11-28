@@ -2,10 +2,12 @@ import { Link } from '@remix-run/react';
 import { convertDateToString } from '../utils/convertDateString';
 import { convertDateToNameDate } from '../utils/date';
 import type { EventData } from '../utils/types.server';
+import { ModalAction, ModalType } from './Modal';
 
 interface EventListProps {
   events: EventData[];
 }
+
 export default function EventList({ events }: EventListProps) {
   return (
     <ul className="event-list">
@@ -17,7 +19,7 @@ export default function EventList({ events }: EventListProps) {
           <Link
             key={event.id}
             className="event-link"
-            to={`/events/${event.id}/edit`}
+            to={`/events?modal-type=${ModalType.DATA}&modal-action=${ModalAction.SHOW_EVENT}&event-id=${event.id}`}
           >
             <li key={event.id} className="event-item">
               <div className="event">
