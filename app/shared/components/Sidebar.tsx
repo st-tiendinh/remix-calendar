@@ -11,7 +11,6 @@ interface SidebarProps {
 export default function Sidebar({ events }: SidebarProps) {
   const location = useLocation();
   const navigation = useNavigation();
-  console.log(navigation.location?.search);
 
   return (
     <div className="col col-3 sidebar">
