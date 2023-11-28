@@ -32,7 +32,7 @@ enum Role {
 }
 
 model Event {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
   date        DateTime
@@ -40,9 +40,10 @@ model Event {
   timeEnd     String
   location    String
   meetingLink String?
-  isPublised  Boolean  @default(true)
-  author      User     @relation(fields: [authorId], references: [id])
-  authorId    String   @db.ObjectId
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isPublised  Boolean   @default(true)
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String    @db.ObjectId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime? @map("deleted_at")
 }

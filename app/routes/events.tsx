@@ -1,6 +1,6 @@
 import { json, redirect, type LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { getEventsByDay, getEventsByMonth } from '~/server/event.server';
 import { prisma } from '~/server/prisma.server';
@@ -79,13 +79,17 @@ export default function EventList() {
     }
   }, [paramsValue]);
 
+  const [isShow, setIsShow] = useState(false);
+  console.log(isShow);
   return (
     <>
       <Modal modalProps={modalProps} />
       <div className="home">
         <div className="row">
-          <Sidebar events={events} />
-          <div className="col col-9">
+          <div className={`col col-3  sidebar ${isShow ? '' : 'sidebar-sm'}`}>
+            <Sidebar events={events} isShow={isShow} setIsShow={setIsShow} />
+          </div>
+          <div className={`col col-9 ${isShow ? '' : ' full-calendar'}`}>
             <CalendarWrapper eventList={events} />
           </div>
         </div>
