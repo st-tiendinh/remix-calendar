@@ -10,9 +10,8 @@ export const action: ActionFunction = async ({ params, request }) => {
   }
 
   if (!params.eventId) return json({ error: 'Event not found', status: 404 });
-
+  
   return await deleteEvent(params.eventId, userId);
-
 };
 
 export const loader: LoaderFunction = async ({ params, request }) => {

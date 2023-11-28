@@ -1,11 +1,11 @@
+import { useMemo, useRef } from 'react';
 import { useNavigate, useNavigation, useSearchParams } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-import { formatNumberToDateString } from '../utils/formatNumberToDateString';
-import { useRef } from 'react';
+import { formatTimeToISOString } from '../utils/formatNumberToDateString';
 import { ModalAction, ModalType } from './Modal';
 
 type CalendarWrapperProps = {
@@ -44,16 +44,18 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
       }
     }
   };
-
-  const formatDateArray = eventList.map((event: any) => {
-    return {
-      id: event.id,
-      title: event.title,
-      start: formatNumberToDateString(event.timeStart, event.date),
-      end: formatNumberToDateString(event.timeEnd, event.date),
-      durationEditable: true,
-    };
-  });
+    
+  const formatDateArray = useMemo(() => {
+    return eventList.map((event: any) => {
+      return {
+        id: event.id,
+        title: event.title,
+        start: formatTimeToISOString(event.timeStart, event.date),
+        end: formatTimeToISOString(event.timeEnd, event.date),
+        durationEditable: true,
+      };
+    });
+  }, [eventList]);
 
   const handleSelect = (info: any) => {
     console.log('info: ', info);

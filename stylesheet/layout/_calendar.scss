@@ -11,14 +11,11 @@
   .fc {
     &.fc-media-screen.fc-direction-ltr.fc-theme-standard {
       height: 100%;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     }
 
     .fc-toolbar-title {
-      font-size: 24px;
-      font-weight: 400;
+      font-size: 18px;
+      font-weight: 500;
     }
 
     &-timeGridWeek-button,
@@ -38,7 +35,7 @@
         transition: all 0.3s;
 
         &:hover {
-          background-color: #dc2626 !important;
+          background-color: #FF385C !important;
           color: #fff;
         }
       }
@@ -47,7 +44,7 @@
     &-timeGridDay-button.fc-button-primary:not(:disabled).fc-button-active,
     &-timeGridWeek-button.fc-button-primary:not(:disabled).fc-button-active,
     &-dayGridMonth-button.fc-button-primary:not(:disabled).fc-button-active {
-      background-color: #dc2626 !important;
+      background-color: #FF385C !important;
       color: #fff;
     }
 
