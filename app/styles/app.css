@@ -2175,7 +2175,6 @@ image {
   height: 100%;
   width: 100%;
   object-fit: cover;
-  border-radius: 30px;
 }
 
 @media screen and (max-width: 1024px) {

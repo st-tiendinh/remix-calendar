@@ -91,12 +91,16 @@ export default function Login() {
           <div className="login-content">
             <h1 className="login-title">LOGIN</h1>
             <h2 className="login-sub-title">Welcome to FE Calendar</h2>
-            <Form schema={schema} className="form login-form form-event" method="post">
+            <Form
+              schema={schema}
+              className="form login-form form-event"
+              method="post"
+            >
               {({ Field, Errors, register }) => (
                 <>
-                
-                    <Field name="email" className='form-input-group'>
-                      {({ Label, Errors }) => (
+                  <Field name="email" className="form-input-group">
+                    {({ Label, Errors }) => (
+                      <>
                         <div className="input-icons">
                           <i className={`icon icon-username`}></i>
                           <input
@@ -108,36 +112,36 @@ export default function Login() {
                               e.target.value = e.target.value.trim();
                             }}
                           />
-                          <div className="form-error">
-                            <Errors />
-                          </div>
                         </div>
-                      )}
-                    </Field>
-            
-               
-                    
-                      <Field name="password" className='form-input-group'>
-                        {({ Label, Errors }) => (
-                          <div className='input-icons'>
-                            <i className={`icon icon-password`}></i>
-                            <input
-                              type="password"
-                              {...register('password')}
-                              className="form-input"
-                              placeholder="Password"
-                              onBlur={(e) => {
-                                e.target.value = e.target.value.trim();
-                              }}
-                            />
-                            <div className="form-error">
-                              <Errors />
-                            </div>
-                          </div>
-                        )}
-                      </Field>
-                    
-                 
+                        <div className="form-error">
+                          <Errors />
+                        </div>
+                      </>
+                    )}
+                  </Field>
+
+                  <Field name="password" className="form-input-group">
+                    {({ Label, Errors }) => (
+                      <>
+                        <div className="input-icons">
+                          <i className={`icon icon-password`}></i>
+                          <input
+                            type="password"
+                            {...register('password')}
+                            className="form-input"
+                            placeholder="Password"
+                            onBlur={(e) => {
+                              e.target.value = e.target.value.trim();
+                            }}
+                          />
+                        </div>
+                        <div className="form-error">
+                          <Errors />
+                        </div>
+                      </>
+                    )}
+                  </Field>
+
                   <Errors className="error-text" />
                   <button
                     className={`btn login-btn ${
