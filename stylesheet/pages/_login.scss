@@ -33,45 +33,10 @@
     }
 
     .login-form {
-      width: 350px;
-      .form-field {
-        position: relative;
-      }
-
-      .form-input-group {
-        position: relative;
-        margin-bottom: 24px;
-
-        .icon {
-          position: absolute;
-          left: 10px;
-          top: 14px;
-          z-index: 10;
-        }
-      }
-
-      .error-text {
-        margin-top: 6px;
-        height: 10px;
-        font-size: map-get($font-size, $key: xs);
-        color: map-get($color, $key: red);
-        line-height: 1;
-      }
-
-      .form-input {
-        position: relative;
-        width: 100%;
-        padding: 16px 18px 16px 44px;
-        background-color: #fff;
-        border: 1px solid #d3d8e0;
-        color: #757575;
-        border-radius: 8px;
-
-        &:focus::placeholder {
-          color: transparent;
-        }
-      }
+      min-width: 350px;
+    
       .login-btn {
+        margin-top: 16px;
         background-color: #ff385c;
       }
     }

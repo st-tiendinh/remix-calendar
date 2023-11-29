@@ -91,13 +91,13 @@ export default function Login() {
           <div className="login-content">
             <h1 className="login-title">LOGIN</h1>
             <h2 className="login-sub-title">Welcome to FE Calendar</h2>
-            <Form schema={schema} className="form login-form" method="post">
+            <Form schema={schema} className="form login-form form-event" method="post">
               {({ Field, Errors, register }) => (
                 <>
-                  <div className="form-field">
-                    <Field name="email">
+                
+                    <Field name="email" className='form-input-group'>
                       {({ Label, Errors }) => (
-                        <div className="form-input-group">
+                        <div className="input-icons">
                           <i className={`icon icon-username`}></i>
                           <input
                             type="email"
@@ -108,18 +108,18 @@ export default function Login() {
                               e.target.value = e.target.value.trim();
                             }}
                           />
-                          <div className="error-text">
+                          <div className="form-error">
                             <Errors />
                           </div>
                         </div>
                       )}
                     </Field>
-                  </div>
-                  <div className="form-field">
-                    <div className="form-input-group">
-                      <Field name="password">
+            
+               
+                    
+                      <Field name="password" className='form-input-group'>
                         {({ Label, Errors }) => (
-                          <>
+                          <div className='input-icons'>
                             <i className={`icon icon-password`}></i>
                             <input
                               type="password"
@@ -130,14 +130,14 @@ export default function Login() {
                                 e.target.value = e.target.value.trim();
                               }}
                             />
-                            <div className="error-text">
+                            <div className="form-error">
                               <Errors />
                             </div>
-                          </>
+                          </div>
                         )}
                       </Field>
-                    </div>
-                  </div>
+                    
+                 
                   <Errors className="error-text" />
                   <button
                     className={`btn login-btn ${
