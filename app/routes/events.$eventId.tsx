@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { prisma } from '~/server/prisma.server';
 import { z } from 'zod';
 
-import SvgPenNibSolid from '~/shared/components/icons/PenNibSoLid';
+import SvgPenSolid from '~/shared/components/icons/IcPenSolid';
 import SvgCommentSolid from '~/shared/components/icons/CommentSolid';
 import SvgCalendarDaySolid from '~/shared/components/icons/CalendarDaySolid';
 import SvgClockSolid from '~/shared/components/icons/ClockSolid';
@@ -88,7 +88,7 @@ const Event = () => {
               <ul className="event-info-list">
                 <li className="event-info-item">
                   <div className="event-detail">
-                    <SvgPenNibSolid />
+                    <SvgPenSolid />
                     <p className="event-detail-info">{event.title}</p>
                   </div>
                 </li>

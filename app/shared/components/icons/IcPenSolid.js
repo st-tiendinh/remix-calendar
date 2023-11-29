@@ -1,5 +1,5 @@
 import * as React from 'react';
-const SvgPenNibSolid = (props) => (
+const SvgIcPenSolid = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={25}
@@ -13,4 +13,4 @@ const SvgPenNibSolid = (props) => (
     />
   </svg>
 );
-export default SvgPenNibSolid;
+export default SvgIcPenSolid;

@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react';
 import { Form } from '~/shared/components/RemixForm';
 import { type EventData } from '../utils/types.server';
 
-import SvgPenNibSolid from '~/shared/components/icons/PenNibSoLid';
+import SvgPenSolid from '~/shared/components/icons/IcPenSolid';
 import SvgCommentSolid from '~/shared/components/icons/CommentSolid';
 import SvgCalendarDaySolid from '~/shared/components/icons/CalendarDaySolid';
 import SvgClockSolid from '~/shared/components/icons/ClockSolid';
@@ -89,7 +89,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               {({ Label, Errors }) => (
                 <>
                   <div className="input-icons">
-                    <SvgPenNibSolid />
+                    <SvgPenSolid />
                     <input
                       type="text"
                       {...register('title')}
