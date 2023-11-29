@@ -1,6 +1,7 @@
 @import 'react-calendar/dist/Calendar.css';
 
 .mini-calendar {
+  margin-bottom: 16px;
   .react-calendar {
     border: 0;
 
@@ -19,7 +20,7 @@
       .react-calendar__navigation__prev-button,
       .react-calendar__navigation__next-button {
         position: absolute;
-        font-size: 24px;
+        font-size: 34px;
         padding: 6px;
       }
       .react-calendar__navigation__prev2-button,
@@ -30,22 +31,34 @@
         right: 0;
       }
       .react-calendar__navigation__prev-button {
-        right: 44px;
+        right: 46px;
       }
     }
     &__month-view__days {
+      gap: 8px;
       .react-calendar__tile {
-        padding: 10px;
+        position: relative;
+        &.active::after {
+          content: '';
+          width: 5px;
+          height: 5px;
+          background-color: #3b82f6;
+          border-radius: 50%;
+          position: absolute;
+          bottom: 2px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
         &--now {
           font-weight: 700;
           background-color: #ff385c;
           color: #fff;
+          &.active::after {
+            background-color: #fff;
+          }
         }
         &:enabled {
           border-radius: 50%;
-          // background-color: #3b82f6;
-        }
-        &:hover {
         }
       }
     }
