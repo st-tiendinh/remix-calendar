@@ -1,10 +1,9 @@
-import { useMemo, useRef } from 'react';
 import { useNavigate, useNavigation, useSearchParams } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-
+import { useEffect, useRef, useMemo } from 'react';
 import { formatTimeToISOString } from '../utils/formatNumberToDateString';
 import { ModalAction, ModalType } from './Modal';
 import CalendarColumnHeader from './CalendarColumnHeader';
@@ -30,6 +29,20 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const calendarRef = useRef(null);
 
   /* === Customize calendar event === */
+  useEffect(() => {
+    const filter = params.get('filter');
+    if (filter) {
+      const currentDate = initialDate();
+      const viewType: any = {
+        day: 'timeGridDay',
+        week: 'timeGridWeek',
+        month: 'dayGridMonth',
+      };
+      (calendarRef.current as any).getApi().changeView(viewType[`${filter}`]);
+      (calendarRef.current as any).getApi().gotoDate(currentDate);
+    }
+  }, [params]);
+
   const initialDate = () => {
     const day = params.get('day') ? params.get('day') : new Date().getDate();
     const month = params.get('month')

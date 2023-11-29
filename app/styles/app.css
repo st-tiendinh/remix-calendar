@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+@import 'react-calendar/dist/Calendar.css';
 *,
 *::after,
 *::before {
@@ -523,6 +524,70 @@ image {
 .custom-event-wrapper .custom-event-time, .custom-event-wrapper .custom-event-title {
   font-weight: 500;
   font-size: 12px;
+}
+
+.mini-calendar {
+  margin-bottom: 16px;
+}
+.mini-calendar .react-calendar {
+  border: 0;
+}
+.mini-calendar .react-calendar__navigation__label__labelText {
+  color: #ff385c;
+  font-size: 24px;
+  font-weight: 600;
+}
+.mini-calendar .react-calendar .react-calendar__navigation {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.mini-calendar .react-calendar .react-calendar__navigation .react-calendar__navigation__label {
+  flex-grow: 0 !important;
+}
+.mini-calendar .react-calendar .react-calendar__navigation .react-calendar__navigation__prev-button,
+.mini-calendar .react-calendar .react-calendar__navigation .react-calendar__navigation__next-button {
+  position: absolute;
+  font-size: 34px;
+  padding: 6px;
+}
+.mini-calendar .react-calendar .react-calendar__navigation .react-calendar__navigation__prev2-button,
+.mini-calendar .react-calendar .react-calendar__navigation .react-calendar__navigation__next2-button {
+  display: none;
+}
+.mini-calendar .react-calendar .react-calendar__navigation .react-calendar__navigation__next-button {
+  right: 0;
+}
+.mini-calendar .react-calendar .react-calendar__navigation .react-calendar__navigation__prev-button {
+  right: 46px;
+}
+.mini-calendar .react-calendar__month-view__days {
+  gap: 8px;
+}
+.mini-calendar .react-calendar__month-view__days .react-calendar__tile {
+  position: relative;
+}
+.mini-calendar .react-calendar__month-view__days .react-calendar__tile.active::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.mini-calendar .react-calendar__month-view__days .react-calendar__tile--now {
+  font-weight: 700;
+  background-color: #ff385c;
+  color: #fff;
+}
+.mini-calendar .react-calendar__month-view__days .react-calendar__tile--now.active::after {
+  background-color: #fff;
+}
+.mini-calendar .react-calendar__month-view__days .react-calendar__tile:enabled {
+  border-radius: 50%;
 }
 
 .container {
@@ -1983,7 +2048,6 @@ image {
 
 .login-page {
   height: 100vh;
-  padding: 34px;
 }
 .login-page .login-wrapper {
   height: 100%;
@@ -2007,7 +2071,7 @@ image {
 .login-page .login-content .login-sub-title {
   font-size: 16px;
   font-weight: 500;
-  color: #1c1c1c;
+  color: #525252;
   margin-bottom: 24px;
   text-wrap: wrap;
   text-align: center;
@@ -2039,11 +2103,16 @@ image {
   position: relative;
   width: 100%;
   padding: 16px 18px 16px 44px;
-  background-color: #f2f2f2;
-  border-radius: 13px;
+  background-color: #fff;
+  border: 1px solid #d3d8e0;
+  color: #757575;
+  border-radius: 8px;
 }
 .login-page .login-content .login-form .form-input:focus::placeholder {
   color: transparent;
+}
+.login-page .login-content .login-form .login-btn {
+  background-color: #ff385c;
 }
 .login-page .login-bg {
   height: 100%;
