@@ -1,0 +1,66 @@
+@import 'react-calendar/dist/Calendar.css';
+
+.mini-calendar {
+  margin-bottom: 16px;
+  .react-calendar {
+    border: 0;
+
+    &__navigation__label__labelText {
+      color: #ff385c;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .react-calendar__navigation {
+      display: flex;
+      align-items: center;
+      position: relative;
+      .react-calendar__navigation__label {
+        flex-grow: 0 !important;
+      }
+      .react-calendar__navigation__prev-button,
+      .react-calendar__navigation__next-button {
+        position: absolute;
+        font-size: 34px;
+        padding: 6px;
+      }
+      .react-calendar__navigation__prev2-button,
+      .react-calendar__navigation__next2-button {
+        display: none;
+      }
+      .react-calendar__navigation__next-button {
+        right: 0;
+      }
+      .react-calendar__navigation__prev-button {
+        right: 46px;
+      }
+    }
+    &__month-view__days {
+      gap: 8px;
+      .react-calendar__tile {
+        position: relative;
+        &.active::after {
+          content: '';
+          width: 5px;
+          height: 5px;
+          background-color: #3b82f6;
+          border-radius: 50%;
+          position: absolute;
+          bottom: 2px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        &--now {
+          font-weight: 700;
+          background-color: #ff385c;
+          color: #fff;
+          &.active::after {
+            background-color: #fff;
+          }
+        }
+        &:enabled {
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
