@@ -75,10 +75,12 @@
     }
 
     .event-list {
+      position: relative;
       display: flex;
       flex-direction: column;
       gap: 12px;
       line-height: 16px;
+      min-height: 200px;
       .event-item {
         display: flex;
         align-items: flex-start;

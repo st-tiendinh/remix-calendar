@@ -1,4 +1,4 @@
-import { json, type LoaderFunction } from '@remix-run/node';
+import { json, redirect, type LoaderFunction } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -33,8 +33,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       yearParams as string
     );
   }
-  if (!events) {
-    return json({ error: 'Events Not Found', status: 404 });
+  const eventsByMonth = await getEventsByMonth(
+    monthParams as string,
+    yearParams as string
+  );
+  if (!events || !eventsByMonth) {
+    return redirect('?error= Event not found!!');
   }
 
   return json({ events, status: 200, paramsValue });
@@ -43,7 +47,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
   const { events, paramsValue } = data;
-
+  const [isShow, setIsShow] = useState(true);
+  
   useEffect(() => {
     if (paramsValue?.success) {
       toast.success(`${paramsValue?.success}`);
@@ -52,7 +57,6 @@ export default function EventList() {
     }
   }, [paramsValue]);
 
-  const [isShow, setIsShow] = useState(false);
   return (
     <>
 
