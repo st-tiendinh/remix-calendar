@@ -83,8 +83,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
-
   const { events, paramsValue, modalProps } = data;
+  const [isShow, setIsShow] = useState(true);
 
   useEffect(() => {
     if (paramsValue?.success) {
@@ -94,7 +94,6 @@ export default function EventList() {
     }
   }, [paramsValue]);
 
-  const [isShow, setIsShow] = useState(true);
   return (
     <>
       <Modal modalProps={modalProps} />
