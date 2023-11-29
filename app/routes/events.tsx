@@ -1,13 +1,12 @@
-import { json, redirect, type LoaderFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { json, type LoaderFunction } from '@remix-run/node';
+import { Outlet, useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { getEventsByDay, getEventsByMonth } from '~/server/event.server';
-import { prisma } from '~/server/prisma.server';
+
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
-import Modal from '~/shared/components/Modal';
 import Sidebar from '~/shared/components/Sidebar';
-import { resolveModal } from '~/shared/helper/resolveModal.server';
+
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -38,38 +37,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return json({ error: 'Events Not Found', status: 404 });
   }
 
-  const id = paramsValue.eventId;
-
-  if (id) {
-    const event = await prisma.event.findUnique({
-      where: { id },
-    });
-
-    if (!event) return redirect('?error= Event not found!!');
-
-    const author = await prisma.user.findUnique({
-      where: { id: event.authorId },
-    });
-
-    const eventData = { ...event, authorName: author?.profile };
-
-    return resolveModal(
-      paramsValue,
-      { eventData, eventId: id },
-      {
-        events,
-        status: 200,
-        paramsValue,
-      }
-    );
-  }
-
   return json({ events, status: 200, paramsValue });
 };
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
-  const { events, paramsValue, modalProps } = data;
+  const { events, paramsValue } = data;
 
   useEffect(() => {
     if (paramsValue?.success) {
@@ -80,10 +53,9 @@ export default function EventList() {
   }, [paramsValue]);
 
   const [isShow, setIsShow] = useState(false);
-  console.log(isShow);
   return (
     <>
-      <Modal modalProps={modalProps} />
+
       <div className="home">
         <div className="row">
           <div className={`col col-3  sidebar ${isShow ? '' : 'sidebar-sm'}`}>
@@ -94,6 +66,7 @@ export default function EventList() {
           </div>
         </div>
       </div>
+      <Outlet />
     </>
   );
 }

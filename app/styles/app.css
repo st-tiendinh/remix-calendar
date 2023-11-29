@@ -162,17 +162,45 @@ image {
   font-size: 18px;
 }
 
+.input-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-block: 8px;
+  padding: 8px;
+  border-radius: 9px;
+  border: 1px solid #d3d8e0;
+  background: #fff;
+}
+.input-icons:hover {
+  border: 1px solid #1c1c1c;
+}
+.input-icons:focus-within {
+  border: 1px solid #1c1c1c;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .form-input {
-  padding: 12px 14px;
+  padding-left: 4px;
   border-radius: 8px;
-  background-color: #f2f2f2;
+  height: 25px;
+  flex: 1;
 }
 .form-input::placeholder {
-  font-size: 16px;
+  font-size: 14px;
   color: #d8d7d7;
 }
 .form-input:focus::placeholder {
   color: transparent;
+}
+.form-input:focus .input-icons {
+  border: 1px solid #1c1c1c;
 }
 
 .form-error {
@@ -191,6 +219,36 @@ image {
 
 .form-input-group {
   flex-direction: column;
+}
+
+.form-title {
+  font-size: 29px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 38px;
+}
+
+.form-btn-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+.form-btn-group .form-btn {
+  font-weight: 700;
+  font-size: 20px;
+  padding: 12px 80px;
+  border-radius: 12px;
+  height: 52px;
+  cursor: pointer;
+}
+.form-btn-group .cancel {
+  color: rgba(21, 25, 32, 0.5);
+  background-color: #f5f7fb;
+}
+.form-btn-group .save {
+  background-color: #ff385c;
+  color: #fff;
 }
 
 .btn-add {
@@ -280,11 +338,12 @@ image {
 }
 .btn.btn-modal-close {
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50% !important;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+}
+.btn.btn-modal-close:hover {
   background-color: #f4f4f5;
 }
 .btn.loading::after {
@@ -331,49 +390,60 @@ image {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  z-index: 999;
+  z-index: 99;
   border-radius: 10px;
 }
-.modal-wrapper .modal .modal-confirm {
-  width: 400px;
+.modal-wrapper .modal-confirm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 500px;
   border-radius: 12px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   padding: 16px;
+  z-index: 9999;
 }
-.modal-wrapper .modal .modal-confirm-title {
+.modal-wrapper .modal-confirm-title {
+  font-size: 32px;
+  text-align: center;
+  font-weight: 500;
   margin-bottom: 20px;
 }
-.modal-wrapper .modal .modal-confirm-footer {
+.modal-wrapper .modal-confirm-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   gap: 16px;
 }
-.modal-wrapper .modal .modal-confirm-footer .btn-confirm {
-  height: 40px;
-  padding: 6px 16px;
-  border-radius: 8px;
-  border: none;
-  background-color: #dc2626;
+.modal-wrapper .modal-confirm-footer .btn-confirm {
+  font-weight: 700;
+  font-size: 20px;
+  padding: 12px 80px;
+  border-radius: 12px;
+  height: 52px;
+  background-color: #ff385c;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
-.modal-wrapper .modal .modal-confirm-footer .btn-confirm:hover {
-  background-color: #b21d1d;
+.modal-wrapper .modal-confirm-footer .btn-confirm:hover {
+  background-color: #ff0532;
 }
-.modal-wrapper .modal .modal-confirm-footer .btn-cancel {
-  height: 40px;
-  padding: 6px 16px;
-  border-radius: 8px;
-  border: 1px solid #f3f3f3;
-  color: #000000;
-  font-size: 16px;
+.modal-wrapper .modal-confirm-footer .btn-cancel {
+  font-weight: 700;
+  font-size: 20px;
+  padding: 12px 80px;
+  border-radius: 12px;
+  height: 52px;
+  color: rgba(21, 25, 32, 0.5);
+  background-color: #f5f7fb;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
-.modal-wrapper .modal .modal-confirm-footer .btn-cancel:hover {
+.modal-wrapper .modal-confirm-footer .btn-cancel:hover {
   background-color: #f0f0f0;
 }
 
@@ -438,8 +508,8 @@ image {
 }
 
 .modal-event-wrapper {
-  width: 440px;
-  padding: 12px;
+  width: 530px;
+  padding: 24px 28px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   border-radius: 10px;
   max-height: 600px;
@@ -449,52 +519,60 @@ image {
 .modal-event-wrapper .modal-event-header {
   display: flex;
   justify-content: flex-end;
-  padding: 10px 0 20px;
+  margin-bottom: 20px;
+  gap: 8px;
+  transition: all 0.2s ease-in-out;
 }
-.modal-event-wrapper .modal-event-header .btn-modal-link,
-.modal-event-wrapper .modal-event-header .btn-modal-close {
-  margin-left: 12px;
+.modal-event-wrapper .modal-event-header .btn-modal-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
 }
-.modal-event-wrapper .event-detail-wrapper {
-  width: 100%;
+.modal-event-wrapper .modal-event-header .btn-modal-link:hover {
+  background-color: #f4f4f5;
 }
-.modal-event-wrapper .event-detail-wrapper .event-detail-title {
-  font-size: 18px;
-  font-weight: 500;
+.modal-event-wrapper .event-detail-wrapper .event-detail {
+  font-size: 16px;
+  font-weight: 400;
 }
 .modal-event-wrapper .event-detail-wrapper .event-info-list {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+}
+.modal-event-wrapper .event-detail-wrapper .event-info-row {
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.modal-event-wrapper .event-detail-wrapper .event-info-col {
+  padding: 14px;
+  border: 1px solid #eee;
+  gap: 8px;
+  border-radius: 10px;
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 .modal-event-wrapper .event-detail-wrapper .event-info-item {
   padding: 14px;
   border: 1px solid #eee;
   border-radius: 10px;
 }
-.modal-event-wrapper .event-detail-wrapper .event-info-item:not(:last-child) {
-  margin-bottom: 12px;
-}
 .modal-event-wrapper .event-detail-wrapper .event-info-item .event-detail {
   display: flex;
-}
-.modal-event-wrapper .event-detail-wrapper .event-info-item .event-detail-date-wrapper {
-  font-size: 14px;
-  font-weight: 400;
-}
-.modal-event-wrapper .event-detail-wrapper .event-info-item .event-detail-icon {
-  display: flex;
-  justify-content: center;
-  width: 24px;
-  margin-right: 16px;
+  align-items: center;
+  gap: 8px;
 }
 .modal-event-wrapper .event-detail-wrapper .event-info-item .event-detail-info {
-  width: 100%;
   font-size: 14px;
   font-weight: 400;
-}
-.modal-event-wrapper .event-detail-wrapper .event-info-item .event-detail-link {
-  font-size: 15px;
-  font-weight: 400;
+  flex: 1;
 }
 
 .container {

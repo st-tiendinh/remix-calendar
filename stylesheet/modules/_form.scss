@@ -6,16 +6,48 @@
   font-size: map-get($font-size, $key: lg);
 }
 
+.input-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-block: 8px;
+  padding: 8px;
+  border-radius: 9px;
+  border: 1px solid #d3d8e0;
+  background: #fff;
+  &:hover {
+    border: 1px solid #1c1c1c;
+  }
+  &:focus-within {
+    border: 1px solid #1c1c1c;
+  }
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .form-input {
-  padding: 12px 14px;
+  padding-left: 4px;
   border-radius: 8px;
-  background-color: #f2f2f2;
+  height: 25px;
+  flex: 1;
+  // padding-top: 2px;
   &::placeholder {
-    font-size: 16px;
+    font-size: 14px;
     color: #d8d7d7;
   }
   &:focus::placeholder {
     color: transparent;
+  }
+  &:focus {
+    .input-icons {
+      // your styles here
+      border: 1px solid #1c1c1c;
+    }
   }
 }
 
@@ -34,6 +66,38 @@
 .form-input-group {
   flex-direction: column;
 }
+
+.form-title {
+  font-size: 29px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 38px;
+}
+
+.form-btn-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+
+  .form-btn {
+    font-weight: 700;
+    font-size: 20px;
+    padding: 12px 80px;
+    border-radius: 12px;
+    height: 52px;
+    cursor: pointer;
+  }
+  .cancel {
+    color: rgba(21, 25, 32, 0.5);
+    background-color: #f5f7fb;
+  }
+  .save {
+    background-color: #ff385c;
+    color: #fff;
+  }
+}
+
 .btn-add {
   width: 100%;
   border-radius: 8px;

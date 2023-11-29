@@ -1,6 +1,6 @@
 .modal-event-wrapper {
-  width: 440px;
-  padding: 12px;
+  width: 530px;
+  padding: 24px 28px;
   box-shadow:
     rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
@@ -12,28 +12,58 @@
   .modal-event-header {
     display: flex;
     justify-content: flex-end;
-    padding: 10px 0 20px;
+    margin-bottom: 20px;
+    gap: 8px;
+    transition: all 0.2s ease-in-out;
 
-    .btn-modal-link,
-    .btn-modal-close {
-      margin-left: 12px;
+    
+
+    .btn-modal-link{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      border-radius: 50%;
+     
+  
+      
+      &:hover {
+        background-color: map-get($color, 'gray-f4');
+      }
     }
+  
   }
 
   .event-detail-wrapper {
-    width: 100%;
-
     .event-detail {
-      &-title {
-        font-size: 18px;
-        font-weight: 500;
-      }
+      font-size: 16px;
+      font-weight: 400;
     }
 
     .event-info {
       &-list {
         display: flex;
         flex-direction: column;
+        gap: 16px;
+      }
+
+      &-row {
+        font-size: 16px;
+        font-weight: 400;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+      }
+
+      &-col {
+        padding: 14px;
+        border: 1px solid #eee;
+        gap: 8px;
+        border-radius: 10px;
+        flex: 1;
+        display: flex;
+        align-items: center;
       }
 
       &-item {
@@ -41,34 +71,14 @@
         border: 1px solid #eee;
         border-radius: 10px;
 
-        &:not(:last-child) {
-          margin-bottom: 12px;
-        }
-
         .event-detail {
           display: flex;
-
-          &-date-wrapper {
-            font-size: 14px;
-            font-weight: 400;
-          }
-
-          &-icon {
-            display: flex;
-            justify-content: center;
-            width: 24px;
-            margin-right: 16px;
-          }
-
+          align-items: center;
+          gap: 8px;
           &-info {
-            width: 100%;
             font-size: 14px;
             font-weight: 400;
-          }
-
-          &-link {
-            font-size: 15px;
-            font-weight: 400;
+            flex: 1;
           }
         }
       }

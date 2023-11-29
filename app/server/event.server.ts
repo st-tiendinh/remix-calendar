@@ -35,7 +35,7 @@ export const deleteEvent = async (eventId: string, userId: string) => {
 
   if (event.authorId !== userId) {
     return redirect(
-      `/events/${eventId}/edit?error=You are not authorized to delete this event`
+      `/events/${eventId}?error=You are not authorized to delete this event`
     );
   } else {
     deleteEventMiddleWare();

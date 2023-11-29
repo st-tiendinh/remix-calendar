@@ -6,7 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 import { formatTimeToISOString } from '../utils/formatNumberToDateString';
 import { useMemo, useRef } from 'react';
-import { ModalAction, ModalType } from './Modal';
+
 
 type CalendarWrapperProps = {
   eventList: any;
@@ -35,7 +35,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
 
   const handleEventClick = (info: any) => {
     navigate(
-      `/events?modal-type=${ModalType.DATA}&modal-action=${ModalAction.SHOW_EVENT}&event-id=${info.event._def.publicId}`
+      `/events/${info.event._def.publicId}`
     );
   };
 

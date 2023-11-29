@@ -9,7 +9,7 @@
 .sidebar {
   position: relative;
   height: 100vh;
-  padding: 20px  24px 20px 34px;
+  padding: 20px 24px 20px 34px;
   overflow: scroll;
   border-right: 1px solid #d6d6d6;
   animation: slideInFromLeft 0.5s ease-in-out;
@@ -143,7 +143,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 20px; 
     }
     .icon-trash {
       color: map-get($color, $key: red);
@@ -161,5 +161,7 @@
     .form-input-group {
       margin-bottom: 12px;
     }
+
+    
   }
 }
