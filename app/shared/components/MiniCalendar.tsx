@@ -1,8 +1,8 @@
 import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import { EventData } from '../utils/types.server';
-import { LoaderFunction } from '@remix-run/node';
+import type { EventData } from '../utils/types.server';
+import type { LoaderFunction } from '@remix-run/node';
 
 export const loader: LoaderFunction = async ({}) => {
   return null;
@@ -30,7 +30,7 @@ export default function MiniCalendar() {
       inputDate.getTime() - inputDate.getTimezoneOffset() * 60000
     );
     const formattedInputDate = inputDateUTC.toISOString().split('T')[0];
-    const found = events.some((item) => {
+    const found = events?.some((item) => {
       const itemDate = new Date(item.date).toISOString().split('T')[0];
       return itemDate === formattedInputDate;
     });

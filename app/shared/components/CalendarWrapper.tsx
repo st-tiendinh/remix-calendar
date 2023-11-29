@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useEffect, useRef, useMemo } from 'react';
 import { formatTimeToISOString } from '../utils/formatNumberToDateString';
-import { ModalAction, ModalType } from './Modal';
+
 import CalendarColumnHeader from './CalendarColumnHeader';
 import CalendarEventBar from './CalendarEventBar';
 import type { CalendarEvent } from '../utils/types.server';
@@ -151,23 +151,21 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   };
 
   /* === Handle event of calendar === */
-  const handleSelect = (info: any) => {
-    // console.log('info: ', info);
-  };
 
   const handleEventClick = (info: any) => {
     navigate(
-      `/events?modal-type=${ModalType.DATA}&modal-action=${ModalAction.SHOW_EVENT}&event-id=${info.event._def.publicId}`
+      `/events/${info.event._def.publicId}`
     );
   };
 
   const handleGetAllDayEvents = () => {
     (calendarRef.current as any).getApi().changeView('timeGridDay');
     (calendarRef.current as any).getApi().gotoDate(new Date());
-    const now = new Date().toLocaleDateString();
-    const month = now.split('/')[0];
-    const day = now.split('/')[1];
-    const year = now.split('/')[2];
+    const now = new Date();
+  
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const year = now.getFullYear();
     navigate(`/events?filter=day&day=${day}&month=${month}&year=${year}`);
   };
 
@@ -296,7 +294,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         nowIndicator={true}
         editable={true}
         selectable={true}
-        select={handleSelect}
         dayMaxEventRows={true}
         dayHeaderContent={customizeDayHeaderContent}
         events={formatDateArray}

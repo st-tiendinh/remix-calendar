@@ -1,14 +1,12 @@
 import { json, redirect, type LoaderFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Outlet, useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { getUserId } from '~/server/auth.server';
 import { getEventsByDay, getEventsByMonth } from '~/server/event.server';
-import { prisma } from '~/server/prisma.server';
+
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
-import Modal from '~/shared/components/Modal';
 import Sidebar from '~/shared/components/Sidebar';
-import { resolveModal } from '~/shared/helper/resolveModal.server';
+
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -40,52 +38,17 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     yearParams as string
   );
   if (!events || !eventsByMonth) {
-    return json({ error: 'Events Not Found', status: 404 });
+    return redirect('?error= Event not found!!');
   }
 
-  const id = paramsValue.eventId;
-
-  if (id) {
-    const event = await prisma.event.findUnique({
-      where: { id },
-    });
-
-    if (!event) return redirect('?error= Event not found!!');
-
-    const author = await prisma.user.findUnique({
-      where: { id: event.authorId },
-    });
-
-    const currentUserId = await getUserId(request);
-
-    const eventData = {
-      ...event,
-      author: {
-        name: author?.profile,
-        ...(author?.id === currentUserId && { id: currentUserId }),
-      },
-    };
-
-    return resolveModal(
-      paramsValue,
-      { eventData, eventId: id },
-      {
-        events,
-        eventsByMonth,
-        status: 200,
-        paramsValue,
-      }
-    );
-  }
-
-  return json({ events, status: 200, paramsValue, eventsByMonth });
+  return json({ events, status: 200, paramsValue });
 };
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
-  const { events, paramsValue, modalProps } = data;
+  const { events, paramsValue } = data;
   const [isShow, setIsShow] = useState(true);
-
+  
   useEffect(() => {
     if (paramsValue?.success) {
       toast.success(`${paramsValue?.success}`);
@@ -96,7 +59,7 @@ export default function EventList() {
 
   return (
     <>
-      <Modal modalProps={modalProps} />
+
       <div className="home">
         <div className="row">
           <div className={`col col-3  sidebar ${isShow ? '' : 'sidebar-sm'}`}>
@@ -107,6 +70,7 @@ export default function EventList() {
           </div>
         </div>
       </div>
+      <Outlet />
     </>
   );
 }

@@ -14,6 +14,12 @@ interface SidebarProps {
 export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
   const location = useLocation();
   const navigation = useNavigation();
+  console.log(
+    navigation.state,
+    navigation?.location?.pathname,
+    location.pathname,
+    navigation.formData
+  );
 
   return (
     <>
@@ -28,58 +34,59 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
         </Link>
       </div>
 
-      {location.pathname === '/events' ? (
-        <>
-          <Link
-            className={`btn-create ${isShow ? '' : 'sm'} `}
-            to="/events/create"
-          >
-            <i className="icon icon-plus-circle"></i>
+      <>
+        <Link
+          className={`btn-create ${isShow ? '' : 'sm'} `}
+          to="/events/create"
+        >
+          <i className="icon icon-plus-circle"></i>
 
-            <span className={`btn-create-text ${isShow ? null : 'hide'}`}>
-              CREATE
+          <span className={`btn-create-text ${isShow ? null : 'hide'}`}>
+            CREATE
+          </span>
+        </Link>
+        <div className={`${isShow ? '' : 'hide'}`}>
+        <MiniCalendar />
+        </div>
+        
+        <div className={`today-event ${isShow ? '' : 'hide'}`}>
+          <div className="event-header">
+            <h3 className="event-header-title">Today's Events:</h3>
+            <span className="event-date">
+              {new Date().toLocaleDateString()}
             </span>
-          </Link>
-          <MiniCalendar />
-          <div className={`today-event ${isShow ? '' : 'hide'}`}>
-            <div className="event-header">
-              <h3 className="event-header-title">Today's Events:</h3>
-              <span className="event-date">
-                {new Date().toLocaleDateString()}
-              </span>
-            </div>
-            {navigation.state !== 'idle' ? (
-              <Spinner />
-            ) : (
-              <ul className="event-list">
-                {events.map((event) => (
-                  <li key={event.title} className="event-item">
-                    <p>
-                      <i className="icon icon-active-event"></i>
-                    </p>
-                    <div className="event-detail">
-                      <div className="event-info">
-                        <span className="event-time">
-                          {event.timeStart} - {event.timeEnd}
-                        </span>
-                        {event.meetingLink && (
-                          <span className="icon-wrapper">
-                            <i className="icon icon-camera"></i>
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="event-title">{event.title}</h3>
-                      <p className="event-meeting-link">{event.meetingLink}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
-        </>
-      ) : (
-        <Outlet />
-      )}
+          {navigation.state !== 'idle' ? (
+            <ul className="event-list">
+              <Spinner />
+            </ul>
+          ) : (
+            <ul className="event-list">
+              {events.map((event) => (
+                <li key={event.title} className="event-item">
+                  <p>
+                    <i className="icon icon-active-event"></i>
+                  </p>
+                  <div className="event-detail">
+                    <div className="event-info">
+                      <span className="event-time">
+                        {event.timeStart} - {event.timeEnd}
+                      </span>
+                      {event.meetingLink && (
+                        <span className="icon-wrapper">
+                          <i className="icon icon-camera"></i>
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="event-title">{event.title}</h3>
+                    <p className="event-meeting-link">{event.meetingLink}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </>
     </>
   );
 }
