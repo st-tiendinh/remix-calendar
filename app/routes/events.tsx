@@ -41,7 +41,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return redirect('?error= Event not found!!');
   }
 
-  return json({ events, status: 200, paramsValue });
+  return json({ events, status: 200, paramsValue, eventsByMonth });
 };
 
 export default function EventList() {
