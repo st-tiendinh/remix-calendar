@@ -22,6 +22,22 @@ export type EventData = {
   authorId: string;
 };
 
+export type CalendarEvent = {
+  authorId: string;
+  createdAt: string;
+  date: string;
+  deletedAt: null | string;
+  description: string;
+  id: string;
+  isPublised: boolean;
+  location: string;
+  meetingLink: null | string;
+  timeEnd: string;
+  timeStart: string;
+  title: string;
+  updatedAt: string;
+};
+
 export type ActionData = {
   error?: string | undefined;
   message?: string | undefined;

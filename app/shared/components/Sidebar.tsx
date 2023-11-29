@@ -32,15 +32,13 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
       ) : (
         <>
           {location.pathname === '/events' ? (
-            // <EventList events={events} />
             <>
               <Link
                 className={`btn-create ${isShow ? '' : 'sm'} `}
                 to="/events/create"
               >
-          
-                  <i className="icon icon-plus-circle"></i>
-        
+                <i className="icon icon-plus-circle"></i>
+
                 <span className={`btn-create-text ${isShow ? null : 'hide'}`}>
                   CREATE
                 </span>

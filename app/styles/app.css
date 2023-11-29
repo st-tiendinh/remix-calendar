@@ -497,6 +497,34 @@ image {
   font-weight: 400;
 }
 
+.custom-event-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  gap: 2px;
+  overflow: hidden;
+}
+.custom-event-wrapper .custom-event-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+}
+.custom-event-wrapper .custom-event-time-wrapper {
+  display: flex;
+  align-items: center;
+}
+.custom-event-wrapper .custom-event-time {
+  line-height: 20px;
+  margin-right: 4px;
+}
+.custom-event-wrapper .custom-event-time, .custom-event-wrapper .custom-event-title {
+  font-weight: 500;
+  font-size: 12px;
+}
+
 .container {
   max-width: 1152px;
   width: 100%;
@@ -680,29 +708,9 @@ image {
   height: calc(100vh + 40px) !important;
   overflow-y: scroll !important;
 }
-.calendar-wrapper .fc .fc-event.fc-event-draggable.fc-event-resizable.fc-event-start.fc-event-end.fc-event-future.fc-timegrid-event.fc-v-event.meeting-link {
-  padding: 6px;
-  color: #6d28d9;
-  border: none;
-  border-left: 3px solid #6d28d9;
-  border-radius: 4px;
-  background: rgba(139, 92, 246, 0.1);
-}
-.calendar-wrapper .fc .fc-event.fc-event-draggable.fc-event-resizable.fc-event-start.fc-event-end.fc-event-future.fc-timegrid-event.fc-v-event.meeting-link .fc-event-time,
-.calendar-wrapper .fc .fc-event.fc-event-draggable.fc-event-resizable.fc-event-start.fc-event-end.fc-event-future.fc-timegrid-event.fc-v-event.meeting-link .fc-event-title.fc-sticky {
-  color: #6d28d9;
-}
-.calendar-wrapper .fc .fc-event.fc-event-draggable.fc-event-resizable.fc-event-start.fc-event-end.fc-event-future.fc-timegrid-event.fc-v-event.no-meeting-link {
-  padding: 6px;
-  color: #0369a1 !important;
-  border: none;
-  border-left: 3px solid #0369a1;
-  border-radius: 4px;
-  background: rgba(14, 165, 233, 0.1);
-}
-.calendar-wrapper .fc .fc-event.fc-event-draggable.fc-event-resizable.fc-event-start.fc-event-end.fc-event-future.fc-timegrid-event.fc-v-event.no-meeting-link .fc-event-time,
-.calendar-wrapper .fc .fc-event.fc-event-draggable.fc-event-resizable.fc-event-start.fc-event-end.fc-event-future.fc-timegrid-event.fc-v-event.no-meeting-link .fc-event-title.fc-sticky {
-  color: #0369a1;
+.calendar-wrapper .fc .fc-daygrid-day-top {
+  flex-direction: row;
+  padding-left: 6px;
 }
 .calendar-wrapper .fc .event-icon-wrapper {
   display: flex;
@@ -712,8 +720,14 @@ image {
   width: 14px;
   height: 14px;
 }
+.calendar-wrapper .fc .fc-daygrid-more-link.fc-more-link {
+  float: right;
+}
 .calendar-wrapper .fc .fc-daygrid-event-dot {
   display: none;
+}
+.calendar-wrapper .fc .fc-event-main {
+  overflow: hidden;
 }
 .calendar-wrapper .fc .fc-event-main-frame {
   display: flex;
@@ -732,6 +746,10 @@ image {
   font-weight: 500;
   line-height: 1.3;
 }
+.calendar-wrapper .fc .fc-event-time.meeting-link,
+.calendar-wrapper .fc .fc-event-title.fc-sticky.meeting-link {
+  color: #6d28d9;
+}
 .calendar-wrapper .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
   height: 100%;
 }
@@ -741,7 +759,7 @@ image {
 }
 .calendar-wrapper .fc-timeGridWeek-button.fc-button-primary, .calendar-wrapper .fc-dayGridMonth-button.fc-button-primary, .calendar-wrapper .fc-timeGridDay-button.fc-button-primary {
   margin: 0 4px;
-  padding: 4px 22px;
+  padding: 4px 16px;
   border: none;
   border-radius: 10px !important;
   outline: none;
@@ -750,7 +768,7 @@ image {
   font-weight: 600;
   font-weight: 600;
   text-transform: capitalize;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 .calendar-wrapper .fc-timeGridWeek-button.fc-button-primary:hover, .calendar-wrapper .fc-dayGridMonth-button.fc-button-primary:hover, .calendar-wrapper .fc-timeGridDay-button.fc-button-primary:hover {
   background-color: #ff385c !important;
@@ -763,11 +781,13 @@ image {
 .calendar-wrapper .fc-button-primary:not(:disabled).fc-button-active:focus, .calendar-wrapper .fc-button-primary:not(:disabled):active:focus {
   box-shadow: none;
 }
-.calendar-wrapper .fc-today-button.fc-button.fc-button-primary {
+.calendar-wrapper .fc .fc-today-button.fc-button.fc-button-primary {
+  font-weight: 400;
+  font-size: 14px;
   color: #18181b;
   background-color: #f4f4f5;
 }
-.calendar-wrapper .fc-today-button.fc-button.fc-button-primary:hover {
+.calendar-wrapper .fc .fc-today-button.fc-button.fc-button-primary:hover {
   background-color: none;
 }
 .calendar-wrapper .fc-today-button.fc-button.fc-button-primary, .calendar-wrapper .fc-prev-button.fc-button.fc-button-primary, .calendar-wrapper .fc-next-button.fc-button.fc-button-primary {
@@ -794,9 +814,10 @@ image {
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 }
-.calendar-wrapper .fc-icon.fc-icon-chevron-right, .calendar-wrapper .fc-icon.fc-icon-chevron-left {
+.calendar-wrapper .fc .fc-icon.fc-icon-chevron-right,
+.calendar-wrapper .fc .fc-icon.fc-icon-chevron-left {
   color: #000 !important;
-  font-weight: 600;
+  font-weight: 200;
 }
 .calendar-wrapper .fc-col-header-cell.fc-day {
   padding: 8px 64px 8px 0;
@@ -1856,11 +1877,79 @@ image {
 }
 
 .bg-violet {
-  background-color: #8b5cf6;
+  background-color: #6d28d9;
+}
+
+.bg-violet-light {
+  background-color: #ede9fe;
 }
 
 .bg-blue {
   background-color: #0369a1;
+}
+
+.bg-blue-light {
+  background-color: #e0f2fe;
+}
+
+.bg-amber {
+  background-color: #b45309;
+}
+
+.bg-amber-light {
+  background-color: #fef3c7;
+}
+
+.bg-rose {
+  background-color: #be123c;
+}
+
+.bg-rose-light {
+  background-color: #ffe4e6;
+}
+
+.bg-green-light {
+  background: #e8f8f3;
+}
+
+.text-violet {
+  color: #6d28d9;
+}
+
+.text-blue {
+  color: #0369a1;
+}
+
+.text-amber {
+  color: #b45309;
+}
+
+.text-rose {
+  color: #be123c;
+}
+
+.text-green {
+  color: #047857;
+}
+
+.border-left-violet {
+  border-left: 3px solid #8b5cf6 !important;
+}
+
+.border-left-blue {
+  border-left: 3px solid #0ea5e9 !important;
+}
+
+.border-left-rose {
+  border-left: 3px solid #f43f5e !important;
+}
+
+.border-left-green {
+  border-left: 3px solid #10b981 !important;
+}
+
+.border-left-amber {
+  border-left: 3px solid #f59e0b !important;
 }
 
 .users-page .users-title {

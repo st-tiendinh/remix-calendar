@@ -7,9 +7,20 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 import { formatTimeToISOString } from '../utils/formatNumberToDateString';
 import { ModalAction, ModalType } from './Modal';
+import CalendarColumnHeader from './CalendarColumnHeader';
+import CalendarEventBar from './CalendarEventBar';
+import type { CalendarEvent } from '../utils/types.server';
+
+export enum EventType {
+  TEAM_MEETING = 'team_meeting',
+  OFFLINE_TEAM_MEETING = 'offline_team_meeting',
+  INTERVIEW = 'interview',
+  DINING_PARTY = 'dining_party',
+  BIRTHDAY = 'birthday',
+}
 
 type CalendarWrapperProps = {
-  eventList: any;
+  eventList: CalendarEvent[];
 };
 
 export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
@@ -18,6 +29,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const navigation = useNavigation();
   const calendarRef = useRef(null);
 
+  /* === Customize calendar event === */
   const initialDate = () => {
     const day = params.get('day') ? params.get('day') : new Date().getDate();
     const month = params.get('month')
@@ -40,17 +52,27 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         case 'week':
           return 'timeGridWeek';
         default:
-          return 'timeGridWeek';
+          break;
       }
+    } else {
+      return 'timeGridWeek';
     }
   };
 
+  /* This is the test event types function. Delete it after define event types in DB */
+  const getRandomEventType = () => {
+    const eventTypes = Object.values(EventType);
+    const randomIndex = Math.floor(Math.random() * eventTypes.length);
+    return eventTypes[randomIndex];
+  };
+
   const formatDateArray = useMemo(() => {
-    return eventList.map((event: any) => {
+    return eventList.map((event: CalendarEvent) => {
       return {
         id: event.id,
         title: event.title,
         meetingLink: event.meetingLink,
+        eventType: getRandomEventType(),
         start: formatTimeToISOString(event.timeStart, event.date),
         end: formatTimeToISOString(event.timeEnd, event.date),
         durationEditable: true,
@@ -59,88 +81,65 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   }, [eventList]);
 
   const customizeDayHeaderContent = (info: any) => {
-    switch (info.date.getUTCDay()) {
-      case 0:
-        return (
-          <>
-            <span className="day-header-name">Sun</span>
-            <span className="day-header-value">{info.date.getDate()}</span>
-          </>
-        );
-      case 1:
-        return (
-          <>
-            <span className="day-header-name">Mon</span>
-            <span className="day-header-value">{info.date.getDate()}</span>
-          </>
-        );
-      case 2:
-        return (
-          <>
-            <span className="day-header-name">Tue</span>
-            <span className="day-header-value">{info.date.getDate()}</span>
-          </>
-        );
-      case 3:
-        return (
-          <>
-            <span className="day-header-name">Wed</span>
-            <span className="day-header-value">{info.date.getDate()}</span>
-          </>
-        );
-      case 4:
-        return (
-          <>
-            <span className="day-header-name">Thu</span>
-            <span className="day-header-value">{info.date.getDate()}</span>
-          </>
-        );
-      case 5:
-        return (
-          <>
-            <span className="day-header-name">Fri</span>
-            <span className="day-header-value">{info.date.getDate()}</span>
-          </>
-        );
-      case 6:
-        return (
-          <>
-            <span className="day-header-name">Sat</span>
-            <span className="day-header-value">{info.date.getDate()}</span>
-          </>
-        );
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dayNumber = info.date.getUTCDay();
+
+    return (
+      <CalendarColumnHeader
+        dateName={days[dayNumber]}
+        dateValue={info.view.type === 'timeGridWeek' ? info.date.getDate() : ''}
+      />
+    );
+  };
+
+  const customEventBar = (info: any) => {
+    const { timeText, event } = info;
+    return (
+      <CalendarEventBar
+        isHasMeetingLink={!!event._def.extendedProps.meetingLink}
+        eventType={event._def.extendedProps.eventType}
+        eventTime={timeText}
+        eventTitle={event._def.title}
+      />
+    );
+  };
+
+  const customEventBackground = (info: any) => {
+    const { el, event } = info;
+    switch (event._def.extendedProps.eventType) {
+      case EventType.TEAM_MEETING:
+        el.classList.add('bg-violet-light');
+        el.classList.add('border-left-violet');
+        break;
+
+      case EventType.OFFLINE_TEAM_MEETING:
+        el.classList.add('bg-blue-light');
+        el.classList.add('border-left-blue');
+        break;
+
+      case EventType.DINING_PARTY:
+        el.classList.add('bg-green-light');
+        el.classList.add('border-left-green');
+        break;
+
+      case EventType.INTERVIEW:
+        el.classList.add('bg-amber-light');
+        el.classList.add('border-left-amber');
+        break;
+
+      case EventType.BIRTHDAY:
+        el.classList.add('bg-rose-light');
+        el.classList.add('border-left-rose');
+        break;
+
       default:
-        return null;
+        break;
     }
   };
 
-  const customEventCell = (info: any) => {
-    const { event, el, timeText } = info;
-    const isHasMeetingLink = !!event._def.extendedProps.meetingLink;
-    if (isHasMeetingLink) {
-      el.classList.add('meeting-link');
-    } else {
-      el.classList.add('no-meeting-link');
-    }
-    const eventTime = el.querySelector('.fc-event-time') as any;
-    eventTime.innerHTML = `
-      ${
-        isHasMeetingLink
-          ? `
-      <span class='event-icon-wrapper ${
-        isHasMeetingLink ? 'bg-violet' : 'bg-blue'
-      }'>
-        <i class="icon icon-camera"></i>
-      </span>
-      `
-          : ''
-      }
-      <span class='event-time'>${timeText}</span>
-    `;
-  };
-
+  /* === Handle event of calendar === */
   const handleSelect = (info: any) => {
-    console.log('info: ', info);
+    // console.log('info: ', info);
   };
 
   const handleEventClick = (info: any) => {
@@ -165,7 +164,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     } else {
       (calendarRef.current as any).getApi().prev();
     }
-    const filter = params.get('filter') || 'month';
+    const filter = params.get('filter') || 'week';
     const originalDay = params.get('day')
       ? Number(params.get('day'))
       : new Date().getDate();
@@ -281,6 +280,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
           end: 'timeGridWeek,dayGridMonth,timeGridDay',
         }}
         allDaySlot={false}
+        nowIndicator={true}
         editable={true}
         selectable={true}
         select={handleSelect}
@@ -293,7 +293,10 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
           minute: '2-digit',
           meridiem: false,
         }}
-        eventDidMount={customEventCell}
+        eventBorderColor="transparent"
+        eventDidMount={customEventBackground}
+        eventContent={customEventBar}
+        eventDisplay="background-reverse"
       />
     </div>
   );

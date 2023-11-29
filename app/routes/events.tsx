@@ -89,7 +89,7 @@ export default function EventList() {
   }, [paramsValue]);
 
   const [isShow, setIsShow] = useState(false);
-  console.log(isShow);
+  
   return (
     <>
       <Modal modalProps={modalProps} />
