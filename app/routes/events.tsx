@@ -34,7 +34,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       yearParams as string
     );
   }
-  if (!events) {
+  const eventsByMonth = await getEventsByMonth(
+    monthParams as string,
+    yearParams as string
+  );
+  if (!events || !eventsByMonth) {
     return json({ error: 'Events Not Found', status: 404 });
   }
 
@@ -58,17 +62,19 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       { eventData, eventId: id },
       {
         events,
+        eventsByMonth,
         status: 200,
         paramsValue,
       }
     );
   }
 
-  return json({ events, status: 200, paramsValue });
+  return json({ events, status: 200, paramsValue, eventsByMonth });
 };
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
+
   const { events, paramsValue, modalProps } = data;
 
   useEffect(() => {
@@ -79,8 +85,7 @@ export default function EventList() {
     }
   }, [paramsValue]);
 
-  const [isShow, setIsShow] = useState(false);
-  console.log(isShow);
+  const [isShow, setIsShow] = useState(true);
   return (
     <>
       <Modal modalProps={modalProps} />
