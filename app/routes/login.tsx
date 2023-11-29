@@ -86,8 +86,8 @@ export default function Login() {
 
   return (
     <div className="login-page">
-      <div className="login-wrapper">
-        <div className="login-content-wrapper">
+      <div className="login-wrapper row">
+        <div className="login-content-wrapper col col-6 col-md-12">
           <div className="login-content">
             <h1 className="login-title">LOGIN</h1>
             <h2 className="login-sub-title">Welcome to FE Calendar</h2>
@@ -152,7 +152,7 @@ export default function Login() {
             </Form>
           </div>
         </div>
-        <div className="login-bg">
+        <div className="login-bg col col-6 col-md-12">
           <img src={loginBg} alt="login background" className="login-image" />
         </div>
       </div>

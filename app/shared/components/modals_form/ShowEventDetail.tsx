@@ -29,15 +29,22 @@ export default function ShowEventDetail({ event }: any) {
   return (
     <div className="modal-event-wrapper">
       <div className="modal-event-header">
-        <Link to={`/events/${event.id}/edit`} className="btn btn-modal-link">
-          <i className="icon icon-pen"></i>
-        </Link>
-        <Link
-          to={`?modal-type=${ModalType.CONFIRM}&modal-action=${ModalAction.DELETE_EVENT}&event-id=${event.id}`}
-          className="btn btn-modal-link"
-        >
-          <i className="icon icon-bin"></i>
-        </Link>
+        {event.author.id && (
+          <>
+            <Link
+              to={`/events/${event.id}/edit`}
+              className="btn btn-modal-link"
+            >
+              <i className="icon icon-pen"></i>
+            </Link>
+            <Link
+              to={`?modal-type=${ModalType.CONFIRM}&modal-action=${ModalAction.DELETE_EVENT}&event-id=${event.id}`}
+              className="btn btn-modal-link"
+            >
+              <i className="icon icon-bin"></i>
+            </Link>
+          </>
+        )}
         <Link to={`${location.pathname}`} className="btn btn-modal-close">
           <i className="icon icon-close"></i>
         </Link>
@@ -138,7 +145,7 @@ export default function ShowEventDetail({ event }: any) {
               </span>
               <div className="event-detail-info">
                 <span className="event-detail-desc">
-                  {`${event.authorName.firstName} ${event.authorName.lastName}`}
+                  {`${event.author.name.firstName} ${event.author.name.lastName}`}
                 </span>
               </div>
             </div>

@@ -2,13 +2,9 @@ import React from 'react';
 import { Form } from '../RemixForm';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
-import { useLocation } from '@remix-run/react';
 
 const deleteEventSchema = z.object({});
 const ConfirmDeleteEvent = ({ eventId }: { eventId: string }) => {
-  const location = useLocation();
-  console.log(location);
-
   return (
     <>
       <div className="modal-confirm">
