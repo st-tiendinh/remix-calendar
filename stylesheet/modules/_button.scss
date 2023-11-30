@@ -16,9 +16,9 @@
 
   &.login-btn {
     width: 100%;
-    background-color: map-get($color, $key: primary);
     padding: 17px;
     border-radius: 13px;
+    background-color: #ff385c;
     color: map-get($color, $key: secondary);
     font-weight: 700;
     cursor: pointer;
@@ -56,7 +56,7 @@
     border-radius: 50%;
 
     &:hover {
-      background-color: map-get($color, 'gray-f4') ;
+      background-color: map-get($color, 'gray-f4');
     }
   }
 
