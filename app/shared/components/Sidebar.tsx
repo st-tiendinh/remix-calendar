@@ -4,7 +4,10 @@ import { type EventData } from '../utils/types.server';
 
 import MiniCalendar from './MiniCalendar';
 import logo from '../../../assets/images/logo.svg';
-
+import SvgList from '~/shared/components/icons/IcList';
+import SvgPlusCircle from '~/shared/components/icons/IcPlusCircle';
+import SvgCamera from '~/shared/components/icons/IcCamera';
+import SvgActiveEvent from '~/shared/components/icons/IcActiveEvent';
 interface SidebarProps {
   events: EventData[];
   todayEvent: EventData[];
@@ -22,7 +25,7 @@ export default function Sidebar({
     <aside>
       <div className="sidebar-header">
         <button onClick={() => setIsShow((prev) => !prev)} className="btn">
-          <i className="icon icon-list"></i>
+          <SvgList />
         </button>
         <Link className={`${isShow ? null : 'hide'}`} to="/">
           <h1 className="logo">
@@ -36,7 +39,7 @@ export default function Sidebar({
           className={`btn-create ${isShow ? '' : 'sm'} `}
           to="/events/create"
         >
-          <i className="icon icon-plus-circle"></i>
+          <SvgPlusCircle />
 
           <span className={`btn-create-text ${isShow ? null : 'hide'}`}>
             CREATE
@@ -57,7 +60,7 @@ export default function Sidebar({
             {todayEvent.map((event) => (
               <li key={event.title} className="event-item">
                 <p>
-                  <i className="icon icon-active-event"></i>
+                  <SvgActiveEvent />
                 </p>
                 <div className="event-detail">
                   <div className="event-info">
@@ -66,7 +69,7 @@ export default function Sidebar({
                     </span>
                     {event.meetingLink && (
                       <span className="icon-wrapper">
-                        <i className="icon icon-camera"></i>
+                        <SvgCamera />
                       </span>
                     )}
                   </div>

@@ -9,6 +9,7 @@ import { formatTimeToISOString } from '../utils/formatNumberToDateString';
 import CalendarColumnHeader from './CalendarColumnHeader';
 import CalendarEventBar from './CalendarEventBar';
 import type { CalendarEvent } from '../utils/types.server';
+import SvgCamera from './icons/IcCamera';
 
 export enum EventType {
   TEAM_MEETING = 'team_meeting',
@@ -243,7 +244,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
 
   return (
     <div className="calendar-wrapper">
-      <i className="icon icon-camera"></i>
+      <SvgCamera />
       <FullCalendar
         ref={calendarRef}
         customButtons={{

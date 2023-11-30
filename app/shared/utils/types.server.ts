@@ -8,6 +8,7 @@ export type RegisterForm = {
 export type LoginForm = {
   email: string;
   password: string;
+  redirectUrl?: string;
 };
 
 export type EventData = {

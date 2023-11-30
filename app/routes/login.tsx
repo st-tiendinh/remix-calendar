@@ -8,6 +8,7 @@ import { InputError, makeDomainFunction } from 'domain-functions';
 import { toast } from 'react-hot-toast';
 
 import { login, getUser } from '~/server/auth.server';
+
 import {
   validateEmail,
   validatePassword,
@@ -15,6 +16,8 @@ import {
 import { Form } from '~/shared/components/RemixForm';
 import loginBg from '../../assets/images/login-bg.jpg';
 import { PASSWORD_REGEX } from '~/shared/constant/validator';
+import SvgUsername from '~/shared/components/icons/IcUsername';
+import SvgPassword from '~/shared/components/icons/IcPassword';
 
 const schema = z.object({
   email: z
@@ -59,19 +62,21 @@ export const loader: LoaderFunction = async ({ request }) => {
   return (await getUser(request)) ? redirect('/events') : null;
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, params }) => {
   const result = await performMutation({
     request,
     schema,
     mutation,
   });
+  const myParams = new URL(request.url).searchParams;
+  const redirectUrl = myParams.get('redirectUrl') || '/';
 
   if (!result.success) return json(result, 400);
 
   const email = result.data.email;
   const password = result.data.password;
 
-  return await login({ email, password });
+  return await login({ email, password, redirectUrl });
 };
 
 export default function Login() {
@@ -102,7 +107,7 @@ export default function Login() {
                     {({ Label, Errors }) => (
                       <>
                         <div className="input-icons">
-                          <i className={`icon icon-username`}></i>
+                          <SvgUsername />
                           <input
                             type="email"
                             {...register('email')}
@@ -124,7 +129,7 @@ export default function Login() {
                     {({ Label, Errors }) => (
                       <>
                         <div className="input-icons">
-                          <i className={`icon icon-password`}></i>
+                          <SvgPassword />
                           <input
                             type="password"
                             {...register('password')}

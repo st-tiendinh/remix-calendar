@@ -673,7 +673,7 @@ image {
   right: 46px;
 }
 .mini-calendar .react-calendar__month-view__days {
-  gap: 8px;
+  gap: 0 8px;
 }
 .mini-calendar .react-calendar__month-view__days .react-calendar__tile {
   position: relative;
@@ -886,6 +886,12 @@ image {
 }
 .calendar-wrapper .fc-scrollgrid-sync-table {
   height: calc(100vh + 40px) !important;
+}
+.calendar-wrapper .fc-timegrid-now-indicator-line {
+  display: none;
+}
+.calendar-wrapper .fc {
+  /* Handle */
 }
 .calendar-wrapper .fc .fc-col-header {
   width: 100% !important;
@@ -1105,7 +1111,6 @@ image {
   position: relative;
   height: 100vh;
   padding: 20px 24px 20px 34px;
-  overflow: scroll;
   border-right: 1px solid #d6d6d6;
   animation: slideInFromLeft 0.5s ease-in-out;
   transition: all 0.3s ease-in-out;
@@ -1160,12 +1165,27 @@ image {
   font-weight: 500;
 }
 .sidebar .today-event .event-list {
+  overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
   line-height: 16px;
+  height: 200px;
   min-height: 200px;
+}
+.sidebar .today-event .event-list:hover {
+  overflow-y: scroll;
+}
+.sidebar .today-event .event-list::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar .today-event .event-list::-webkit-scrollbar-thumb {
+  background: #f5869a;
+  border-radius: 5px;
+}
+.sidebar .today-event .event-list::-webkit-scrollbar-thumb:hover {
+  background: #f15773;
 }
 .sidebar .today-event .event-list .event-item {
   display: flex;
