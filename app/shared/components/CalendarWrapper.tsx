@@ -153,16 +153,14 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   /* === Handle event of calendar === */
 
   const handleEventClick = (info: any) => {
-    navigate(
-      `/events/${info.event._def.publicId}`
-    );
+    navigate(`/events/${info.event._def.publicId}`);
   };
 
   const handleGetAllDayEvents = () => {
     (calendarRef.current as any).getApi().changeView('timeGridDay');
     (calendarRef.current as any).getApi().gotoDate(new Date());
     const now = new Date();
-  
+
     const month = now.getMonth() + 1;
     const day = now.getDate();
     const year = now.getFullYear();
@@ -291,7 +289,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
           end: 'timeGridWeek,dayGridMonth,timeGridDay',
         }}
         allDaySlot={false}
-        nowIndicator={true}
         editable={true}
         selectable={true}
         dayMaxEventRows={true}

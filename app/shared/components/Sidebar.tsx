@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigation } from '@remix-run/react';
+import { Link } from '@remix-run/react';
 
 import { type EventData } from '../utils/types.server';
 
@@ -18,17 +18,8 @@ export default function Sidebar({
   isShow,
   setIsShow,
 }: SidebarProps) {
-  const location = useLocation();
-  const navigation = useNavigation();
-  console.log(
-    navigation.state,
-    navigation?.location?.pathname,
-    location.pathname,
-    navigation.formData
-  );
-
   return (
-    <>
+    <aside>
       <div className="sidebar-header">
         <button onClick={() => setIsShow((prev) => !prev)} className="btn">
           <i className="icon icon-list"></i>
@@ -87,6 +78,6 @@ export default function Sidebar({
           </ul>
         </div>
       </>
-    </>
+    </aside>
   );
 }
