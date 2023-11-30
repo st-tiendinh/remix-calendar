@@ -102,10 +102,8 @@ export const getDeletedEvents = async (userId: string) => {
 };
 
 export const getEventsByDay = async (date: string) => {
-  console.log('jaja',date)
   let targetDate = new Date(date);
-
-  console.log(targetDate)
+  
   const startDate = new Date(
     targetDate.toISOString().split('T')[0] + 'T00:00:00.000Z'
   );

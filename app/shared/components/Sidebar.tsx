@@ -1,17 +1,23 @@
-import { Link, Outlet, useLocation, useNavigation } from '@remix-run/react';
+import { Link, useLocation, useNavigation } from '@remix-run/react';
 
 import { type EventData } from '../utils/types.server';
-import { Spinner } from './Spinner';
+
 import MiniCalendar from './MiniCalendar';
 import logo from '../../../assets/images/logo.svg';
 
 interface SidebarProps {
   events: EventData[];
+  todayEvent: EventData[];
   isShow: boolean;
   setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
+export default function Sidebar({
+  events,
+  todayEvent,
+  isShow,
+  setIsShow,
+}: SidebarProps) {
   const location = useLocation();
   const navigation = useNavigation();
   console.log(
@@ -46,9 +52,9 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
           </span>
         </Link>
         <div className={`${isShow ? '' : 'hide'}`}>
-        <MiniCalendar />
+          <MiniCalendar />
         </div>
-        
+
         <div className={`today-event ${isShow ? '' : 'hide'}`}>
           <div className="event-header">
             <h3 className="event-header-title">Today's Events:</h3>
@@ -56,35 +62,29 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
               {new Date().toLocaleDateString()}
             </span>
           </div>
-          {navigation.state !== 'idle' ? (
-            <ul className="event-list">
-              <Spinner />
-            </ul>
-          ) : (
-            <ul className="event-list">
-              {events.map((event) => (
-                <li key={event.title} className="event-item">
-                  <p>
-                    <i className="icon icon-active-event"></i>
-                  </p>
-                  <div className="event-detail">
-                    <div className="event-info">
-                      <span className="event-time">
-                        {event.timeStart} - {event.timeEnd}
+          <ul className="event-list">
+            {todayEvent.map((event) => (
+              <li key={event.title} className="event-item">
+                <p>
+                  <i className="icon icon-active-event"></i>
+                </p>
+                <div className="event-detail">
+                  <div className="event-info">
+                    <span className="event-time">
+                      {event.timeStart} - {event.timeEnd}
+                    </span>
+                    {event.meetingLink && (
+                      <span className="icon-wrapper">
+                        <i className="icon icon-camera"></i>
                       </span>
-                      {event.meetingLink && (
-                        <span className="icon-wrapper">
-                          <i className="icon icon-camera"></i>
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="event-title">{event.title}</h3>
-                    <p className="event-meeting-link">{event.meetingLink}</p>
+                    )}
                   </div>
-                </li>
-              ))}
-            </ul>
-          )}
+                  <h3 className="event-title">{event.title}</h3>
+                  <p className="event-meeting-link">{event.meetingLink}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </>
     </>
