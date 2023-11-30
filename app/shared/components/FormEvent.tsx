@@ -88,13 +88,14 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             <Field name="title" className="form-input-group">
               {({ Label, Errors }) => (
                 <>
+                  <label className="form-label">Event Title</label>
                   <div className="input-icons">
                     <SvgPenSolid />
                     <input
                       type="text"
                       {...register('title')}
                       className="form-input"
-                      placeholder="Event Title"
+                      placeholder="Enter event title"
                       onBlur={(e) => {
                         e.target.value = e.target.value.trim();
                       }}
@@ -110,13 +111,14 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             <Field name="description" className="form-input-group">
               {({ Label, Errors }) => (
                 <>
+                  <label className="form-label">Description</label>
                   <div className="input-icons">
                     <SvgCommentSolid />
                     <input
                       type="text"
                       {...register('description')}
                       className="form-input"
-                      placeholder="Add Description"
+                      placeholder="Enter description"
                       onBlur={(e) => {
                         e.target.value = e.target.value.trim();
                       }}
@@ -131,13 +133,15 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             <Field name="date" className="form-input-group">
               {({ Label, SmartInput, Errors }) => (
                 <>
+                  <label className="form-label">Date</label>
                   <div className="input-icons">
                     <SvgCalendarDaySolid />
+
                     <input
                       className="form-input"
                       min={minDate()}
                       type="text"
-                      placeholder="Date"
+                      placeholder="Date of event"
                       onFocus={(event) => {
                         event.currentTarget.type = 'date';
                       }}
@@ -154,6 +158,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               <Field name="timeStart" className="form-input-group col col-6">
                 {({ Errors }) => (
                   <>
+                  <label className="form-label">Time start</label>
                     <div className="input-icons">
                       <SvgClockSolid />
                       <input
@@ -175,6 +180,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               <Field name="timeEnd" className="form-input-group col col-6">
                 {({ Label, SmartInput, Errors }) => (
                   <>
+                  <label className="form-label">Time end</label>
                     <div className="input-icons">
                       <SvgClockSolid />
                       <input
@@ -197,13 +203,14 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             <Field name="location" className="form-input-group">
               {({ Label, Errors }) => (
                 <>
+                <label className="form-label">Location</label>
                   <div className="input-icons">
                     <SvgBuilding />
                     <input
                       type="text"
                       {...register('location')}
                       className="form-input"
-                      placeholder="Location"
+                      placeholder="Choose a location"
                       onBlur={(e) => {
                         e.target.value = e.target.value.trim();
                       }}
@@ -218,13 +225,14 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             <Field name="meetingLink" className="form-input-group">
               {({ Label, Errors }) => (
                 <>
+                <label className="form-label">Meeting Link</label>
                   <div className="input-icons">
                     <SvgExternalLinkAltSolid />
                     <input
                       type="text"
                       {...register('meetingLink')}
                       className="form-input"
-                      placeholder="Meeting Link"
+                      placeholder="Enter meeting link"
                       onBlur={(e) => {
                         e.target.value = e.target.value.trim();
                       }}
@@ -249,7 +257,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                 Cancel
               </Link>
               <Button className="form-btn save">
-                {method === FormEventMethod.CREATE ? 'Create' : 'Update'}
+                {method === FormEventMethod.CREATE ? 'Create' : 'Save'}
               </Button>
             </div>
           </>

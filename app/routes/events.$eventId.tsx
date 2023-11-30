@@ -43,26 +43,26 @@ const Event = () => {
 
   const ModalDelete = () => {
     return (
-      <div className="modal-confirm">
-        <p className="modal-confirm-title">
-          Are you sure?
-        </p>
-        <Form
-          schema={deleteEventSchema}
-          method="post"
-          action={`/events/${event.id}/delete`}
-        >
-          {({ Button }) => (
-            <>
-              <div className="modal-confirm-footer">
-                <Button className="btn-confirm">Delete</Button>
-                <Link to={`/events/${event.id}`} className="btn-cancel">
-                  Cancel
-                </Link>
-              </div>
-            </>
-          )}
-        </Form>
+      <div className="modal-confirm-wrapper">
+        <div className="modal-confirm">
+          <p className="modal-confirm-title">Are you sure?</p>
+          <Form
+            schema={deleteEventSchema}
+            method="post"
+            action={`/events/${event.id}/delete`}
+          >
+            {({ Button }) => (
+              <>
+                <div className="modal-confirm-footer">
+                  <Button className="btn-confirm">Delete</Button>
+                  <Link to={`/events/${event.id}`} className="btn-cancel">
+                    Cancel
+                  </Link>
+                </div>
+              </>
+            )}
+          </Form>
+        </div>
       </div>
     );
   };

@@ -41,12 +41,18 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return redirect('?error= Event not found!!');
   }
 
-  return json({ events, status: 200, paramsValue, eventsByMonth });
+  const todayEvent = await getEventsByDay(`${new Date().toLocaleDateString()}`);
+
+  if (!todayEvent) {
+    return json({ error: 'Today event not found!!', status: 404 });
+  }
+
+  return json({ events, status: 200, paramsValue, eventsByMonth, todayEvent });
 };
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
-  const { events, paramsValue } = data;
+  const { events, paramsValue, todayEvent } = data;
   const [isShow, setIsShow] = useState(true);
 
   useEffect(() => {
@@ -66,7 +72,12 @@ export default function EventList() {
               isShow ? '' : 'sidebar-sm'
             }`}
           >
-            <Sidebar events={events} isShow={isShow} setIsShow={setIsShow} />
+            <Sidebar
+              events={events}
+              todayEvent={todayEvent}
+              isShow={isShow}
+              setIsShow={setIsShow}
+            />
           </div>
           <div
             className={`col col-9 col-md-8 ${isShow ? '' : ' full-calendar'}`}

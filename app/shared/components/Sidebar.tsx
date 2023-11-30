@@ -1,19 +1,23 @@
-import { Link, useNavigation } from '@remix-run/react';
+import { Link } from '@remix-run/react';
 
 import { type EventData } from '../utils/types.server';
-import { Spinner } from './Spinner';
+
 import MiniCalendar from './MiniCalendar';
 import logo from '../../../assets/images/logo.svg';
 
 interface SidebarProps {
   events: EventData[];
+  todayEvent: EventData[];
   isShow: boolean;
   setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
-  const navigation = useNavigation();
-
+export default function Sidebar({
+  events,
+  todayEvent,
+  isShow,
+  setIsShow,
+}: SidebarProps) {
   return (
     <aside>
       <div className="sidebar-header">
@@ -49,35 +53,29 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
               {new Date().toLocaleDateString()}
             </span>
           </div>
-          {navigation.state !== 'idle' ? (
-            <ul className="event-list">
-              <Spinner />
-            </ul>
-          ) : (
-            <ul className="event-list">
-              {events.map((event) => (
-                <li key={event.title} className="event-item">
-                  <p>
-                    <i className="icon icon-active-event"></i>
-                  </p>
-                  <div className="event-detail">
-                    <div className="event-info">
-                      <span className="event-time">
-                        {event.timeStart} - {event.timeEnd}
+          <ul className="event-list">
+            {todayEvent.map((event) => (
+              <li key={event.title} className="event-item">
+                <p>
+                  <i className="icon icon-active-event"></i>
+                </p>
+                <div className="event-detail">
+                  <div className="event-info">
+                    <span className="event-time">
+                      {event.timeStart} - {event.timeEnd}
+                    </span>
+                    {event.meetingLink && (
+                      <span className="icon-wrapper">
+                        <i className="icon icon-camera"></i>
                       </span>
-                      {event.meetingLink && (
-                        <span className="icon-wrapper">
-                          <i className="icon icon-camera"></i>
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="event-title">{event.title}</h3>
-                    <p className="event-meeting-link">{event.meetingLink}</p>
+                    )}
                   </div>
-                </li>
-              ))}
-            </ul>
-          )}
+                  <h3 className="event-title">{event.title}</h3>
+                  <p className="event-meeting-link">{event.meetingLink}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </>
     </aside>
