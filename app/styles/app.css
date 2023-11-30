@@ -618,16 +618,25 @@ image {
 .custom-event-wrapper .custom-event-time-wrapper {
   display: flex;
   align-items: center;
+  flex-wrap: wrap-reverse;
 }
 .custom-event-wrapper .custom-event-time {
   line-height: 20px;
   margin-right: 4px;
+  font-size: 12px;
+}
+.custom-event-wrapper .custom-event-title {
+  font-size: 12px;
 }
 .custom-event-wrapper .custom-event-time, .custom-event-wrapper .custom-event-title {
   font-weight: 500;
-  font-size: 12px;
 }
 
+@media (max-width: 1024px) {
+  .custom-event-wrapper .custom-event.time {
+    margin-right: 0;
+  }
+}
 .mini-calendar {
   margin-bottom: 16px;
 }
@@ -692,6 +701,11 @@ image {
   border-radius: 50%;
 }
 
+@media (max-width: 1024px) {
+  .mini-calendar {
+    display: none;
+  }
+}
 .container {
   max-width: 1152px;
   width: 100%;
@@ -851,9 +865,8 @@ image {
 }
 
 .calendar-wrapper {
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 20px;
   height: 100vh;
-  overflow-y: hidden;
 }
 .calendar-wrapper .day-header-name,
 .calendar-wrapper .day-header-value {
@@ -873,7 +886,27 @@ image {
 }
 .calendar-wrapper .fc-scrollgrid-sync-table {
   height: calc(100vh + 40px) !important;
-  overflow-y: scroll !important;
+}
+.calendar-wrapper .fc .fc-col-header {
+  width: 100% !important;
+}
+.calendar-wrapper .fc .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
+  overflow-x: scroll !important;
+}
+.calendar-wrapper .fc .fc-view-harness.fc-view-harness-active {
+  overflow-x: scroll;
+}
+.calendar-wrapper .fc .fc-timeGridWeek-view.fc-view.fc-timegrid {
+  width: 100%;
+}
+.calendar-wrapper .fc .fc-scrollgrid.fc-scrollgrid-liquid {
+  min-width: 1034px;
+}
+.calendar-wrapper .fc .fc-daygrid-body.fc-daygrid-body-balanced {
+  width: 100% !important;
+}
+.calendar-wrapper .fc .fc-scrollgrid-sync-table {
+  width: 100% !important;
 }
 .calendar-wrapper .fc .fc-daygrid-day-top {
   flex-direction: row;
@@ -1004,7 +1037,7 @@ image {
   text-align: left;
 }
 .calendar-wrapper .fc-timegrid-slot.fc-timegrid-slot-label.fc-scrollgrid-shrink, .calendar-wrapper .fc-timegrid-slot.fc-timegrid-slot-label.fc-timegrid-slot-minor {
-  padding-bottom: 20px;
+  padding-bottom: 4px;
   text-align: left !important;
   color: #71717a;
   font-weight: 500;
@@ -1023,6 +1056,43 @@ image {
   width: 80px !important;
 }
 
+@media (max-width: 1024px) {
+  .calendar-wrapper {
+    padding: 0 0 20px;
+  }
+  .calendar-wrapper .day-header-value {
+    font-size: 16px;
+  }
+  .calendar-wrapper .day-header-name {
+    font-size: 10px;
+  }
+  .calendar-wrapper .fc .fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+    font-size: 14px;
+  }
+  .calendar-wrapper .fc .fc-toolbar-title {
+    font-size: 16px;
+  }
+  .calendar-wrapper .fc .fc-button-group {
+    font-size: 12px;
+  }
+  .calendar-wrapper .fc .fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+    font-weight: 400;
+  }
+  .calendar-wrapper .fc .fc-timeGridDay-button.fc-button-primary:not(:disabled).fc-button-active,
+  .calendar-wrapper .fc .fc-timeGridWeek-button.fc-button-primary:not(:disabled).fc-button-active,
+  .calendar-wrapper .fc .fc-dayGridMonth-button.fc-button-primary:not(:disabled).fc-button-active {
+    padding: 4px 10px;
+    margin-left: 0;
+  }
+  .calendar-wrapper .fc .fc-timeGridWeek-button.fc-button-primary,
+  .calendar-wrapper .fc .fc-dayGridMonth-button.fc-button-primary,
+  .calendar-wrapper .fc .fc-timeGridDay-button.fc-button-primary {
+    padding: 4px 10px;
+  }
+  .calendar-wrapper .fc .fc .fc-today-button.fc-button.fc-button-primary {
+    font-size: 12px;
+  }
+}
 @keyframes slideInFromLeft {
   0% {
     transform: translateX(-100%);
@@ -1078,6 +1148,7 @@ image {
 .sidebar .today-event .event-header {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 4px;
   color: #3b82f6;
   margin-bottom: 16px;
@@ -1171,6 +1242,15 @@ image {
   margin-bottom: 12px;
 }
 
+@media (max-width: 1024px) {
+  .sidebar-header .logo {
+    height: 26px;
+  }
+  .sidebar .icon.icon-active-event {
+    width: 8px;
+    height: 8px;
+  }
+}
 .pd-0 {
   padding: 0px;
   padding: 0rem;
@@ -2077,6 +2157,10 @@ image {
   background-color: #ffe4e6;
 }
 
+.bg-green {
+  background-color: #047857;
+}
+
 .bg-green-light {
   background: #e8f8f3;
 }
@@ -2202,14 +2286,13 @@ image {
   }
 }
 .home {
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: hidden;
   height: 100vh;
 }
 
 .full-calendar {
   width: calc(100% - 109px);
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s linear;
 }
 
 .sidebar-sm {
