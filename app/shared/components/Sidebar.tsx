@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation, useNavigation } from '@remix-run/react';
+import { Link, useNavigation } from '@remix-run/react';
 
 import { type EventData } from '../utils/types.server';
 import { Spinner } from './Spinner';
@@ -12,17 +12,10 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
-  const location = useLocation();
   const navigation = useNavigation();
-  console.log(
-    navigation.state,
-    navigation?.location?.pathname,
-    location.pathname,
-    navigation.formData
-  );
 
   return (
-    <>
+    <aside>
       <div className="sidebar-header">
         <button onClick={() => setIsShow((prev) => !prev)} className="btn">
           <i className="icon icon-list"></i>
@@ -46,9 +39,9 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
           </span>
         </Link>
         <div className={`${isShow ? '' : 'hide'}`}>
-        <MiniCalendar />
+          <MiniCalendar />
         </div>
-        
+
         <div className={`today-event ${isShow ? '' : 'hide'}`}>
           <div className="event-header">
             <h3 className="event-header-title">Today's Events:</h3>
@@ -87,6 +80,6 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
           )}
         </div>
       </>
-    </>
+    </aside>
   );
 }

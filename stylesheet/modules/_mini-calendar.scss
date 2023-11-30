@@ -64,3 +64,9 @@
     }
   }
 }
+
+@include tablet {
+  .mini-calendar {
+    display: none;
+  }
+}

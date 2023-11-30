@@ -3,9 +3,8 @@
 }
 
 .calendar-wrapper {
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 20px;
   height: 100vh;
-  overflow-y: hidden;
 
   .day-header-name,
   .day-header-value {
@@ -28,10 +27,37 @@
 
   .fc-scrollgrid-sync-table {
     height: calc(100vh + 40px) !important;
-    overflow-y: scroll !important;
   }
 
   .fc {
+    .fc-col-header {
+      width: 100% !important;
+    }
+
+    .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
+      overflow-x: scroll !important;
+    }
+
+    .fc-view-harness.fc-view-harness-active {
+      overflow-x: scroll;
+    }
+
+    .fc-timeGridWeek-view.fc-view.fc-timegrid {
+      width: 100%;
+    }
+
+    .fc-scrollgrid.fc-scrollgrid-liquid {
+      min-width: 1034px;
+    }
+
+    .fc-daygrid-body.fc-daygrid-body-balanced {
+      width: 100% !important;
+    }
+
+    .fc-scrollgrid-sync-table {
+      width: 100% !important;
+    }
+
     .fc-daygrid-day-top {
       flex-direction: row;
       padding-left: 6px;
@@ -200,7 +226,7 @@
 
     &-timegrid-slot.fc-timegrid-slot-label.fc-scrollgrid-shrink,
     &-timegrid-slot.fc-timegrid-slot-label.fc-timegrid-slot-minor {
-      padding-bottom: 20px;
+      padding-bottom: 4px;
       text-align: left !important;
       color: #71717a;
       font-weight: 500;
@@ -221,6 +247,57 @@
 
     colgroup > col {
       width: 80px !important;
+    }
+  }
+}
+
+@include tablet {
+  .calendar-wrapper {
+    padding: 0 0 20px;
+
+    .day-header-value {
+      font-size: 16px;
+    }
+
+    .day-header-name {
+      font-size: 10px;
+    }
+
+    .fc {
+      .fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+        font-size: 14px;
+      }
+
+      .fc-toolbar-title {
+        font-size: 16px;
+      }
+
+      .fc-button-group {
+        font-size: 12px;
+      }
+
+      .fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+        font-weight: 400;
+      }
+
+      .fc-timeGridDay-button.fc-button-primary:not(:disabled).fc-button-active,
+      .fc-timeGridWeek-button.fc-button-primary:not(:disabled).fc-button-active,
+      .fc-dayGridMonth-button.fc-button-primary:not(
+          :disabled
+        ).fc-button-active {
+        padding: 4px 10px;
+        margin-left: 0;
+      }
+
+      .fc-timeGridWeek-button.fc-button-primary,
+      .fc-dayGridMonth-button.fc-button-primary,
+      .fc-timeGridDay-button.fc-button-primary {
+        padding: 4px 10px;
+      }
+
+      .fc .fc-today-button.fc-button.fc-button-primary {
+        font-size: 12px;
+      }
     }
   }
 }

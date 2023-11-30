@@ -52,16 +52,10 @@
     padding: 0;
   }
   .today-event {
-    // .icon-wrapper{
-    //   display: flex;
-    //   align-items: center;
-    //   justify-content: center;
-    //   border-radius: 50%;
-    //   background-color: #FF385C;
-    // }
     .event-header {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 4px;
       color: #3b82f6;
       margin-bottom: 16px;
@@ -145,7 +139,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px; 
+      margin-bottom: 20px;
     }
     .icon-trash {
       color: map-get($color, $key: red);
@@ -163,7 +157,20 @@
     .form-input-group {
       margin-bottom: 12px;
     }
+  }
+}
 
-    
+@include tablet {
+  .sidebar {
+    &-header {
+      .logo {
+        height: 26px;
+      }
+    }
+
+    .icon.icon-active-event {
+      width: 8px;
+      height: 8px;
+    }
   }
 }

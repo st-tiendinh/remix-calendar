@@ -48,7 +48,7 @@ export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
   const { events, paramsValue } = data;
   const [isShow, setIsShow] = useState(true);
-  
+
   useEffect(() => {
     if (paramsValue?.success) {
       toast.success(`${paramsValue?.success}`);
@@ -59,13 +59,18 @@ export default function EventList() {
 
   return (
     <>
-
       <div className="home">
         <div className="row">
-          <div className={`col col-3  sidebar ${isShow ? '' : 'sidebar-sm'}`}>
+          <div
+            className={`col col-3 col-md-4 sidebar ${
+              isShow ? '' : 'sidebar-sm'
+            }`}
+          >
             <Sidebar events={events} isShow={isShow} setIsShow={setIsShow} />
           </div>
-          <div className={`col col-9 ${isShow ? '' : ' full-calendar'}`}>
+          <div
+            className={`col col-9 col-md-8 ${isShow ? '' : ' full-calendar'}`}
+          >
             <CalendarWrapper eventList={events} />
           </div>
         </div>
