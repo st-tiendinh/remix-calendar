@@ -18,17 +18,32 @@
     &-time-wrapper {
       display: flex;
       align-items: center;
+      flex-wrap: wrap-reverse;
     }
 
     &-time {
       line-height: 20px;
       margin-right: 4px;
+      font-size: 12px;
+    }
+
+    &-title {
+      font-size: 12px;
     }
 
     &-time,
     &-title {
       font-weight: 500;
-      font-size: 12px;
+    }
+  }
+}
+
+@include tablet {
+  .custom-event-wrapper {
+    .custom-event {
+      &.time {
+        margin-right: 0;
+      }
     }
   }
 }

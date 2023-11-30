@@ -1,5 +1,6 @@
 .form-input-group {
   display: flex;
+  margin-bottom: 8px;
 }
 
 .form-label {
@@ -10,11 +11,12 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-block: 8px;
+  margin-block: 4px;
   padding: 8px;
   border-radius: 9px;
   border: 1px solid #d3d8e0;
   background: #fff;
+  position: relative;
   &:hover {
     border: 1px solid #1c1c1c;
   }
@@ -29,6 +31,11 @@
   align-items: center;
   margin-bottom: 20px;
 }
+.form-label {
+  margin-left: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
 
 .form-input {
   padding-left: 4px;
@@ -42,12 +49,6 @@
   }
   &:focus::placeholder {
     color: transparent;
-  }
-  &:focus {
-    .input-icons {
-      // your styles here
-      border: 1px solid #1c1c1c;
-    }
   }
 }
 
@@ -68,7 +69,7 @@
 }
 
 .form-title {
-  font-size: 29px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: 38px;
@@ -76,7 +77,9 @@
 
 .form-btn-group {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
   align-items: center;
   margin-top: 20px;
 
@@ -85,16 +88,19 @@
     font-size: 20px;
     padding: 12px 80px;
     border-radius: 12px;
-    height: 52px;
+    font-size: 16px;
+    height: 48px;
     cursor: pointer;
   }
   .cancel {
     color: rgba(21, 25, 32, 0.5);
     background-color: #f5f7fb;
+    flex:1;
   }
   .save {
     background-color: #ff385c;
     color: #fff;
+    flex: 1;
   }
 }
 

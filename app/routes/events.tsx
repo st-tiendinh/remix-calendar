@@ -41,14 +41,20 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return redirect('?error= Event not found!!');
   }
 
-  return json({ events, status: 200, paramsValue, eventsByMonth });
+  const todayEvent = await getEventsByDay(`${new Date().toLocaleDateString()}`);
+
+  if (!todayEvent) {
+    return json({ error: 'Today event not found!!', status: 404 });
+  }
+
+  return json({ events, status: 200, paramsValue, eventsByMonth, todayEvent });
 };
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
-  const { events, paramsValue } = data;
+  const { events, paramsValue, todayEvent } = data;
   const [isShow, setIsShow] = useState(true);
-  
+
   useEffect(() => {
     if (paramsValue?.success) {
       toast.success(`${paramsValue?.success}`);
@@ -59,13 +65,23 @@ export default function EventList() {
 
   return (
     <>
-
       <div className="home">
         <div className="row">
-          <div className={`col col-3  sidebar ${isShow ? '' : 'sidebar-sm'}`}>
-            <Sidebar events={events} isShow={isShow} setIsShow={setIsShow} />
+          <div
+            className={`col col-3 col-md-4 sidebar ${
+              isShow ? '' : 'sidebar-sm'
+            }`}
+          >
+            <Sidebar
+              events={events}
+              todayEvent={todayEvent}
+              isShow={isShow}
+              setIsShow={setIsShow}
+            />
           </div>
-          <div className={`col col-9 ${isShow ? '' : ' full-calendar'}`}>
+          <div
+            className={`col col-9 col-md-8 ${isShow ? '' : ' full-calendar'}`}
+          >
             <CalendarWrapper eventList={events} />
           </div>
         </div>

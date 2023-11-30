@@ -290,7 +290,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
           end: 'timeGridWeek,dayGridMonth,timeGridDay',
         }}
         allDaySlot={false}
-        nowIndicator={true}
         editable={true}
         selectable={true}
         dayMaxEventRows={true}
