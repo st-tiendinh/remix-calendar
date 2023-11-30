@@ -157,6 +157,7 @@ image {
 
 .form-input-group {
   display: flex;
+  margin-bottom: 8px;
 }
 
 .form-label {
@@ -167,11 +168,12 @@ image {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-block: 8px;
+  margin-block: 4px;
   padding: 8px;
   border-radius: 9px;
   border: 1px solid #d3d8e0;
   background: #fff;
+  position: relative;
 }
 .input-icons:hover {
   border: 1px solid #1c1c1c;
@@ -187,6 +189,12 @@ image {
   margin-bottom: 20px;
 }
 
+.form-label {
+  margin-left: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 .form-input {
   padding-left: 4px;
   border-radius: 8px;
@@ -199,9 +207,6 @@ image {
 }
 .form-input:focus::placeholder {
   color: transparent;
-}
-.form-input:focus .input-icons {
-  border: 1px solid #1c1c1c;
 }
 
 .form-error {
@@ -223,7 +228,7 @@ image {
 }
 
 .form-title {
-  font-size: 29px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: 38px;
@@ -231,7 +236,9 @@ image {
 
 .form-btn-group {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
   align-items: center;
   margin-top: 20px;
 }
@@ -240,16 +247,19 @@ image {
   font-size: 20px;
   padding: 12px 80px;
   border-radius: 12px;
-  height: 52px;
+  font-size: 16px;
+  height: 48px;
   cursor: pointer;
 }
 .form-btn-group .cancel {
   color: rgba(21, 25, 32, 0.5);
   background-color: #f5f7fb;
+  flex: 1;
 }
 .form-btn-group .save {
   background-color: #ff385c;
   color: #fff;
+  flex: 1;
 }
 
 .btn-add {
@@ -392,56 +402,67 @@ image {
   transform: translate(-50%, -50%);
   background-color: #fff;
   z-index: 99;
-  border-radius: 10px;
+  border-radius: 24px;
 }
-.modal-wrapper .modal-confirm {
+.modal-wrapper .modal-confirm-wrapper {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9997;
+}
+.modal-wrapper .modal-confirm-wrapper .modal-confirm {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  width: 500px;
-  min-height: 250px;
   border-radius: 12px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  padding: 16px;
+  padding: 24px;
   z-index: 9999;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
 }
-.modal-wrapper .modal-confirm-title {
+.modal-wrapper .modal-confirm-wrapper .modal-confirm-title {
   font-size: 32px;
   text-align: center;
   font-weight: 500;
   margin-bottom: 20px;
+  pointer-events: none;
 }
-.modal-wrapper .modal-confirm-footer {
+.modal-wrapper .modal-confirm-wrapper .modal-confirm-footer {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
-.modal-wrapper .modal-confirm-footer .btn-confirm {
+.modal-wrapper .modal-confirm-wrapper .modal-confirm-footer .btn-confirm {
+  flex: 1;
   font-weight: 700;
   font-size: 20px;
-  padding: 12px 80px;
+  padding: 12px 60px;
   border-radius: 12px;
-  height: 52px;
+  height: 48px;
   background-color: #ff385c;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
-.modal-wrapper .modal-confirm-footer .btn-confirm:hover {
+.modal-wrapper .modal-confirm-wrapper .modal-confirm-footer .btn-confirm:hover {
   background-color: #ff0532;
 }
-.modal-wrapper .modal-confirm-footer .btn-cancel {
+.modal-wrapper .modal-confirm-wrapper .modal-confirm-footer .btn-cancel {
+  flex: 1;
   font-weight: 700;
   font-size: 20px;
-  padding: 12px 80px;
+  padding: 12px 60px;
   border-radius: 12px;
   height: 52px;
   color: rgba(21, 25, 32, 0.5);
@@ -449,7 +470,7 @@ image {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
-.modal-wrapper .modal-confirm-footer .btn-cancel:hover {
+.modal-wrapper .modal-confirm-wrapper .modal-confirm-footer .btn-cancel:hover {
   background-color: #f0f0f0;
 }
 
@@ -517,8 +538,8 @@ image {
   width: 530px;
   padding: 24px 28px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-  border-radius: 10px;
-  max-height: 600px;
+  border-radius: 24px;
+  max-height: 660px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
