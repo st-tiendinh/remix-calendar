@@ -1,5 +1,5 @@
 import { EventType } from './CalendarWrapper';
-
+import SvgCamera from '~/shared/components/icons/IcCamera';
 type CalendarEventProps = {
   isHasMeetingLink: boolean;
   eventType: EventType;
@@ -35,7 +35,7 @@ export default function CalendarEventBar({
             <span
               className={`custom-event-icon bg-${EventTypeColor[eventType]}`}
             >
-              <i className="icon icon-camera"></i>
+              <SvgCamera />
             </span>
           </div>
         )}

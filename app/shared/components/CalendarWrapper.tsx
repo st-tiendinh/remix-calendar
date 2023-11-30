@@ -9,6 +9,7 @@ import { formatTimeToISOString } from '../utils/formatNumberToDateString';
 import CalendarColumnHeader from './CalendarColumnHeader';
 import CalendarEventBar from './CalendarEventBar';
 import type { CalendarEvent } from '../utils/types.server';
+import SvgCamera from './icons/IcCamera';
 
 export enum EventType {
   TEAM_MEETING = 'team_meeting',
@@ -153,16 +154,14 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   /* === Handle event of calendar === */
 
   const handleEventClick = (info: any) => {
-    navigate(
-      `/events/${info.event._def.publicId}`
-    );
+    navigate(`/events/${info.event._def.publicId}`);
   };
 
   const handleGetAllDayEvents = () => {
     (calendarRef.current as any).getApi().changeView('timeGridDay');
     (calendarRef.current as any).getApi().gotoDate(new Date());
     const now = new Date();
-  
+
     const month = now.getMonth() + 1;
     const day = now.getDate();
     const year = now.getFullYear();
@@ -245,7 +244,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
 
   return (
     <div className="calendar-wrapper">
-      <i className="icon icon-camera"></i>
+      <SvgCamera />
       <FullCalendar
         ref={calendarRef}
         customButtons={{

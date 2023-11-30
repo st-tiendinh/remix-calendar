@@ -1,10 +1,13 @@
-import { Link, Outlet, useLocation, useNavigation } from '@remix-run/react';
+import { Link, useLocation, useNavigation } from '@remix-run/react';
 
 import { type EventData } from '../utils/types.server';
 import { Spinner } from './Spinner';
 import MiniCalendar from './MiniCalendar';
 import logo from '../../../assets/images/logo.svg';
-
+import SvgList from '~/shared/components/icons/IcList';
+import SvgPlusCircle from '~/shared/components/icons/IcPlusCircle';
+import SvgCamera from '~/shared/components/icons/IcCamera';
+import SvgActiveEvent from '~/shared/components/icons/IcActiveEvent';
 interface SidebarProps {
   events: EventData[];
   isShow: boolean;
@@ -25,7 +28,7 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
     <>
       <div className="sidebar-header">
         <button onClick={() => setIsShow((prev) => !prev)} className="btn">
-          <i className="icon icon-list"></i>
+          <SvgList />
         </button>
         <Link className={`${isShow ? null : 'hide'}`} to="/">
           <h1 className="logo">
@@ -39,16 +42,16 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
           className={`btn-create ${isShow ? '' : 'sm'} `}
           to="/events/create"
         >
-          <i className="icon icon-plus-circle"></i>
+          <SvgPlusCircle />
 
           <span className={`btn-create-text ${isShow ? null : 'hide'}`}>
             CREATE
           </span>
         </Link>
         <div className={`${isShow ? '' : 'hide'}`}>
-        <MiniCalendar />
+          <MiniCalendar />
         </div>
-        
+
         <div className={`today-event ${isShow ? '' : 'hide'}`}>
           <div className="event-header">
             <h3 className="event-header-title">Today's Events:</h3>
@@ -65,7 +68,7 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
               {events.map((event) => (
                 <li key={event.title} className="event-item">
                   <p>
-                    <i className="icon icon-active-event"></i>
+                    <SvgActiveEvent />
                   </p>
                   <div className="event-detail">
                     <div className="event-info">
@@ -74,7 +77,7 @@ export default function Sidebar({ events, isShow, setIsShow }: SidebarProps) {
                       </span>
                       {event.meetingLink && (
                         <span className="icon-wrapper">
-                          <i className="icon icon-camera"></i>
+                          <SvgCamera />
                         </span>
                       )}
                     </div>

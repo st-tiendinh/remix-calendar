@@ -15,6 +15,7 @@ import SvgBuilding from '~/shared/components/icons/Building';
 import SvgEdit from '~/shared/components/icons/Edit';
 import { Form } from '~/shared/components/RemixForm';
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
+import { getUserId } from '~/server/auth.server';
 
 export let loader: LoaderFunction = async ({ params, request }) => {
   const event = await prisma.event.findUnique({
@@ -32,21 +33,20 @@ export let loader: LoaderFunction = async ({ params, request }) => {
   const modalType = getSearchParams({ url: request.url }).modalType;
 
   const authorName = author?.profile;
+  const userId = await getUserId(request);
 
-  return json({ event, authorName, modalType });
+  return json({ event, authorName, modalType, userId });
 };
 
 const Event = () => {
-  const { event, modalType } = useLoaderData<typeof loader>();
+  const { event, modalType, userId } = useLoaderData<typeof loader>();
 
   const deleteEventSchema = z.object({});
 
   const ModalDelete = () => {
     return (
       <div className="modal-confirm">
-        <p className="modal-confirm-title">
-          Are you sure?
-        </p>
+        <p className="modal-confirm-title">Are you sure?</p>
         <Form
           schema={deleteEventSchema}
           method="post"
@@ -74,10 +74,26 @@ const Event = () => {
         <div className="modal">
           <div className="modal-event-wrapper">
             <div className="modal-event-header">
-              <Link to={`/events/${event.id}/edit`} className=" btn-modal-link">
+              <Link
+                to={
+                  userId
+                    ? `/events/${event.id}/edit`
+                    : `/login?redirectUrl=${encodeURIComponent(
+                        `/events/${event.id}/edit`
+                      )}`
+                }
+                className=" btn-modal-link"
+              >
                 <SvgEdit />
               </Link>
-              <Link to={'?modal-type=delete'} className="btn-modal-link">
+              <Link
+                to={
+                  userId
+                    ? '?modal-type=delete'
+                    : `/login?redirectUrl=/events/${event.id}?modal-type=delete`
+                }
+                className="btn-modal-link"
+              >
                 <SvgTrashSolid />
               </Link>
               <Link to={`/events`} className=" btn-modal-link">

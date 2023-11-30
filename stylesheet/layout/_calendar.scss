@@ -31,7 +31,31 @@
     overflow-y: scroll !important;
   }
 
+  .fc-timegrid-now-indicator-line {
+    display: none;
+  }
   .fc {
+    &-scroller {
+      overflow: hidden !important;
+      &:hover {
+        overflow: hidden scroll !important;
+      }
+    }
+    .fc-scroller::-webkit-scrollbar {
+      width: 10px;
+      cursor: pointer;
+    }
+    /* Handle */
+    .fc-scroller::-webkit-scrollbar-thumb {
+      background: lighten($color: #f15773, $amount: 10);
+      border-radius: 8px;
+    }
+
+    /* Handle on hover */
+    .fc-scroller::-webkit-scrollbar-thumb:hover {
+      background: #f15773;
+    }
+
     .fc-daygrid-day-top {
       flex-direction: row;
       padding-left: 6px;
