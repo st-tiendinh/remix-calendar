@@ -6,6 +6,7 @@ import { getEventsByDay, getEventsByMonth } from '~/server/event.server';
 
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
 import Sidebar from '~/shared/components/Sidebar';
+import Header from '~/shared/components/Header';
 
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
@@ -65,6 +66,7 @@ export default function EventList() {
 
   return (
     <>
+      <Header setShowSidebar={setIsShow} />
       <div className="home">
         <div className="row">
           <div
@@ -72,12 +74,7 @@ export default function EventList() {
               isShow ? '' : 'sidebar-sm'
             }`}
           >
-            <Sidebar
-              events={events}
-              todayEvent={todayEvent}
-              isShow={isShow}
-              setIsShow={setIsShow}
-            />
+            <Sidebar events={events} todayEvent={todayEvent} isShow={isShow} />
           </div>
           <div
             className={`col col-9 col-md-8 ${isShow ? '' : ' full-calendar'}`}
