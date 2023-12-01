@@ -73,7 +73,6 @@ export default function EventList() {
             }`}
           >
             <Sidebar
-              events={events}
               todayEvent={todayEvent}
               isShow={isShow}
               setIsShow={setIsShow}
