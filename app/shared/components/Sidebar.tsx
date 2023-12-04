@@ -1,49 +1,64 @@
-import { Link, Outlet, useLocation, useNavigation } from '@remix-run/react';
+import { Link } from '@remix-run/react';
 
 import { type EventData } from '../utils/types.server';
-import EventList from './EventList';
-import { Spinner } from './Spinner';
 
+import MiniCalendar from './MiniCalendar';
+import SvgPlusCircle from '~/shared/components/icons/IcPlusCircle';
+import SvgCamera from '~/shared/components/icons/IcCamera';
+import SvgActiveEvent from '~/shared/components/icons/IcActiveEvent';
 interface SidebarProps {
-  events: EventData[];
+  todayEvent: EventData[];
+  isShow: boolean;
 }
 
-export default function Sidebar({ events }: SidebarProps) {
-  const location = useLocation();
-  const navigation = useNavigation();
-  console.log(navigation.state);
-
+export default function Sidebar({ todayEvent, isShow }: SidebarProps) {
   return (
-    <div className="col col-3 sidebar">
+    <aside>
       <div className="sidebar-header">
-        <button className="btn">
-          <i className="icon icon-list"></i>
-        </button>
-        {location.pathname === '/events' ? (
-          <Link to={'/events/create'}>
-            <button className="btn">
-              <i className="icon icon-plus"></i>
-            </button>
-          </Link>
-        ) : (
-          <Link to={'/events'}>
-            <button className="btn">
-              <i className="icon icon-arrow-left"></i>
-            </button>
-          </Link>
-        )}
+        <Link
+          className={`btn-create ${isShow ? '' : 'sm'} `}
+          to="/events/create"
+        >
+          <SvgPlusCircle />
+          <span className={`btn-create-text ${isShow ? null : 'hide'}`}>
+            CREATE
+          </span>
+        </Link>
       </div>
-      {navigation.state !== 'idle' ? (
-        <Spinner />
-      ) : (
-        <>
-          {location.pathname === '/events' ? (
-            <EventList events={events} />
-          ) : (
-            <Outlet />
-          )}
-        </>
-      )}
-    </div>
+
+      <div className={`${isShow ? '' : 'hide'}`}>
+        <MiniCalendar />
+      </div>
+
+      <div className={`today-event ${isShow ? '' : 'hide'}`}>
+        <div className="event-header">
+          <h3 className="event-header-title">Today's Events:</h3>
+          <span className="event-date">{new Date().toLocaleDateString()}</span>
+        </div>
+        <ul className="event-list">
+          {todayEvent.map((event) => (
+            <li key={event.title} className="event-item">
+              <p>
+                <SvgActiveEvent />
+              </p>
+              <div className="event-detail">
+                <div className="event-info">
+                  <span className="event-time">
+                    {event.timeStart} - {event.timeEnd}
+                  </span>
+                  {event.meetingLink && (
+                    <span className="icon-wrapper">
+                      <SvgCamera />
+                    </span>
+                  )}
+                </div>
+                <h3 className="event-title">{event.title}</h3>
+                <p className="event-meeting-link">{event.meetingLink}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
   );
 }

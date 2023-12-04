@@ -21,9 +21,14 @@
     background-image: url('../../assets/icons/ic-arrow-left.svg');
   }
   &.icon-list {
-    width: 18px;
-    height: 18px;
+    width: 26px;
+    height: 26px;
     background-image: url('../../assets/icons/ic-list.svg');
+  }
+  &.icon-plus-circle {
+    width: 32px;
+    height: 32px;
+    background-image: url('../../assets/icons/ic-plus-circle.svg');
   }
   &.icon-trash {
     width: 24px;
@@ -39,6 +44,17 @@
     width: 8px;
     height: 8px;
     background-image: url('../../assets/icons/ic-active.svg');
+  }
+
+  &.icon-active-event {
+    width: 12px;
+    height: 12px;
+    background-image: url('../../assets/icons/ic-active-event.svg');
+  }
+  &.icon-camera {
+    width: 8px;
+    height: 8px;
+    background-image: url('../../assets/icons/ic-camera.svg');
   }
   &.icon-meeting-link {
     width: 22px;

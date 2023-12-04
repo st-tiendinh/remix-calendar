@@ -88,7 +88,7 @@ export async function register(user: RegisterForm) {
  * @param {LoginForm} param0 - An object containing the user's email and password.
  * @returns {Promise<Response>} A Promise that resolves to a user session if the login is successful, or a JSON response with an error message if the login fails.
  */
-export async function login({ email, password }: LoginForm) {
+export async function login({ email, password, redirectUrl = '/' }: LoginForm) {
   // Find the user in the database using the provided email
   const user = await prisma.user.findUnique({
     where: { email },
@@ -99,7 +99,7 @@ export async function login({ email, password }: LoginForm) {
     return json({ error: `Incorrect email or password` }, { status: 400 });
 
   // If the login is successful, create a user session and return it
-  return createUserSession(user.id, '/');
+  return createUserSession(user.id, redirectUrl);
 }
 
 /**

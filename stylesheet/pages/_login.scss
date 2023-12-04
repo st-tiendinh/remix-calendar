@@ -1,9 +1,7 @@
 .login-page {
   height: 100vh;
-  padding: 34px;
 
   .login-wrapper {
-    display: flex;
     height: 100%;
   }
 
@@ -11,7 +9,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
   }
 
   .login-content {
@@ -21,66 +18,44 @@
     min-width: 350px;
 
     .login-title {
-      font-size: 120px;
+      font-size: 32px;
       font-weight: 700;
-      line-height: 0.8;
+      line-height: 1;
     }
 
     .login-sub-title {
-      font-size: map-get($font-size, $key: lg);
+      font-size: 16px;
       font-weight: 500;
-      color: map-get($color, $key: primary);
+      color: #525252;
       margin-bottom: 24px;
+      text-wrap: wrap;
+      text-align: center;
     }
 
     .login-form {
-      width: 350px;
+      min-width: 350px;
 
-      .form-field {
-        position: relative;
-      }
-
-      .form-input-group {
-        position: relative;
-        margin-bottom: 24px;
-
-        .icon {
-          position: absolute;
-          left: 10px;
-          top: 14px;
-          z-index: 10;
-        }
-      }
-
-      .error-text {
-        margin-top: 6px;
-        height: 10px;
-        font-size: map-get($font-size, $key: xs);
-        color: map-get($color, $key: red);
-        line-height: 1;
-      }
-
-      .form-input {
-        position: relative;
-        width: 100%;
-        padding: 16px 18px 16px 44px;
-        background-color: #f2f2f2;
-        border-radius: 13px;
-
-        &:focus::placeholder {
-          color: transparent;
-        }
+      .login-btn {
+        margin-top: 16px;
       }
     }
   }
 
   .login-bg {
-    width: 50%;
     height: 100%;
   }
 
   .login-image {
     height: 100%;
     width: 100%;
+    object-fit: cover;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .login-page {
+    .login-bg {
+      display: none;
+    }
   }
 }

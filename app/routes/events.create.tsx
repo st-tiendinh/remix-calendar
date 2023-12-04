@@ -64,6 +64,14 @@ export default function EventCreate() {
       toast.success(`${actionData?.message}`);
     }
   }, [actionData]);
-
-  return <FormEvent method={FormEventMethod.CREATE} />;
+  
+  return (
+    <div className="modal-wrapper">
+      <div className="modal">
+        <div className="modal-event-wrapper">
+          <FormEvent method={FormEventMethod.CREATE} />
+        </div>
+      </div>
+    </div>
+  );
 }
