@@ -39,12 +39,17 @@ export type CalendarEvent = {
   updatedAt: string;
 };
 
-export type ActionData = {
-  error?: string | undefined;
-  message?: string | undefined;
-};
-
 export type EventDate = {
   timeStart: string;
   timeEnd: string;
+};
+
+export type UserInfo = {
+  firstName: string;
+  lastName: string;
+};
+
+export type ActionData = {
+  error?: string | undefined;
+  message?: string | undefined;
 };

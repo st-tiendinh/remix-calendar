@@ -3,8 +3,9 @@
 }
 
 .calendar-wrapper {
-  padding: 0 20px 20px;
   height: 100vh;
+  padding: 0 20px 20px;
+  margin-top: 52px;
 
   .day-header-name,
   .day-header-value {
@@ -66,6 +67,12 @@
 
     .fc-view-harness.fc-view-harness-active {
       overflow-x: scroll;
+    }
+
+    .fc-timegrid-cols {
+      .presentation {
+        width: 100%;
+      }
     }
 
     .fc-timeGridWeek-view.fc-view.fc-timegrid {
@@ -279,7 +286,7 @@
 
 @include tablet {
   .calendar-wrapper {
-    padding: 0 0 20px;
+    padding: 0 10px 20px;
 
     .day-header-value {
       font-size: 16px;

@@ -6,8 +6,10 @@ import { getEventsByDay, getEventsByMonth } from '~/server/event.server';
 
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
 import Sidebar from '~/shared/components/Sidebar';
+import Header from '~/shared/components/Header';
 
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
+import { getUser } from '~/server/auth.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const myParams = new URL(request.url).searchParams;
@@ -16,6 +18,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const monthParams = myParams.get('month');
   const yearParams = myParams.get('year');
   const paramsValue = getSearchParams({ url: request.url });
+  const userInfo = await getUser(request);
 
   let events;
 
@@ -47,12 +50,19 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return json({ error: 'Today event not found!!', status: 404 });
   }
 
-  return json({ events, status: 200, paramsValue, eventsByMonth, todayEvent });
+  return json({
+    events,
+    paramsValue,
+    eventsByMonth,
+    todayEvent,
+    userInfo: userInfo?.profile,
+    status: 200,
+  });
 };
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
-  const { events, paramsValue, todayEvent } = data;
+  const { events, paramsValue, todayEvent, userInfo } = data;
   const [isShow, setIsShow] = useState(true);
 
   useEffect(() => {
@@ -65,6 +75,7 @@ export default function EventList() {
 
   return (
     <>
+      <Header setShowSidebar={setIsShow} userInfo={userInfo} />
       <div className="home">
         <div className="row">
           <div
@@ -72,11 +83,7 @@ export default function EventList() {
               isShow ? '' : 'sidebar-sm'
             }`}
           >
-            <Sidebar
-              todayEvent={todayEvent}
-              isShow={isShow}
-              setIsShow={setIsShow}
-            />
+            <Sidebar todayEvent={todayEvent} isShow={isShow} />
           </div>
           <div
             className={`col col-9 col-md-8 ${isShow ? '' : ' full-calendar'}`}

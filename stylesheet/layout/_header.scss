@@ -1,0 +1,43 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 24px;
+  z-index: 2;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: #fff;
+
+  &-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .logo {
+      &-link {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  &-logo-group {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 32px;
+  }
+}
+
+@include tablet {
+  .header {
+    &-logo-group {
+      gap: 10px;
+      padding: 0;
+
+      .btn.btn-toggle-sidebar {
+        margin-left: 8px;
+      }
+    }
+  }
+}

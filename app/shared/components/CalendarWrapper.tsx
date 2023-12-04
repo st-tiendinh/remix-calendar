@@ -87,6 +87,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         title: event.title,
         meetingLink: event.meetingLink,
         eventType: getRandomEventType(),
+        // eventType: EventType.BIRTHDAY,
         start: formatTimeToISOString(event.timeStart, event.date),
         end: formatTimeToISOString(event.timeEnd, event.date),
         durationEditable: true,

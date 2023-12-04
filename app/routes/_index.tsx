@@ -3,7 +3,7 @@ import {
   type MetaFunction,
   type LoaderFunction,
 } from '@remix-run/node';
-import { getUser } from '~/server/auth.server';
+// import { getUser } from '~/server/auth.server';
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,7 +12,8 @@ export const meta: MetaFunction = () => {
   ];
 };
 export const loader: LoaderFunction = async ({ request }) => {
-  return (await getUser(request)) ? redirect('/events') : redirect('/login');
+  // return (await getUser(request)) ? redirect('/events') : null;
+  return redirect('/events');
 };
 
 export default function Index() {

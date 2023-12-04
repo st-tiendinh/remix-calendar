@@ -9,15 +9,17 @@ export const loader: LoaderFunction = async ({}) => {
 };
 
 export default function MiniCalendar() {
+  const { eventsByMonth } = useLoaderData<typeof loader>();
   const [params] = useSearchParams();
   const [currentDateValue, setCurrentDateValue] = useState<Date>();
   const navigate = useNavigate();
-  const { eventsByMonth } = useLoaderData<typeof loader>();
+
   useEffect(() => {
     if (params.get('filter')) {
       setCurrentDateValue(getDateParams());
     }
   }, [params]);
+
   const handleChangeDate = (date: Date, filterType: string) => {
     navigate(
       `/events?filter=${filterType}&day=${date.getDate()}&month=${
@@ -25,7 +27,8 @@ export default function MiniCalendar() {
       }&year=${date.getFullYear()}`
     );
   };
-  function isDateExists(inputDate: Date, events: EventData[]) {
+
+  const isDateExists = (inputDate: Date, events: EventData[]) => {
     const inputDateUTC = new Date(
       inputDate.getTime() - inputDate.getTimezoneOffset() * 60000
     );
@@ -35,7 +38,8 @@ export default function MiniCalendar() {
       return itemDate === formattedInputDate;
     });
     return found;
-  }
+  };
+
   const getDateParams = () => {
     const day = params.get('day') ? params.get('day') : new Date().getDate();
     const month = params.get('month')
@@ -47,6 +51,7 @@ export default function MiniCalendar() {
 
     return new Date(`${year}-${month}-${day}`);
   };
+
   return (
     <div className="mini-calendar">
       <Calendar

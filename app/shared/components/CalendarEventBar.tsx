@@ -1,3 +1,4 @@
+import React from 'react';
 import { EventType } from './CalendarWrapper';
 import SvgCamera from '~/shared/components/icons/IcCamera';
 type CalendarEventProps = {
@@ -7,7 +8,7 @@ type CalendarEventProps = {
   eventTitle: string;
 };
 
-export default function CalendarEventBar({
+export default React.memo(function CalendarEventBar({
   isHasMeetingLink,
   eventType,
   eventTime,
@@ -46,4 +47,4 @@ export default function CalendarEventBar({
       </div>
     </div>
   );
-}
+});
