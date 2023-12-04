@@ -245,7 +245,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
 
   return (
     <div className="calendar-wrapper">
-      <SvgCamera />
       <FullCalendar
         ref={calendarRef}
         customButtons={{

@@ -334,3 +334,21 @@
     }
   }
 }
+
+@include mobile {
+  .calendar-wrapper {
+    padding: 16px 0 0 0;
+    margin-top: 0;
+  }
+  .fc-header-toolbar {
+    padding-left: 90px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .fc-header-toolbar {
+    .fc-toolbar-chunk:nth-child(2) {
+      display: none;
+    }
+  }
+}

@@ -86,7 +86,9 @@ export default function EventList() {
             <Sidebar todayEvent={todayEvent} isShow={isShow} />
           </div>
           <div
-            className={`col col-9 col-md-8 ${isShow ? '' : ' full-calendar'}`}
+            className={`col col-9 col-md-8 col-sm-12 ${
+              isShow ? '' : ' full-calendar'
+            }`}
           >
             <CalendarWrapper eventList={events} />
           </div>

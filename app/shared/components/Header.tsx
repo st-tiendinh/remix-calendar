@@ -3,6 +3,7 @@ import { Link } from '@remix-run/react';
 import logo from '../../../assets/images/logo.svg';
 import SvgList from '~/shared/components/icons/IcList';
 import type { UserInfo } from '../utils/types.server';
+import { useState } from 'react';
 
 type HeaderProps = {
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,8 +11,13 @@ type HeaderProps = {
 };
 
 export default function Header({ setShowSidebar, userInfo }: HeaderProps) {
+  const [isShowAction, setIsShowAction] = useState(false);
   const handleShowSidebar = () => {
     setShowSidebar((prev) => !prev);
+  };
+
+  const toggleShowAction = () => {
+    setIsShowAction(!isShowAction);
   };
 
   return (
@@ -30,16 +36,23 @@ export default function Header({ setShowSidebar, userInfo }: HeaderProps) {
             </Link>
           </h1>
         </div>
-        <div className="header-action">
+        <button className="btn btn-toggle-menu" onClick={toggleShowAction}>
+          <SvgList />
+        </button>
+        <div className={`header-action ${!isShowAction ? 'hide' : 'show'}`}>
           {/* {userInfo && (
             <span className="header-action-user-info">
               {userInfo.firstName}
               {userInfo.lastName}
             </span>
           )} */}
+
+          <Link to={'/events/create'} className="btn btn-red btn-create">
+            <span className="btn-create-text">Create</span>
+          </Link>
           <Link
             to={`${userInfo ? '/logout' : '/login'}`}
-            className="btn btn-primary"
+            className="btn btn-primary btn-user-action"
           >
             {userInfo ? 'Logout' : 'Login'}
           </Link>
