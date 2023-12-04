@@ -83,7 +83,7 @@ export default function EventList() {
               isShow ? '' : 'sidebar-sm'
             }`}
           >
-            <Sidebar events={events} todayEvent={todayEvent} isShow={isShow} />
+            <Sidebar todayEvent={todayEvent} isShow={isShow} />
           </div>
           <div
             className={`col col-9 col-md-8 ${isShow ? '' : ' full-calendar'}`}

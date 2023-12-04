@@ -7,7 +7,6 @@ import SvgPlusCircle from '~/shared/components/icons/IcPlusCircle';
 import SvgCamera from '~/shared/components/icons/IcCamera';
 import SvgActiveEvent from '~/shared/components/icons/IcActiveEvent';
 interface SidebarProps {
-  events: EventData[];
   todayEvent: EventData[];
   isShow: boolean;
 }
