@@ -59,7 +59,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
     const today = new Date().toISOString().split('T')[0];
     return today;
   };
-  // const location = useLocation();
+
   return (
     <div className="form-event">
       <div className="form-header">
@@ -158,7 +158,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               <Field name="timeStart" className="form-input-group col col-6">
                 {({ Errors }) => (
                   <>
-                  <label className="form-label">Time start</label>
+                    <label className="form-label">Time start</label>
                     <div className="input-icons">
                       <SvgClockSolid />
                       <input
@@ -180,7 +180,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               <Field name="timeEnd" className="form-input-group col col-6">
                 {({ Label, SmartInput, Errors }) => (
                   <>
-                  <label className="form-label">Time end</label>
+                    <label className="form-label">Time end</label>
                     <div className="input-icons">
                       <SvgClockSolid />
                       <input
@@ -203,7 +203,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             <Field name="location" className="form-input-group">
               {({ Label, Errors }) => (
                 <>
-                <label className="form-label">Location</label>
+                  <label className="form-label">Location</label>
                   <div className="input-icons">
                     <SvgBuilding />
                     <input
@@ -225,7 +225,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             <Field name="meetingLink" className="form-input-group">
               {({ Label, Errors }) => (
                 <>
-                <label className="form-label">Meeting Link</label>
+                  <label className="form-label">Meeting Link</label>
                   <div className="input-icons">
                     <SvgExternalLinkAltSolid />
                     <input

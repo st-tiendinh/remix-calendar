@@ -2,12 +2,14 @@ import { Link } from '@remix-run/react';
 
 import logo from '../../../assets/images/logo.svg';
 import SvgList from '~/shared/components/icons/IcList';
+import type { UserInfo } from '../utils/types.server';
 
 type HeaderProps = {
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+  userInfo: UserInfo;
 };
 
-export default function Header({ setShowSidebar }: HeaderProps) {
+export default function Header({ setShowSidebar, userInfo }: HeaderProps) {
   const handleShowSidebar = () => {
     setShowSidebar((prev) => !prev);
   };
@@ -29,8 +31,17 @@ export default function Header({ setShowSidebar }: HeaderProps) {
           </h1>
         </div>
         <div className="header-action">
-          <Link to={'/logout'} className="btn btn-primary">
-            Logout
+          {/* {userInfo && (
+            <span className="header-action-user-info">
+              {userInfo.firstName}
+              {userInfo.lastName}
+            </span>
+          )} */}
+          <Link
+            to={`${userInfo ? '/logout' : '/login'}`}
+            className="btn btn-primary"
+          >
+            {userInfo ? 'Logout' : 'Login'}
           </Link>
         </div>
       </div>
