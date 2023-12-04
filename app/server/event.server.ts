@@ -35,7 +35,7 @@ export const deleteEvent = async (eventId: string, userId: string) => {
 
   if (event.authorId !== userId) {
     return redirect(
-      `/events/${eventId}/edit?error=You are not authorized to delete this event`
+      `/events/${eventId}?error=You are not authorized to delete this event`
     );
   } else {
     deleteEventMiddleWare();
@@ -103,7 +103,7 @@ export const getDeletedEvents = async (userId: string) => {
 
 export const getEventsByDay = async (date: string) => {
   let targetDate = new Date(date);
-
+  
   const startDate = new Date(
     targetDate.toISOString().split('T')[0] + 'T00:00:00.000Z'
   );

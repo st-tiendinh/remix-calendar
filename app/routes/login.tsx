@@ -8,6 +8,7 @@ import { InputError, makeDomainFunction } from 'domain-functions';
 import { toast } from 'react-hot-toast';
 
 import { login, getUser } from '~/server/auth.server';
+
 import {
   validateEmail,
   validatePassword,
@@ -15,6 +16,8 @@ import {
 import { Form } from '~/shared/components/RemixForm';
 import loginBg from '../../assets/images/login-bg.jpg';
 import { PASSWORD_REGEX } from '~/shared/constant/validator';
+import SvgUsername from '~/shared/components/icons/IcUsername';
+import SvgPassword from '~/shared/components/icons/IcPassword';
 
 const schema = z.object({
   email: z
@@ -59,19 +62,21 @@ export const loader: LoaderFunction = async ({ request }) => {
   return (await getUser(request)) ? redirect('/events') : null;
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, params }) => {
   const result = await performMutation({
     request,
     schema,
     mutation,
   });
+  const myParams = new URL(request.url).searchParams;
+  const redirectUrl = myParams.get('redirectUrl') || '/';
 
   if (!result.success) return json(result, 400);
 
   const email = result.data.email;
   const password = result.data.password;
 
-  return await login({ email, password });
+  return await login({ email, password, redirectUrl });
 };
 
 export default function Login() {
@@ -89,18 +94,20 @@ export default function Login() {
       <div className="login-wrapper row">
         <div className="login-content-wrapper col col-6 col-md-12">
           <div className="login-content">
-            <h1 className="login-title">Welcome</h1>
-            <h2 className="login-sub-title">
-              We are glad to see you back with us
-            </h2>
-            <Form schema={schema} className="form login-form" method="post">
+            <h1 className="login-title">LOGIN</h1>
+            <h2 className="login-sub-title">Welcome to FE Calendar</h2>
+            <Form
+              schema={schema}
+              className="form login-form form-event"
+              method="post"
+            >
               {({ Field, Errors, register }) => (
                 <>
-                  <div className="form-field">
-                    <Field name="email">
-                      {({ Label, Errors }) => (
-                        <div className="form-input-group">
-                          <i className={`icon icon-username`}></i>
+                  <Field name="email" className="form-input-group">
+                    {({ Label, Errors }) => (
+                      <>
+                        <div className="input-icons">
+                          <SvgUsername />
                           <input
                             type="email"
                             {...register('email')}
@@ -110,36 +117,36 @@ export default function Login() {
                               e.target.value = e.target.value.trim();
                             }}
                           />
-                          <div className="error-text">
-                            <Errors />
-                          </div>
                         </div>
-                      )}
-                    </Field>
-                  </div>
-                  <div className="form-field">
-                    <div className="form-input-group">
-                      <Field name="password">
-                        {({ Label, Errors }) => (
-                          <>
-                            <i className={`icon icon-password`}></i>
-                            <input
-                              type="password"
-                              {...register('password')}
-                              className="form-input"
-                              placeholder="Password"
-                              onBlur={(e) => {
-                                e.target.value = e.target.value.trim();
-                              }}
-                            />
-                            <div className="error-text">
-                              <Errors />
-                            </div>
-                          </>
-                        )}
-                      </Field>
-                    </div>
-                  </div>
+                        <div className="form-error">
+                          <Errors />
+                        </div>
+                      </>
+                    )}
+                  </Field>
+
+                  <Field name="password" className="form-input-group">
+                    {({ Label, Errors }) => (
+                      <>
+                        <div className="input-icons">
+                          <SvgPassword />
+                          <input
+                            type="password"
+                            {...register('password')}
+                            className="form-input"
+                            placeholder="Password"
+                            onBlur={(e) => {
+                              e.target.value = e.target.value.trim();
+                            }}
+                          />
+                        </div>
+                        <div className="form-error">
+                          <Errors />
+                        </div>
+                      </>
+                    )}
+                  </Field>
+
                   <Errors className="error-text" />
                   <button
                     className={`btn login-btn ${
@@ -147,7 +154,7 @@ export default function Login() {
                     }`}
                     disabled={navigation.state !== 'idle' ? true : false}
                   >
-                    Login
+                    LOGIN NOW
                   </button>
                 </>
               )}

@@ -1,15 +1,15 @@
 import { json, redirect, type LoaderFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Outlet, useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { getUserId } from '~/server/auth.server';
 import { getEventsByDay, getEventsByMonth } from '~/server/event.server';
-import { prisma } from '~/server/prisma.server';
+
 import CalendarWrapper from '~/shared/components/CalendarWrapper';
-import Modal from '~/shared/components/Modal';
 import Sidebar from '~/shared/components/Sidebar';
-import { resolveModal } from '~/shared/helper/resolveModal.server';
+import Header from '~/shared/components/Header';
+
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
+import { getUser } from '~/server/auth.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const myParams = new URL(request.url).searchParams;
@@ -18,6 +18,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const monthParams = myParams.get('month');
   const yearParams = myParams.get('year');
   const paramsValue = getSearchParams({ url: request.url });
+  const userInfo = await getUser(request);
 
   let events;
 
@@ -35,50 +36,34 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       yearParams as string
     );
   }
-  if (!events) {
-    return json({ error: 'Events Not Found', status: 404 });
+  const eventsByMonth = await getEventsByMonth(
+    monthParams as string,
+    yearParams as string
+  );
+  if (!events || !eventsByMonth) {
+    return redirect('?error= Event not found!!');
   }
 
-  const id = paramsValue.eventId;
+  const todayEvent = await getEventsByDay(`${new Date().toLocaleDateString()}`);
 
-  if (id) {
-    const event = await prisma.event.findUnique({
-      where: { id },
-    });
-
-    if (!event) return redirect('?error= Event not found!!');
-
-    const author = await prisma.user.findUnique({
-      where: { id: event.authorId },
-    });
-
-    const currentUserId = await getUserId(request);
-
-    const eventData = {
-      ...event,
-      author: {
-        name: author?.profile,
-        ...(author?.id === currentUserId && { id: currentUserId }),
-      },
-    };
-
-    return resolveModal(
-      paramsValue,
-      { eventData, eventId: id },
-      {
-        events,
-        status: 200,
-        paramsValue,
-      }
-    );
+  if (!todayEvent) {
+    return json({ error: 'Today event not found!!', status: 404 });
   }
 
-  return json({ events, status: 200, paramsValue });
+  return json({
+    events,
+    paramsValue,
+    eventsByMonth,
+    todayEvent,
+    userInfo: userInfo?.profile,
+    status: 200,
+  });
 };
 
 export default function EventList() {
   const data: any = useLoaderData<typeof loader>();
-  const { events, paramsValue, modalProps } = data;
+  const { events, paramsValue, todayEvent, userInfo } = data;
+  const [isShow, setIsShow] = useState(true);
 
   useEffect(() => {
     if (paramsValue?.success) {
@@ -88,21 +73,26 @@ export default function EventList() {
     }
   }, [paramsValue]);
 
-  const [isShow, setIsShow] = useState(false);
-  console.log(isShow);
   return (
     <>
-      <Modal modalProps={modalProps} />
+      <Header setShowSidebar={setIsShow} userInfo={userInfo} />
       <div className="home">
         <div className="row">
-          <div className={`col col-3  sidebar ${isShow ? '' : 'sidebar-sm'}`}>
-            <Sidebar events={events} isShow={isShow} setIsShow={setIsShow} />
+          <div
+            className={`col col-3 col-md-4 sidebar ${
+              isShow ? '' : 'sidebar-sm'
+            }`}
+          >
+            <Sidebar todayEvent={todayEvent} isShow={isShow} />
           </div>
-          <div className={`col col-9 ${isShow ? '' : ' full-calendar'}`}>
+          <div
+            className={`col col-9 col-md-8 ${isShow ? '' : ' full-calendar'}`}
+          >
             <CalendarWrapper eventList={events} />
           </div>
         </div>
       </div>
+      <Outlet />
     </>
   );
 }
