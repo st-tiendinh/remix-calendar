@@ -12,6 +12,7 @@ export const getSearchParams = ({ url }: Params) => {
     eventId: newUrl.get('event-id'),
     date: newUrl.get('date'),
     timeStart: newUrl.get('time-start'),
+    authForm: newUrl.get('auth'),
   };
 
   return messages;

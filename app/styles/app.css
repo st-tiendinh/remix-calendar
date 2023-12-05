@@ -2343,6 +2343,11 @@ image {
 .login-page .login-content .login-form .login-btn {
   margin-top: 16px;
 }
+.login-page .login-content .login-form .form-input-helper {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
+}
 .login-page .login-bg {
   height: 100%;
 }

@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { InputError, makeDomainFunction } from 'domain-functions';
 import { toast } from 'react-hot-toast';
 
-import { login, getUser } from '~/server/auth.server';
+import { getUser, register } from '~/server/auth.server';
 
 import {
   validateEmail,
@@ -18,6 +18,7 @@ import loginBg from '../../assets/images/login-bg.jpg';
 import { PASSWORD_REGEX } from '~/shared/constant/validator';
 import SvgUsername from '~/shared/components/icons/IcUsername';
 import SvgPassword from '~/shared/components/icons/IcPassword';
+import SvgEmail from '~/shared/components/icons/IcEmail';
 
 const schema = z.object({
   email: z
@@ -31,13 +32,22 @@ const schema = z.object({
       message:
         'Password require uppercase letter, lowercase letter, number, and special symbol',
     }),
+  firstName: z.string().min(1, { message: 'First name is required' }),
+  lastName: z.string().min(1, { message: 'Last name is required' }),
 });
 
 const mutation = makeDomainFunction(schema)(async (values) => {
   const email = values.email.trim();
   const password = values.password.trim();
+  const firstName = values.firstName.trim();
+  const lastName = values.lastName.trim();
 
-  if (typeof email !== 'string' || typeof password !== 'string') {
+  if (
+    typeof email !== 'string' ||
+    typeof password !== 'string' ||
+    typeof firstName !== 'string' ||
+    typeof lastName !== 'string'
+  ) {
     throw 'Invalid Form Data';
   }
 
@@ -54,7 +64,7 @@ const mutation = makeDomainFunction(schema)(async (values) => {
     throw new InputError('Invalid password', 'password');
   }
 
-  return { email, password };
+  return { email, password, firstName, lastName };
 });
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -68,15 +78,15 @@ export const action: ActionFunction = async ({ request, params }) => {
     schema,
     mutation,
   });
-  const myParams = new URL(request.url).searchParams;
-  const redirectUrl = myParams.get('redirectUrl') || '/';
 
   if (!result.success) return json(result, 400);
 
   const email = result.data.email;
   const password = result.data.password;
+  const firstName = result.data.firstName;
+  const lastName = result.data.lastName;
 
-  return await login({ email, password, redirectUrl });
+  return await register({ email, password, firstName, lastName });
 };
 
 export default function Login() {
@@ -103,11 +113,55 @@ export default function Login() {
             >
               {({ Field, Errors, register }) => (
                 <>
-                  <Field name="email" className="form-input-group">
+                  <Field name="firstName" className="form-input-group">
                     {({ Label, Errors }) => (
                       <>
                         <div className="input-icons">
                           <SvgUsername />
+                          <input
+                            type="text"
+                            {...register('firstName')}
+                            className="form-input"
+                            placeholder="First name"
+                            onBlur={(e) => {
+                              e.target.value = e.target.value.trim();
+                            }}
+                          />
+                        </div>
+                        <div className="form-error">
+                          <Errors />
+                        </div>
+                      </>
+                    )}
+                  </Field>
+
+                  <Field name="lastName" className="form-input-group">
+                    {({ Label, Errors }) => (
+                      <>
+                        <div className="input-icons">
+                          <SvgUsername />
+                          <input
+                            type="text"
+                            {...register('lastName')}
+                            className="form-input"
+                            placeholder="Last name"
+                            onBlur={(e) => {
+                              e.target.value = e.target.value.trim();
+                            }}
+                          />
+                        </div>
+                        <div className="form-error">
+                          <Errors />
+                        </div>
+                      </>
+                    )}
+                  </Field>
+
+                  <Field name="email" className="form-input-group">
+                    {({ Label, Errors }) => (
+                      <>
+                        <div className="input-icons">
+                          <SvgEmail />
                           <input
                             type="email"
                             {...register('email')}
@@ -154,12 +208,12 @@ export default function Login() {
                     }`}
                     disabled={navigation.state !== 'idle' ? true : false}
                   >
-                    LOGIN NOW
+                    REGISTER
                   </button>
                   <p className="form-input-helper">
-                    Don't have an account?{' '}
-                    <Link to="/register" className="text-blue">
-                      Register now
+                    Already have an account?{' '}
+                    <Link to="/login" className="text-blue">
+                      Login now
                     </Link>
                   </p>
                 </>
