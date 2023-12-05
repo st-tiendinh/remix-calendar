@@ -244,10 +244,11 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   };
 
   const handleClickDate = (info: any) => {
+    console.log(info)
     const date = new Date(info.date);
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
-    navigate(`/events/create?date=${date.toLocaleDateString()}&&time-start=${hours}:${minutes}`);
+    navigate(`/events/create?date=${date}&&time-start=${hours}:${minutes}`);
   }
 
   return (

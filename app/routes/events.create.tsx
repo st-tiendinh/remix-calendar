@@ -1,4 +1,8 @@
-import { type ActionFunction, json, LoaderFunction } from '@remix-run/node';
+import {
+  type ActionFunction,
+  json,
+  type LoaderFunction,
+} from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
 
 import { performMutation } from 'remix-forms';
@@ -57,10 +61,15 @@ export const action: ActionFunction = async ({ request }) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const paramValues = getSearchParams({ url: request.url });
+
   if (!paramValues) return null;
-  console.log(paramValues.timeStart);
+
+  if (!paramValues || !paramValues.date) return null;
+
+  const date = new Date(paramValues.date);
+
   return json({
-    event: { date: paramValues.date, timeStart: paramValues.timeStart },
+    event: { date, timeStart: paramValues.timeStart },
   });
 };
 
