@@ -11,7 +11,8 @@ import SvgExternalLinkAltSolid from '~/shared/components/icons/ExternalLinkAltSo
 
 import SvgClose from '~/shared/components/icons/CloseSolid';
 import SvgBuilding from '~/shared/components/icons/Building';
-// import  from '../../../asset/icons/calendar-day-solid.svg';
+import SvgUserGroup from '~/shared/components/icons/IcUserGroup';
+
 export const eventSchema = z.object({
   title: z
     .string()
@@ -41,6 +42,9 @@ export const eventSchema = z.object({
     .max(24),
   location: z.string().min(1, { message: '*Location is required' }),
   meetingLink: z.string().optional(),
+  guests: z
+    .array(z.object({ userId: z.string(), email: z.string().email() }))
+    .optional(),
 });
 
 export const deleteEventSchema = z.object({});
@@ -81,114 +85,73 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             ? '/events/create'
             : `/events/${eventId}/edit`
         }
-        values={event}
+        values={{ ...event, guests: [] }}
       >
-        {({ Field, Errors, Button, register }) => (
-          <>
-            <Field name="title" className="form-input-group">
-              {({ Label, Errors }) => (
-                <>
-                  <label className="form-label">Event Title</label>
-                  <div className="input-icons">
-                    <SvgPenSolid />
-                    <input
-                      type="text"
-                      {...register('title')}
-                      className="form-input"
-                      placeholder="Enter event title"
-                      onBlur={(e) => {
-                        e.target.value = e.target.value.trim();
-                      }}
-                    />
-                  </div>
+        {({ Field, Errors, Button, register, watch, setValue }) => {
+          const guests = watch('guests');
+          console.log('GEE', guests);
 
-                  <div className="form-error">
-                    <Errors />
-                  </div>
-                </>
-              )}
-            </Field>
-            <Field name="description" className="form-input-group">
-              {({ Label, Errors }) => (
-                <>
-                  <label className="form-label">Description</label>
-                  <div className="input-icons">
-                    <SvgCommentSolid />
-                    <input
-                      type="text"
-                      {...register('description')}
-                      className="form-input"
-                      placeholder="Enter description"
-                      onBlur={(e) => {
-                        e.target.value = e.target.value.trim();
-                      }}
-                    />
-                  </div>
-                  <div className="form-error">
-                    <Errors />
-                  </div>
-                </>
-              )}
-            </Field>
-            <Field name="date" className="form-input-group">
-              {({ Label, SmartInput, Errors }) => (
-                <>
-                  <label className="form-label">Date</label>
-                  <div className="input-icons">
-                    <SvgCalendarDaySolid />
-
-                    <input
-                      className="form-input"
-                      min={minDate()}
-                      type="text"
-                      placeholder="Date of event"
-                      onFocus={(event) => {
-                        event.currentTarget.type = 'date';
-                      }}
-                      onBlur={(event) => {
-                        event.currentTarget.type = 'text';
-                      }}
-                    />
-                  </div>
-                  <Errors className="form-error" />
-                </>
-              )}
-            </Field>
-            <div className="row">
-              <Field name="timeStart" className="form-input-group col col-6">
-                {({ Errors }) => (
+          return (
+            <>
+              <Field name="title" className="form-input-group">
+                {({ Label, Errors }) => (
                   <>
-                    <label className="form-label">Time start</label>
+                    <label className="form-label">Event Title</label>
                     <div className="input-icons">
-                      <SvgClockSolid />
+                      <SvgPenSolid />
                       <input
                         type="text"
+                        {...register('title')}
                         className="form-input"
-                        placeholder="Time start"
-                        onFocus={(event) => {
-                          event.currentTarget.type = 'time';
-                        }}
-                        onBlur={(event) => {
-                          event.currentTarget.type = 'text';
+                        placeholder="Enter event title"
+                        onBlur={(e) => {
+                          e.target.value = e.target.value.trim();
                         }}
                       />
                     </div>
-                    <Errors className="form-error" />
+
+                    <div className="form-error">
+                      <Errors />
+                    </div>
                   </>
                 )}
               </Field>
-              <Field name="timeEnd" className="form-input-group col col-6">
+              <Field name="description" className="form-input-group">
+                {({ Label, Errors }) => (
+                  <>
+                    <label className="form-label">Description</label>
+                    <div className="input-icons">
+                      <SvgCommentSolid />
+                      <input
+                        type="text"
+                        {...register('description')}
+                        className="form-input"
+                        placeholder="Enter description"
+                        onBlur={(e) => {
+                          e.target.value = e.target.value.trim();
+                        }}
+                      />
+                    </div>
+                    <div className="form-error">
+                      <Errors />
+                    </div>
+                  </>
+                )}
+              </Field>
+              <Field name="date" className="form-input-group">
                 {({ Label, SmartInput, Errors }) => (
                   <>
-                    <label className="form-label">Time end</label>
+                    <label className="form-label">Date</label>
                     <div className="input-icons">
-                      <SvgClockSolid />
+                      <SvgCalendarDaySolid />
+
                       <input
-                        type="text"
                         className="form-input"
-                        placeholder="Time end"
+                        min={minDate()}
+                        type="text"
+                        placeholder="Date of event"
                         onFocus={(event) => {
-                          event.currentTarget.type = 'time';
+                          event.currentTarget.type = 'date';
                         }}
                         onBlur={(event) => {
                           event.currentTarget.type = 'text';
@@ -199,69 +162,154 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                   </>
                 )}
               </Field>
-            </div>
-            <Field name="location" className="form-input-group">
-              {({ Label, Errors }) => (
-                <>
-                  <label className="form-label">Location</label>
-                  <div className="input-icons">
-                    <SvgBuilding />
-                    <input
-                      type="text"
-                      {...register('location')}
-                      className="form-input"
-                      placeholder="Choose a location"
-                      onBlur={(e) => {
-                        e.target.value = e.target.value.trim();
+              <div className="row">
+                <Field name="timeStart" className="form-input-group col col-6">
+                  {({ Errors }) => (
+                    <>
+                      <label className="form-label">Time start</label>
+                      <div className="input-icons">
+                        <SvgClockSolid />
+                        <input
+                          type="text"
+                          className="form-input"
+                          placeholder="Time start"
+                          onFocus={(event) => {
+                            event.currentTarget.type = 'time';
+                          }}
+                          onBlur={(event) => {
+                            event.currentTarget.type = 'text';
+                          }}
+                        />
+                      </div>
+                      <Errors className="form-error" />
+                    </>
+                  )}
+                </Field>
+                <Field name="timeEnd" className="form-input-group col col-6">
+                  {({ Label, SmartInput, Errors }) => (
+                    <>
+                      <label className="form-label">Time end</label>
+                      <div className="input-icons">
+                        <SvgClockSolid />
+                        <input
+                          type="text"
+                          className="form-input"
+                          placeholder="Time end"
+                          onFocus={(event) => {
+                            event.currentTarget.type = 'time';
+                          }}
+                          onBlur={(event) => {
+                            event.currentTarget.type = 'text';
+                          }}
+                        />
+                      </div>
+                      <Errors className="form-error" />
+                    </>
+                  )}
+                </Field>
+              </div>
+              <Field name="location" className="form-input-group">
+                {({ Label, Errors }) => (
+                  <>
+                    <label className="form-label">Location</label>
+                    <div className="input-icons">
+                      <SvgBuilding />
+                      <input
+                        type="text"
+                        {...register('location')}
+                        className="form-input"
+                        placeholder="Choose a location"
+                        onBlur={(e) => {
+                          e.target.value = e.target.value.trim();
+                        }}
+                      />
+                    </div>
+                    <div className="form-error">
+                      <Errors />
+                    </div>
+                  </>
+                )}
+              </Field>
+              <Field name="guests" className="form-input-group">
+                {({ Errors }) => (
+                  <>
+                    <label className="form-label">Guests</label>
+                    <div className="input-icons">
+                      <SvgUserGroup />
+                      <input
+                        type="text"
+                        className="form-input"
+                        placeholder="Add guests"
+                        onBlur={(e) => {
+                          e.target.value = e.target.value.trim();
+                        }}
+                      />
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setValue('guests', [
+                          ...guests,
+                          { userId: '123', email: 'viet@gmail.com' },
+                        ]);
                       }}
-                    />
-                  </div>
-                  <div className="form-error">
-                    <Errors />
-                  </div>
-                </>
-              )}
-            </Field>
-            <Field name="meetingLink" className="form-input-group">
-              {({ Label, Errors }) => (
-                <>
-                  <label className="form-label">Meeting Link</label>
-                  <div className="input-icons">
-                    <SvgExternalLinkAltSolid />
-                    <input
-                      type="text"
-                      {...register('meetingLink')}
-                      className="form-input"
-                      placeholder="Enter meeting link"
-                      onBlur={(e) => {
-                        e.target.value = e.target.value.trim();
-                      }}
-                    />
-                  </div>
-                  <div className="form-error">
-                    <Errors />
-                  </div>
-                </>
-              )}
-            </Field>
-            <Errors className="form-error" />
-            <div className="form-btn-group">
-              <Link
-                to={
-                  method === FormEventMethod.CREATE
-                    ? '/events'
-                    : `/events/${eventId}`
-                }
-                className="form-btn cancel"
-              >
-                Cancel
-              </Link>
-              <Button className="form-btn save">
-                {method === FormEventMethod.CREATE ? 'Create' : 'Save'}
-              </Button>
-            </div>
-          </>
-        )}
+                    >
+                      CLick
+                    </button>
+                    <fieldset>
+                      {guests &&
+                        guests.length >= 1 &&
+                        guests.map((guest) => {
+                          return <span>{guest.email}</span>;
+                        })}
+                    </fieldset>
+                    <div className="form-error">
+                      <Errors />
+                    </div>
+                  </>
+                )}
+              </Field>
+              <Field name="meetingLink" className="form-input-group">
+                {({ Errors }) => (
+                  <>
+                    <label className="form-label">Meeting Link</label>
+                    <div className="input-icons">
+                      <SvgExternalLinkAltSolid />
+                      <input
+                        type="text"
+                        {...register('meetingLink')}
+                        className="form-input"
+                        placeholder="Enter meeting link"
+                        onBlur={(e) => {
+                          e.target.value = e.target.value.trim();
+                        }}
+                      />
+                    </div>
+                    <div className="form-error">
+                      <Errors />
+                    </div>
+                  </>
+                )}
+              </Field>
+              <Errors className="form-error" />
+              <div className="form-btn-group">
+                <Link
+                  to={
+                    method === FormEventMethod.CREATE
+                      ? '/events'
+                      : `/events/${eventId}`
+                  }
+                  className="form-btn cancel"
+                >
+                  Cancel
+                </Link>
+                <Button className="form-btn save">
+                  {method === FormEventMethod.CREATE ? 'Create' : 'Save'}
+                </Button>
+              </div>
+            </>
+          );
+        }}
       </Form>
     </div>
   );
