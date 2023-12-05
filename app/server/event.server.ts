@@ -3,6 +3,7 @@ import { prisma } from './prisma.server';
 import type { EventData } from '~/shared/utils/types.server';
 import { deleteEventMiddleWare } from '~/shared/middleware/softDeleteEvent';
 
+
 export const updateEvent = async (eventData: EventData, id: string) => {
   const event = await prisma.event.update({
     where: { id },
@@ -103,7 +104,7 @@ export const getDeletedEvents = async (userId: string) => {
 
 export const getEventsByDay = async (date: string) => {
   let targetDate = new Date(date);
-  
+
   const startDate = new Date(
     targetDate.toISOString().split('T')[0] + 'T00:00:00.000Z'
   );
