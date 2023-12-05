@@ -72,7 +72,7 @@ export default function EventList() {
       toast.error(`${paramsValue?.error}`);
     }
   }, [paramsValue]);
-
+console.log(events)
   return (
     <>
       <Header setShowSidebar={setIsShow} userInfo={userInfo} />

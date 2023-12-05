@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
 }
 
@@ -12,15 +12,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
-  profile   Profile
-  role      Role     @default(USER)
-  events    Event[]
-  waitingList WaitingList[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  email       String        @unique
+  password    String
+  profile     Profile
+  role        Role          @default(USER)
+  events      Event[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }
 
 type Profile {
@@ -45,14 +44,20 @@ model Event {
   isPublised  Boolean   @default(true)
   author      User      @relation(fields: [authorId], references: [id])
   authorId    String    @db.ObjectId
-  // waitingList User[]    @relation("WaitingList")
-  waitingList WaitingList[]
+  guests      Guests[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime? @map("deleted_at")
 }
 
-type WaitingList {
-  userId    String   @db.ObjectId
-  userEmail String
+type Guests {
+  userId String @db.ObjectId
+  email  String
+  status Status @default(PENDING)
+}
+
+enum Status {
+  PENDING
+  ACCEPTED
+  REJECTED
 }
