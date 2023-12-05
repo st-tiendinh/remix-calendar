@@ -16,3 +16,14 @@ export const createUser = async (user: RegisterForm) => {
   });
   return { id: newUser.id, email: user.email };
 };
+
+export const searchUser = async (searcher: string) => {
+  const regexPatern = new RegExp(searcher, 'i');
+  const user = await prisma.user.findUnique({
+    where: {
+      email: searcher,
+    },
+  });
+
+  return user;
+};

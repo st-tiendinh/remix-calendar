@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Link } from '@remix-run/react';
+import { Link, useFetcher } from '@remix-run/react';
 import { Form } from '~/shared/components/RemixForm';
 import { type EventData } from '../utils/types.server';
 
@@ -12,6 +12,7 @@ import SvgExternalLinkAltSolid from '~/shared/components/icons/ExternalLinkAltSo
 import SvgClose from '~/shared/components/icons/CloseSolid';
 import SvgBuilding from '~/shared/components/icons/Building';
 import SvgUserGroup from '~/shared/components/icons/IcUserGroup';
+import { useEffect, useState } from 'react';
 
 export const eventSchema = z.object({
   title: z
@@ -59,6 +60,20 @@ interface FormEventProps {
 }
 
 export default function FormEvent({ method, event, eventId }: FormEventProps) {
+  let userFetcher = useFetcher();
+  let [query, setQuery] = useState('');
+
+  useEffect(() => {
+    console.log('USER FETCH', userFetcher);
+    userFetcher.submit(
+      { search: query },
+      {
+        method: 'GET',
+        action: '/user/search',
+      }
+    );
+  }, [query]);
+
   const minDate = () => {
     const today = new Date().toISOString().split('T')[0];
     return today;
@@ -89,7 +104,6 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
       >
         {({ Field, Errors, Button, register, watch, setValue }) => {
           const guests = watch('guests');
-          console.log('GEE', guests);
 
           return (
             <>
@@ -230,7 +244,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                   </>
                 )}
               </Field>
-              <Field name="guests" className="form-input-group">
+              {/* <Field name="guests" className="form-input-group">
                 {({ Errors }) => (
                   <>
                     <label className="form-label">Guests</label>
@@ -249,7 +263,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                       onClick={(e) => {
                         e.preventDefault();
                         setValue('guests', [
-                          ...guests,
+                          ...(guests as []),
                           { userId: '123', email: 'viet@gmail.com' },
                         ]);
                       }}
@@ -259,7 +273,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                     <fieldset>
                       {guests &&
                         guests.length >= 1 &&
-                        guests.map((guest) => {
+                        Object.values(guests).map((guest) => {
                           return <span>{guest.email}</span>;
                         })}
                     </fieldset>
@@ -268,7 +282,33 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                     </div>
                   </>
                 )}
-              </Field>
+              </Field> */}
+              <userFetcher.Form method="GET" action="/user/search">
+                <div className="form-input-group">
+                  <label htmlFor="userSearch" className="form-label">
+                    Guests
+                  </label>
+                  <div className="input-icons">
+                    <SvgUserGroup />
+                    <input
+                      id="userSearch"
+                      type="text"
+                      className="form-input"
+                      placeholder="Add guests"
+                      onBlur={(e) => {
+                        e.target.value = e.target.value.trim();
+                      }}
+                      onChange={(event) => setQuery(event.currentTarget.value)}
+                    />
+                  </div>
+
+                  {guests &&
+                    guests.length >= 1 &&
+                    guests.map((guest) => {
+                      return <span>{guest.email}</span>;
+                    })}
+                </div>
+              </userFetcher.Form>
               <Field name="meetingLink" className="form-input-group">
                 {({ Errors }) => (
                   <>
