@@ -24,6 +24,7 @@ export { default as IcPlus } from './IcPlus';
 export { default as IcRoom } from './IcRoom';
 export { default as IcTime } from './IcTime';
 export { default as IcTrash } from './IcTrash';
+export { default as IcUserGroup } from './IcUserGroup';
 export { default as IcUser } from './IcUser';
 export { default as IcUsername } from './IcUsername';
 export { default as TrashAltSolid } from './TrashAltSolid';
