@@ -10,6 +10,8 @@ export const getSearchParams = ({ url }: Params) => {
     modalType: newUrl.get('modal-type'),
     modalAction: newUrl.get('modal-action'),
     eventId: newUrl.get('event-id'),
+    date: newUrl.get('date'),
+    timeStart: newUrl.get('time-start'),
   };
 
   return messages;

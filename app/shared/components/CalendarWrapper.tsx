@@ -243,6 +243,13 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     }
   };
 
+  const handleClickDate = (info: any) => {
+    const date = new Date(info.date);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    navigate(`/events/create?date=${date.toLocaleDateString()}&&time-start=${hours}:${minutes}`);
+  }
+
   return (
     <div className="calendar-wrapper">
       <SvgCamera />
@@ -290,6 +297,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
           center: 'title',
           end: 'timeGridWeek,dayGridMonth,timeGridDay',
         }}
+        dateClick={handleClickDate}
         allDaySlot={false}
         editable={true}
         selectable={true}
