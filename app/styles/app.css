@@ -2309,6 +2309,7 @@ image {
 
 .login-page {
   height: 100vh;
+  overflow: hidden;
 }
 .login-page .login-wrapper {
   height: 100%;

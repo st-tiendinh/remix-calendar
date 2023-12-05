@@ -159,7 +159,7 @@ export default function Login() {
                   <p className="form-input-helper">
                     Don't have an account?{' '}
                     <Link to="/register" className="text-blue">
-                      Register now
+                      Signup now
                     </Link>
                   </p>
                 </>
