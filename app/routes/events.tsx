@@ -10,6 +10,7 @@ import Header from '~/shared/components/Header';
 
 import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 import { getUser } from '~/server/auth.server';
+import { CalendarEvent } from '~/shared/utils/types.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const myParams = new URL(request.url).searchParams;
@@ -40,11 +41,19 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     monthParams as string,
     yearParams as string
   );
+
   if (!events || !eventsByMonth) {
     return redirect('?error= Event not found!!');
   }
 
-  const todayEvent = await getEventsByDay(`${new Date().toLocaleDateString()}`);
+  const todayEventByUsers = await getEventsByDay(
+    `${new Date().toLocaleDateString()}`
+  );
+  const todayEvent = Object.entries(todayEventByUsers)
+    .map(([key, map], index) => {
+      return map as CalendarEvent[];
+    })
+    .flat();
 
   if (!todayEvent) {
     return json({ error: 'Today event not found!!', status: 404 });
@@ -65,6 +74,13 @@ export default function EventList() {
   const { events, paramsValue, todayEvent, userInfo } = data;
   const [isShow, setIsShow] = useState(true);
 
+  // const eventList = Object.entries(events).map(([key, map], index) => {
+  //   return map as CalendarEvent[];
+  // });
+  // .flat();
+
+  console.log(events);
+
   useEffect(() => {
     if (paramsValue?.success) {
       toast.success(`${paramsValue?.success}`);
@@ -83,12 +99,12 @@ export default function EventList() {
               isShow ? '' : 'sidebar-sm'
             }`}
           >
-            <Sidebar todayEvent={todayEvent} isShow={isShow} />
+            {/* <Sidebar todayEvent={todayEvent} isShow={isShow} /> */}
           </div>
           <div
             className={`col col-9 col-md-8 ${isShow ? '' : ' full-calendar'}`}
           >
-            <CalendarWrapper eventList={events} />
+            {/* <CalendarWrapper eventList={eventList} /> */}
           </div>
         </div>
       </div>

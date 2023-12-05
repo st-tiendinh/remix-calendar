@@ -74,11 +74,11 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   };
 
   /* This is the test event types function. Delete it after define event types in DB */
-  const getRandomEventType = () => {
-    const eventTypes = Object.values(EventType);
-    const randomIndex = Math.floor(Math.random() * eventTypes.length);
-    return eventTypes[randomIndex];
-  };
+  // const getRandomEventType = () => {
+  //   const eventTypes = Object.values(EventType);
+  //   const randomIndex = Math.floor(Math.random() * eventTypes.length);
+  //   return eventTypes[randomIndex];
+  // };
 
   const formatDateArray = useMemo(() => {
     return eventList.map((event: CalendarEvent) => {
@@ -86,8 +86,8 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         id: event.id,
         title: event.title,
         meetingLink: event.meetingLink,
-        eventType: getRandomEventType(),
-        // eventType: EventType.BIRTHDAY,
+        // eventType: getRandomEventType(),
+        eventType: EventType.BIRTHDAY,
         start: formatTimeToISOString(event.timeStart, event.date),
         end: formatTimeToISOString(event.timeEnd, event.date),
         durationEditable: true,

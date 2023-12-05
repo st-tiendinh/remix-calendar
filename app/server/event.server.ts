@@ -48,6 +48,7 @@ export const deleteEvent = async (eventId: string, userId: string) => {
     if (!result) {
       return json({ error: 'Delete Event Failed', status: 400 });
     }
+
     return redirect('/events?success=Deleted Event Success!!');
   }
 };
@@ -82,31 +83,13 @@ export const restoreEvent = async (eventId: string, userId: string) => {
   }
 };
 
-export const getDeletedEvents = async (userId: string) => {
-  const events = await prisma.event.findMany({
-    where: {
-      AND: [
-        {
-          deletedAt: {
-            not: null,
-          },
-        },
-        {
-          authorId: userId,
-        },
-      ],
-    },
-  });
-
-  return json({ events, status: 200 });
-};
-
 export const getEventsByDay = async (date: string) => {
   let targetDate = new Date(date);
-  
+
   const startDate = new Date(
     targetDate.toISOString().split('T')[0] + 'T00:00:00.000Z'
   );
+
   const endDate = new Date(
     targetDate.toISOString().split('T')[0] + 'T23:59:59.999Z'
   );
@@ -117,11 +100,35 @@ export const getEventsByDay = async (date: string) => {
         gte: startDate,
         lte: endDate,
       },
+      // deleted: false,
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          role: true,
+          profile: true,
+        },
+      },
     },
   });
 
-  const validEvents = events.filter((e) => e.deletedAt === null);
-  return validEvents;
+  const listEventsByUser = events.reduce(
+    (acc: any, event: any) => {
+      const key = `${event.author?.profile.firstName} ${event.author?.profile.lastName}`;
+
+      if (acc[key]) {
+        acc[key].push(event);
+      } else {
+        acc[key] = [event];
+      }
+
+      return acc;
+    },
+    {} as Record<string, (typeof events)[0][]>
+  );
+
+  return listEventsByUser;
 };
 
 export const getEventsByMonth = async (
@@ -137,8 +144,33 @@ export const getEventsByMonth = async (
         gte: new Date(`${year}-${month}-1`),
         lte: new Date(`${year}-${month}-${lastDay}`),
       },
+      // deleted: false,
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          role: true,
+          profile: true,
+        },
+      },
     },
   });
-  const validEvents = events.filter((e) => e.deletedAt === null);
-  return validEvents;
+
+  const listEventsByUser = events.reduce(
+    (acc: any, event: any) => {
+      const key = `${event.author?.profile.firstName} ${event.author?.profile.lastName}`;
+
+      if (acc[key]) {
+        acc[key].push(event);
+      } else {
+        acc[key] = [event];
+      }
+
+      return acc;
+    },
+    {} as Record<string, (typeof events)[0][]>
+  );
+
+  return listEventsByUser;
 };

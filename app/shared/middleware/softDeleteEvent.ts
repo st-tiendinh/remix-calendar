@@ -7,7 +7,7 @@ export const deleteEventMiddleWare = () => {
       // Change action to an update
       params.action = 'update';
       // Set field value
-      params.args['data'] = { deletedAt: new Date() };
+      params.args['data'] = { deletedAt: new Date(), deleted: true };
     }
 
     return next(params);

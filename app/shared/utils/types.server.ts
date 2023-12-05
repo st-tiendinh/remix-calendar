@@ -24,6 +24,7 @@ export type EventData = {
 };
 
 export type CalendarEvent = {
+  author: AuthorInfo;
   authorId: string;
   createdAt: string;
   date: string;
@@ -42,6 +43,12 @@ export type CalendarEvent = {
 export type EventDate = {
   timeStart: string;
   timeEnd: string;
+};
+
+export type AuthorInfo = {
+  id: string;
+  profile: UserInfo;
+  role: string;
 };
 
 export type UserInfo = {
