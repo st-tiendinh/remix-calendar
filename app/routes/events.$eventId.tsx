@@ -1,5 +1,5 @@
 import { json, type LoaderFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useLocation, useNavigate } from '@remix-run/react';
 import { Link } from 'react-router-dom';
 import { prisma } from '~/server/prisma.server';
 import { z } from 'zod';
@@ -40,7 +40,9 @@ export let loader: LoaderFunction = async ({ params, request }) => {
 
 const Event = () => {
   const { event, modalType, userId } = useLoaderData<typeof loader>();
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(location.state);
   const deleteEventSchema = z.object({});
 
   const ModalDelete = () => {
@@ -76,18 +78,26 @@ const Event = () => {
         <div className="modal">
           <div className="modal-event-wrapper">
             <div className="modal-event-header">
-              <Link
-                to={
-                  userId
-                    ? `/events/${event.id}/edit`
-                    : `/login?redirectUrl=${encodeURIComponent(
-                        `/events/${event.id}/edit`
-                      )}`
+
+              <button
+                className="btn-modal-link"
+                onClick={() =>
+                  navigate(
+                    userId
+                      ? `/events/${event.id}/edit`
+                      : `/login?redirectUrl=${encodeURIComponent(
+                          `/events/${event.id}/edit`
+                        )}`,
+                    {
+                      state: {
+                        query: location.state?.query,
+                      },
+                    }
+                  )
                 }
-                className=" btn-modal-link"
               >
                 <SvgEdit />
-              </Link>
+              </button>
               <Link
                 to={
                   userId
@@ -98,7 +108,7 @@ const Event = () => {
               >
                 <SvgTrashSolid />
               </Link>
-              <Link to={`/events`} className=" btn-modal-link">
+              <Link to={`/events`} className="btn-modal-link">
                 <SvgClose />
               </Link>
             </div>
