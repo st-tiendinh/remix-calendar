@@ -1,8 +1,8 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -43,7 +43,20 @@ model Event {
   isPublised  Boolean   @default(true)
   author      User      @relation(fields: [authorId], references: [id])
   authorId    String    @db.ObjectId
+  guests      Guests[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime? @map("deleted_at")
+}
+
+type Guests {
+  userId String @db.ObjectId
+  email  String
+  status Status @default(PENDING)
+}
+
+enum Status {
+  PENDING
+  ACCEPTED
+  REJECTED
 }
