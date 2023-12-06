@@ -244,12 +244,31 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   };
 
   const handleClickDate = (info: any) => {
-    console.log(info)
     const date = new Date(info.date);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+
+    if (date.setHours(0, 0, 0, 0) < now.getTime()) {
+      return;
+    }
+
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
-    navigate(`/events/create?date=${date}&&time-start=${hours}:${minutes}`);
-  }
+
+    navigate(`/events/create`, {
+      state: {
+        event: {
+          date,
+          timeStart:
+            `${hours}:${minutes}` === '00:00'
+              ? `${String(new Date().getHours()).padStart(2, '0')}: ${String(
+                  new Date().getMinutes()
+                ).padStart(2, '0')}`
+              : `${hours}:${minutes}`,
+        },
+      },
+    });
+  };
 
   return (
     <div className="calendar-wrapper">

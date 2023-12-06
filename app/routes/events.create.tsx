@@ -1,9 +1,5 @@
-import {
-  type ActionFunction,
-  json,
-  type LoaderFunction,
-} from '@remix-run/node';
-import { useActionData, useLoaderData } from '@remix-run/react';
+import { type ActionFunction, json } from '@remix-run/node';
+import { useActionData, useLocation } from '@remix-run/react';
 
 import { performMutation } from 'remix-forms';
 import { useEffect } from 'react';
@@ -21,7 +17,6 @@ import {
   validateEventDate,
   validateEventTime,
 } from '~/shared/utils/validators.server';
-import { getSearchParams } from '~/shared/utils/getSearchParams.server';
 
 const mutation = makeDomainFunction(eventSchema)(async (values) => {
   const errorDate = validateEventDate(values.date);
@@ -59,23 +54,9 @@ export const action: ActionFunction = async ({ request }) => {
   return await createEvent(eventData);
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const paramValues = getSearchParams({ url: request.url });
-
-  if (!paramValues) return null;
-
-  if (!paramValues || !paramValues.date) return null;
-
-  const date = new Date(paramValues.date);
-
-  return json({
-    event: { date, timeStart: paramValues.timeStart },
-  });
-};
-
 export default function EventCreate() {
   const actionData: ActionData | undefined = useActionData();
-  const loaderData = useLoaderData<typeof loader>();
+  const location = useLocation();
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
@@ -89,7 +70,10 @@ export default function EventCreate() {
     <div className="modal-wrapper">
       <div className="modal">
         <div className="modal-event-wrapper">
-          <FormEvent method={FormEventMethod.CREATE} event={loaderData.event} />
+          <FormEvent
+            method={FormEventMethod.CREATE}
+            event={location.state?.event}
+          />
         </div>
       </div>
     </div>
