@@ -42,7 +42,7 @@ const Event = () => {
   const { event, modalType, userId } = useLoaderData<typeof loader>();
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location.state);
+
   const deleteEventSchema = z.object({});
 
   const ModalDelete = () => {
@@ -78,39 +78,50 @@ const Event = () => {
         <div className="modal">
           <div className="modal-event-wrapper">
             <div className="modal-event-header">
+              {event.authorId === userId && (
+                <>
+                  <button
+                    className="btn-modal-link"
+                    onClick={() =>
+                      navigate(
+                        userId
+                          ? `/events/${event.id}/edit`
+                          : `/login?redirectUrl=${encodeURIComponent(
+                              `/events/${event.id}/edit`
+                            )}`,
+                        {
+                          state: {
+                            query: location.state?.query,
+                          },
+                        }
+                      )
+                    }
+                  >
+                    <SvgEdit />
+                  </button>
+                  <Link
+                    to={
+                      userId
+                        ? '?modal-type=delete'
+                        : `/login?redirectUrl=/events/${event.id}?modal-type=delete`
+                    }
+                    className="btn-modal-link"
+                  >
+                    <SvgTrashSolid />
+                  </Link>
+                </>
+              )}
 
               <button
                 className="btn-modal-link"
                 onClick={() =>
-                  navigate(
-                    userId
-                      ? `/events/${event.id}/edit`
-                      : `/login?redirectUrl=${encodeURIComponent(
-                          `/events/${event.id}/edit`
-                        )}`,
-                    {
-                      state: {
-                        query: location.state?.query,
-                      },
-                    }
-                  )
+                  location?.state?.query
+                    ? navigate(`/events${location.state.query}`)
+                    : navigate('/events')
                 }
               >
-                <SvgEdit />
-              </button>
-              <Link
-                to={
-                  userId
-                    ? '?modal-type=delete'
-                    : `/login?redirectUrl=/events/${event.id}?modal-type=delete`
-                }
-                className="btn-modal-link"
-              >
-                <SvgTrashSolid />
-              </Link>
-              <Link to={`/events`} className="btn-modal-link">
                 <SvgClose />
-              </Link>
+              </button>
             </div>
             <div className="event-detail-wrapper">
               <ul className="event-info-list">

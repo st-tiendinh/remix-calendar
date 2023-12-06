@@ -11,7 +11,7 @@ import SvgExternalLinkAltSolid from '~/shared/components/icons/ExternalLinkAltSo
 
 import SvgClose from '~/shared/components/icons/CloseSolid';
 import SvgBuilding from '~/shared/components/icons/Building';
-// import  from '../../../asset/icons/calendar-day-solid.svg';
+
 export const eventSchema = z.object({
   title: z
     .string()
@@ -61,7 +61,6 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
   };
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.state);
 
   return (
     <div className="form-event">
@@ -261,7 +260,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                 onClick={() =>
                   navigate(
                     method === FormEventMethod.CREATE
-                      ? '/events'
+                      ? `/events${location.state?.query}`
                       : `/events/${eventId}`,
                     {
                       state: {

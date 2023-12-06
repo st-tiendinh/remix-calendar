@@ -2,6 +2,7 @@ import {
   useLocation,
   useNavigate,
   useNavigation,
+  useParams,
   useSearchParams,
 } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
@@ -34,9 +35,13 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const navigation = useNavigation();
   const calendarRef = useRef(null);
   const location = useLocation();
+
   const [query, setQuery] = useState('');
+
   useEffect(() => {
     if (
+      !params.get('success') &&
+      !params.get('error') &&
       location.pathname === '/events' &&
       location.search !== query &&
       location.search !== ''
