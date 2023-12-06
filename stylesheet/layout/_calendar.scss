@@ -5,7 +5,7 @@
 .calendar-wrapper {
   height: 100vh;
   padding: 0 20px 20px;
-  margin-top: 52px;
+  padding-top: 46px;
 
   .day-header-name,
   .day-header-value {
@@ -34,29 +34,6 @@
     display: none;
   }
   .fc {
-    // .fc-scrollgrid-section-body {
-    //   .fc-scroller {
-    //     overflow: hidden !important;
-    //     &:hover {
-    //       overflow: hidden scroll !important;
-    //     }
-    //   }
-    // }
-
-    // .fc-scroller::-webkit-scrollbar {
-    //   width: 6px;
-    //   cursor: pointer;
-    // }
-    /* Handle */
-    // .fc-scroller::-webkit-scrollbar-thumb {
-    //   background: lighten($color: #f15773, $amount: 10);
-    //   border-radius: 8px;
-    // }
-
-    // /* Handle on hover */
-    // .fc-scroller::-webkit-scrollbar-thumb:hover {
-    //   background: #f15773;
-    // }
     .fc-col-header {
       width: 100% !important;
     }
@@ -286,7 +263,7 @@
 
 @include tablet {
   .calendar-wrapper {
-    padding: 0 10px 20px;
+    padding: 52px 10px 20px;
 
     .day-header-value {
       font-size: 16px;

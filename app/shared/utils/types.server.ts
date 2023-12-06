@@ -49,6 +49,11 @@ export type UserInfo = {
   lastName: string;
 };
 
+export type AdminInfo = {
+  id: string;
+  profile: UserInfo;
+};
+
 export type ActionData = {
   error?: string | undefined;
   message?: string | undefined;

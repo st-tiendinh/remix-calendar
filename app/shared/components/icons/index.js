@@ -14,6 +14,7 @@ export { default as IcCamera } from './IcCamera';
 export { default as IcClose } from './IcClose';
 export { default as IcCopy } from './IcCopy';
 export { default as IcDesc } from './IcDesc';
+export { default as IcEmail } from './IcEmail';
 export { default as IcList } from './IcList';
 export { default as IcMeetingLink } from './IcMeetingLink';
 export { default as IcPassword } from './IcPassword';
