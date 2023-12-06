@@ -8,6 +8,7 @@ import {
 
   useActionData,
   useLoaderData,
+  useLocation,
 
 } from '@remix-run/react';
 import { useEffect } from 'react';
@@ -98,7 +99,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 export default function EventEdit() {
   const actionData = useActionData<typeof action>();
   const { event, eventId }: any = useLoaderData<typeof loader>();
-
 
   useEffect(() => {
     if (actionData?.error !== undefined) {

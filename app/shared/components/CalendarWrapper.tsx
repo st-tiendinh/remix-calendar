@@ -1,9 +1,15 @@
-import { useNavigate, useNavigation, useSearchParams } from '@remix-run/react';
+import {
+  useLocation,
+  useNavigate,
+  useNavigation,
+  useParams,
+  useSearchParams,
+} from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo, useState } from 'react';
 import { formatTimeToISOString } from '../utils/formatNumberToDateString';
 
 import CalendarColumnHeader from './CalendarColumnHeader';
@@ -28,6 +34,21 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const calendarRef = useRef(null);
+  const location = useLocation();
+
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    if (
+      !params.get('success') &&
+      !params.get('error') &&
+      location.pathname === '/events' &&
+      location.search !== query &&
+      location.search !== ''
+    ) {
+      setQuery(location.search);
+    }
+  }, [location.search]);
 
   /* === Customize calendar event === */
   useEffect(() => {
@@ -155,7 +176,11 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   /* === Handle event of calendar === */
 
   const handleEventClick = (info: any) => {
-    navigate(`/events/${info.event._def.publicId}`);
+    navigate(`/events/${info.event._def.publicId}`, {
+      state: {
+        query,
+      },
+    });
   };
 
   const handleGetAllDayEvents = () => {
@@ -245,9 +270,30 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
 
   const handleClickDate = (info: any) => {
     const date = new Date(info.date);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+
+    if (date.setHours(0, 0, 0, 0) < now.getTime()) {
+      return;
+    }
+
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
-    navigate(`/events/create?date=${date}&&time-start=${hours}:${minutes}`);
+
+    navigate(`/events/create`, {
+      state: {
+        event: {
+          date,
+          timeStart:
+            `${hours}:${minutes}` === '00:00'
+              ? `${String(new Date().getHours()).padStart(2, '0')}: ${String(
+                  new Date().getMinutes()
+                ).padStart(2, '0')}`
+              : `${hours}:${minutes}`,
+        },
+        query,
+      },
+    });
   };
 
   return (

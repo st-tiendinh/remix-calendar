@@ -345,17 +345,6 @@ image {
 .btn.btn-copy {
   background-color: transparent;
 }
-.btn.btn-modal-link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50% !important;
-}
-.btn.btn-modal-link:hover {
-  background-color: #f4f4f5;
-}
 .btn.btn-modal-close {
   display: flex;
   align-items: center;
@@ -631,6 +620,7 @@ image {
   justify-content: center;
   padding: 8px;
   border-radius: 50%;
+  background: none;
 }
 .modal-event-wrapper .modal-event-header .btn-modal-link:hover {
   background-color: #f4f4f5;
