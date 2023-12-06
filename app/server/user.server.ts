@@ -16,3 +16,17 @@ export const createUser = async (user: RegisterForm) => {
   });
   return { id: newUser.id, email: user.email };
 };
+
+export const getAllAdmin = async () => {
+  const userList = await prisma.user.findMany({
+    where: {
+      role: 'ADMIN',
+    },
+    select: {
+      id: true,
+      profile: true,
+    },
+  });
+
+  return userList;
+};
