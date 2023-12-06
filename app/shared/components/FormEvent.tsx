@@ -14,6 +14,7 @@ import SvgBuilding from '~/shared/components/icons/Building';
 import SvgUserGroup from '~/shared/components/icons/IcUserGroup';
 import { useEffect, useRef, useState } from 'react';
 import SvgIcPlusCircle from './icons/IcPlusCircle';
+import { json } from '@remix-run/node';
 
 export const eventSchema = z.object({
   title: z
@@ -45,8 +46,7 @@ export const eventSchema = z.object({
   location: z.string().min(1, { message: '*Location is required' }),
   meetingLink: z.string().optional(),
   guests: z
-    .object({ userId: z.string(), email: z.string() })
-    .array()
+    .array(z.object({ userId: z.string(), email: z.string() }))
     .optional(),
 });
 
@@ -65,10 +65,10 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
   let userFetcher = useFetcher<any>();
   let [query, setQuery] = useState('');
   const searchUserRef = useRef<HTMLInputElement>(null);
-  const userIdRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
+  // console.log(searchUserRef.current?.value);
+
   useEffect(() => {
-    console.log('USER FETCH', userFetcher);
+    // console.log('USER FETCH', userFetcher);
     userFetcher.submit(
       { search: query },
       {
@@ -110,8 +110,9 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
           const guests = watch('guests');
 
           useEffect(() => {
-            if(!guests)return;
-            console.log('GUESS', guests[0]?.userId);
+            if (guests?.[0]) {
+              console.log('GUESS', guests);
+            }
           }, [guests]);
           return (
             <>
@@ -252,102 +253,107 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                   </>
                 )}
               </Field>
-              <div className="form-input-group">
-                <userFetcher.Form>
-                  <label htmlFor="userSearch" className="form-label">
-                    Guests
-                  </label>
-                  <div className="input-icons">
-                    <SvgUserGroup />
-                    <input
-                      id="userSearch"
-                      type="text"
-                      ref={searchUserRef}
-                      className="form-input"
-                      placeholder="Add guests"
-                      onBlur={(e) => {
-                        e.target.value = e.target.value.trim();
-                      }}
-                      onChange={(event) => setQuery(event.currentTarget.value)}
-                    />
-                    <button className="btn btn-primary">
-                      <SvgIcPlusCircle />
-                    </button>
-                    {userFetcher.data !== undefined &&
-                      (searchUserRef.current as any).value &&
-                      userFetcher.data.status === 200 && (
-                        <ul className="search-list">
-                          {(userFetcher.data as any)?.users?.map(
-                            (user: any, index: any) => {
-                              return (
-                                <>
-                                  <li
-                                    className="search-item"
-                                    key={user.id}
-                                    onClick={() => {
-                                      setValue(
-                                        'guests',
-                                        [
-                                          ...(guests as any),
-                                          {
-                                            userId: user.id,
-                                            email: user.email,
-                                          },
-                                        ],
-                                        { shouldValidate: true }
-                                      );
-                                      (searchUserRef.current as any).value = '';
-                                    }}
-                                  >
-                                    <span>{user.email}</span>
-                                  </li>
-                                </>
-                              );
-                            }
-                          )}
-                        </ul>
-                      )}
-                  </div>
-                </userFetcher.Form>
-              </div>
+
               <Field name="guests">
                 {() => (
                   <>
-                    <ul className="guest-list">
-                      {guests  &&
-                        guests.map((guest, index) => {
-                          return (
-                            <>
-                              <li key={guest.userId} className="guest-item">
-                                <span>{guest.email}</span>
-                                <SvgClose
-                                  onClick={() => {
-                                    const filterUser = guests.filter(
-                                      (user) => user.userId !== guest.userId
-                                    );
-                                    setValue('guests', filterUser);
-                                    (searchUserRef.current as any).value = '';
-                                  }}
-                                />
-                              </li>
-                              <input
-                                type="hidden"
-                                name={`guests[${index}][userId]`}
-                                value={guest.userId}
-                              />
-                              <input
-                                type="hidden"
-                                name={`guests[${index}][email]`}
-                                value={guest.email}
-                              />
-                            </>
-                          );
-                        })}
-                    </ul>
+                    <userFetcher.Form>
+                      <label htmlFor="userSearch" className="form-label">
+                        Guests
+                      </label>
+                      <div className="input-icons">
+                        <SvgUserGroup />
+                        <input
+                          id="userSearch"
+                          type="text"
+                          ref={searchUserRef}
+                          className="form-input"
+                          placeholder="Add guests"
+                          onBlur={(e) => {
+                            e.target.value = e.target.value.trim();
+                          }}
+                          onChange={(event) =>
+                            setQuery(event.currentTarget.value)
+                          }
+                        />
+                        <button className="btn btn-primary">
+                          <SvgIcPlusCircle />
+                        </button>
+                        {userFetcher.data !== undefined &&
+                          (searchUserRef.current as any).value &&
+                          userFetcher.data.status === 200 && (
+                            <ul className="search-list">
+                              {(userFetcher.data as any)?.users?.map(
+                                (user: any, index: any) => {
+                                  // console.log('user', user);
+                                  return (
+                                    <>
+                                      <li
+                                        className="search-item"
+                                        key={user.id}
+                                        onClick={() => {
+                                          setValue(
+                                            'guests',
+                                            [
+                                              ...(guests as any),
+                                              {
+                                                userId: user.id,
+                                                email: user.email,
+                                              },
+                                            ],
+                                            { shouldValidate: true }
+                                          );
+                                          (searchUserRef.current as any).value =
+                                            '';
+                                        }}
+                                      >
+                                        <span>{user.email}</span>
+                                      </li>
+                                    </>
+                                  );
+                                }
+                              )}
+                            </ul>
+                          )}
+                      </div>
+                    </userFetcher.Form>
                   </>
                 )}
               </Field>
-
+              <ul className="guest-list">
+                {guests &&
+                  guests.map((guest, index) => {
+                    // console.log('guest', guest, index);
+                    return (
+                      <>
+                        <li key={guest.userId} className="guest-item">
+                          <span>
+                            {guest.email}({guest.userId})
+                          </span>
+                          <SvgClose
+                            onClick={() => {
+                              const filterUser = guests.filter(
+                                (user) => user.userId !== guest.userId
+                              );
+                              setValue('guests', filterUser);
+                              (searchUserRef.current as any).value = '';
+                            }}
+                          />
+                        </li>
+                        <input
+                          type="hidden"
+                          name={`guests[${index}][userId]`}
+                          value={guest.userId}
+                        />
+                        <input
+                          type="hidden"
+                          name={`guests[${index}][email]`}
+                          value={guest.email}
+                        />
+                      </>
+                    );
+                  })}
+              </ul>
               <Field name="meetingLink" className="form-input-group">
                 {({ Errors }) => (
                   <>
