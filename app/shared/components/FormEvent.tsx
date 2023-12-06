@@ -12,7 +12,9 @@ import SvgExternalLinkAltSolid from '~/shared/components/icons/ExternalLinkAltSo
 import SvgClose from '~/shared/components/icons/CloseSolid';
 import SvgBuilding from '~/shared/components/icons/Building';
 import SvgUserGroup from '~/shared/components/icons/IcUserGroup';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import SvgIcPlusCircle from './icons/IcPlusCircle';
+import SvgCloseSolid from '~/shared/components/icons/CloseSolid';
 
 export const eventSchema = z.object({
   title: z
@@ -44,7 +46,8 @@ export const eventSchema = z.object({
   location: z.string().min(1, { message: '*Location is required' }),
   meetingLink: z.string().optional(),
   guests: z
-    .array(z.object({ userId: z.string(), email: z.string().email() }))
+    .object({ userId: z.string(), email: z.string() })
+    .array()
     .optional(),
 });
 
@@ -60,9 +63,11 @@ interface FormEventProps {
 }
 
 export default function FormEvent({ method, event, eventId }: FormEventProps) {
-  let userFetcher = useFetcher();
+  let userFetcher = useFetcher<any>();
   let [query, setQuery] = useState('');
-
+  const searchUserRef = useRef<HTMLInputElement>(null);
+  const userIdRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     console.log('USER FETCH', userFetcher);
     userFetcher.submit(
@@ -105,6 +110,9 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
         {({ Field, Errors, Button, register, watch, setValue }) => {
           const guests = watch('guests');
 
+          useEffect(() => {
+            console.log('GUESS', guests);
+          }, [guests]);
           return (
             <>
               <Field name="title" className="form-input-group">
@@ -244,71 +252,91 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                   </>
                 )}
               </Field>
-              {/* <Field name="guests" className="form-input-group">
-                {({ Errors }) => (
+              <Field name="guests">
+                {() => (
                   <>
-                    <label className="form-label">Guests</label>
+                    {/* <userFetcher.Form> */}
+                    <label htmlFor="userSearch" className="form-label">
+                      Guests
+                    </label>
                     <div className="input-icons">
                       <SvgUserGroup />
                       <input
+                        {...register('guests')}
+                        id="userSearch"
                         type="text"
+                        ref={searchUserRef}
                         className="form-input"
                         placeholder="Add guests"
                         onBlur={(e) => {
                           e.target.value = e.target.value.trim();
                         }}
+                        onChange={(event) =>
+                          setQuery(event.currentTarget.value)
+                        }
                       />
+                      <button className="btn btn-primary">
+                        <SvgIcPlusCircle />
+                      </button>
+                      {userFetcher.data !== undefined &&
+                        (searchUserRef.current as any).value &&
+                        userFetcher.data.status === 200 && (
+                          <ul className="search-list">
+                            {(userFetcher.data as any)?.users?.map(
+                              (user: any) => {
+                                return (
+                                  <li
+                                    className="search-item"
+                                    key={user.id}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      setValue(
+                                        'guests',
+                                        [
+                                          ...(guests as any),
+                                          {
+                                            userId: user.id,
+                                            email: user.email,
+                                          },
+                                        ],
+                                        { shouldValidate: true }
+                                      );
+                                      (searchUserRef.current as any).value = '';
+                                    }}
+                                  >
+                                    <span>{user.email}</span>
+                                  </li>
+                                );
+                              }
+                            )}
+                          </ul>
+                        )}
                     </div>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setValue('guests', [
-                          ...(guests as []),
-                          { userId: '123', email: 'viet@gmail.com' },
-                        ]);
-                      }}
-                    >
-                      CLick
-                    </button>
-                    <fieldset>
+                    {/* </userFetcher.Form> */}
+
+                    <ul className="guest-list">
                       {guests &&
-                        guests.length >= 1 &&
-                        Object.values(guests).map((guest) => {
-                          return <span>{guest.email}</span>;
+                        guests.map((guest) => {
+                          return (
+                            <li className="guest-item">
+                              <span>{guest.email}</span>
+                              <SvgCloseSolid
+                                onClick={() => {
+                                  const filterUser = guests.filter(
+                                    (user) => user.userId !== guest.userId
+                                  );
+                                  setValue('guests', filterUser);
+                                  (searchUserRef.current as any).value = '';
+                                }}
+                              />
+                            </li>
+                          );
                         })}
-                    </fieldset>
-                    <div className="form-error">
-                      <Errors />
-                    </div>
+                    </ul>
                   </>
                 )}
-              </Field> */}
-              <userFetcher.Form method="GET" action="/user/search">
-                <div className="form-input-group">
-                  <label htmlFor="userSearch" className="form-label">
-                    Guests
-                  </label>
-                  <div className="input-icons">
-                    <SvgUserGroup />
-                    <input
-                      id="userSearch"
-                      type="text"
-                      className="form-input"
-                      placeholder="Add guests"
-                      onBlur={(e) => {
-                        e.target.value = e.target.value.trim();
-                      }}
-                      onChange={(event) => setQuery(event.currentTarget.value)}
-                    />
-                  </div>
+              </Field>
 
-                  {guests &&
-                    guests.length >= 1 &&
-                    guests.map((guest) => {
-                      return <span>{guest.email}</span>;
-                    })}
-                </div>
-              </userFetcher.Form>
               <Field name="meetingLink" className="form-input-group">
                 {({ Errors }) => (
                   <>

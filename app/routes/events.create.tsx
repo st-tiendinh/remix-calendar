@@ -19,6 +19,8 @@ import {
 } from '~/shared/utils/validators.server';
 
 const mutation = makeDomainFunction(eventSchema)(async (values) => {
+  console.log('VALUESSS', values);
+
   const errorDate = validateEventDate(values.date);
   if (errorDate) throw new InputError(errorDate, 'date');
 
@@ -50,8 +52,10 @@ export const action: ActionFunction = async ({ request }) => {
   if (!result.success) return json(result, 400);
 
   const eventData = { ...result.data, authorId: userId };
+  console.log('EVENT', eventData);
 
-  return await createEvent(eventData);
+  return json({ eventData });
+  // return await createEvent(eventData);
 };
 
 export default function EventCreate() {
@@ -64,7 +68,7 @@ export default function EventCreate() {
       toast.success(`${actionData?.message}`);
     }
   }, [actionData]);
-  
+
   return (
     <div className="modal-wrapper">
       <div className="modal">

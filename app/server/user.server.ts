@@ -18,12 +18,15 @@ export const createUser = async (user: RegisterForm) => {
 };
 
 export const searchUser = async (searcher: string) => {
-  const regexPatern = new RegExp(searcher, 'i');
-  const user = await prisma.user.findUnique({
+  if (!searcher) return null;
+  const users = await prisma.user.findMany({
     where: {
-      email: searcher,
+      email: {
+        contains: searcher,
+        mode: 'insensitive',
+      },
     },
   });
 
-  return user;
+  return users;
 };

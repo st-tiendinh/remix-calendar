@@ -8,6 +8,7 @@
 }
 
 .input-icons {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -95,7 +96,7 @@
   .cancel {
     color: rgba(21, 25, 32, 0.5);
     background-color: #f5f7fb;
-    flex:1;
+    flex: 1;
   }
   .save {
     background-color: #ff385c;
@@ -111,4 +112,18 @@
   color: #fff;
   background-color: map-get($color, $key: primary);
   cursor: pointer;
+}
+
+.search-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: 80px;
+  overflow-y: scroll;
+  padding: 6px;
+  border: 1px solid map-get($color, gray-f4);
+  border-radius: 6px;
+  z-index: 1;
+  background-color: #fff;
 }
