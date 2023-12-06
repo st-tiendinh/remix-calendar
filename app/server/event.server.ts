@@ -101,9 +101,9 @@ export const getDeletedEvents = async (userId: string) => {
   return json({ events, status: 200 });
 };
 
-export const getEventsByDay = async (date: string) => {
+export const getEventsByDay = async (date: string, authorId?: string) => {
   let targetDate = new Date(date);
-  
+
   const startDate = new Date(
     targetDate.toISOString().split('T')[0] + 'T00:00:00.000Z'
   );
@@ -111,34 +111,74 @@ export const getEventsByDay = async (date: string) => {
     targetDate.toISOString().split('T')[0] + 'T23:59:59.999Z'
   );
 
-  const events = await prisma.event.findMany({
-    where: {
-      date: {
-        gte: startDate,
-        lte: endDate,
-      },
-    },
-  });
+  const events = authorId
+    ? await prisma.event.findMany({
+        where: {
+          AND: [
+            { authorId },
+            {
+              date: {
+                gte: startDate,
+                lte: endDate,
+              },
+            },
+            // { deletedAt: null },
+          ],
+        },
+      })
+    : await prisma.event.findMany({
+        where: {
+          AND: [
+            {
+              date: {
+                gte: startDate,
+                lte: endDate,
+              },
+            },
+            // { deletedAt: null },
+          ],
+        },
+      });
 
-  const validEvents = events.filter((e) => e.deletedAt === null);
-  return validEvents;
+  return events;
 };
 
 export const getEventsByMonth = async (
   monthParam: string,
-  yearParam: string
+  yearParam: string,
+  authorId?: string
 ) => {
   const month = monthParam ? monthParam : new Date().getMonth() + 1;
   const year = yearParam ? yearParam : new Date().getFullYear();
   const lastDay = new Date(Number(year), Number(month) + 1, 0).getDate();
-  const events = await prisma.event.findMany({
-    where: {
-      date: {
-        gte: new Date(`${year}-${month}-1`),
-        lte: new Date(`${year}-${month}-${lastDay}`),
-      },
-    },
-  });
-  const validEvents = events.filter((e) => e.deletedAt === null);
-  return validEvents;
+  const events = authorId
+    ? await prisma.event.findMany({
+        where: {
+          AND: [
+            { authorId },
+            {
+              date: {
+                gte: new Date(`${year}-${month}-1`),
+                lte: new Date(`${year}-${month}-${lastDay}`),
+              },
+            },
+            // { deletedAt: null },
+          ],
+        },
+      })
+    : await prisma.event.findMany({
+        where: {
+          AND: [
+            {
+              date: {
+                gte: new Date(`${year}-${month}-1`),
+                lte: new Date(`${year}-${month}-${lastDay}`),
+              },
+            },
+            // { deletedAt: null },
+          ],
+        },
+      });
+
+  return events;
 };

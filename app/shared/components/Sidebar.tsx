@@ -1,6 +1,6 @@
 import { Link } from '@remix-run/react';
 
-import { type EventData } from '../utils/types.server';
+import { AdminInfo, type EventData } from '../utils/types.server';
 
 import MiniCalendar from './MiniCalendar';
 import SvgPlusCircle from '~/shared/components/icons/IcPlusCircle';
@@ -9,9 +9,16 @@ import SvgActiveEvent from '~/shared/components/icons/IcActiveEvent';
 interface SidebarProps {
   todayEvent: EventData[];
   isShow: boolean;
+  adminList: AdminInfo[];
+  handleChecked: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Sidebar({ todayEvent, isShow }: SidebarProps) {
+export default function Sidebar({
+  todayEvent,
+  isShow,
+  adminList,
+  handleChecked,
+}: SidebarProps) {
   return (
     <aside>
       <div className="sidebar-header">
@@ -29,6 +36,29 @@ export default function Sidebar({ todayEvent, isShow }: SidebarProps) {
       <div className={`${isShow ? '' : 'hide'}`}>
         <MiniCalendar />
       </div>
+
+      {isShow && (
+        <div className="admin-list-checkbox">
+          {adminList.map((admin: AdminInfo) => {
+            return (
+              <>
+                <label className="admin-list-container" htmlFor={admin.id}>
+                  {`${admin.profile.firstName} ${admin.profile.lastName}`}
+                  <input
+                    className="checkbox"
+                    type="checkbox"
+                    defaultChecked
+                    id={admin.id}
+                    value={admin.id}
+                    onChange={handleChecked}
+                  />
+                  <span className="checkmark"></span>
+                </label>
+              </>
+            );
+          })}
+        </div>
+      )}
 
       <div className={`today-event ${isShow ? '' : 'hide'}`}>
         <div className="event-header">

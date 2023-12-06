@@ -73,11 +73,11 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     }
   };
 
-  /* This is the test event types function. Delete it after define event types in DB */
-  const getRandomEventType = () => {
-    const eventTypes = Object.values(EventType);
-    const randomIndex = Math.floor(Math.random() * eventTypes.length);
-    return eventTypes[randomIndex];
+  const getColor = (id: string): string => {
+    const colors = ['rose', 'amber', 'green', 'violet', 'blue'];
+    const numericId = parseInt(id, 16);
+    console.log(colors[numericId % colors.length]);
+    return colors[numericId % colors.length];
   };
 
   const formatDateArray = useMemo(() => {
@@ -86,8 +86,8 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         id: event.id,
         title: event.title,
         meetingLink: event.meetingLink,
-        eventType: getRandomEventType(),
-        // eventType: EventType.BIRTHDAY,
+        eventType: EventType.BIRTHDAY,
+        colorType: getColor(event.authorId),
         start: formatTimeToISOString(event.timeStart, event.date),
         end: formatTimeToISOString(event.timeEnd, event.date),
         durationEditable: true,
@@ -113,6 +113,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
       <CalendarEventBar
         isHasMeetingLink={!!event._def.extendedProps.meetingLink}
         eventType={event._def.extendedProps.eventType}
+        colorType={event._def.extendedProps.colorType}
         eventTime={timeText}
         eventTitle={event._def.title}
       />
@@ -121,28 +122,28 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
 
   const customEventBackground = (info: any) => {
     const { el, event } = info;
-    switch (event._def.extendedProps.eventType) {
-      case EventType.TEAM_MEETING:
+    switch (event._def.extendedProps.colorType) {
+      case 'violet':
         el.classList.add('bg-violet-light');
         el.classList.add('border-left-violet');
         break;
 
-      case EventType.OFFLINE_TEAM_MEETING:
+      case 'blue':
         el.classList.add('bg-blue-light');
         el.classList.add('border-left-blue');
         break;
 
-      case EventType.DINING_PARTY:
+      case 'green':
         el.classList.add('bg-green-light');
         el.classList.add('border-left-green');
         break;
 
-      case EventType.INTERVIEW:
+      case 'amber':
         el.classList.add('bg-amber-light');
         el.classList.add('border-left-amber');
         break;
 
-      case EventType.BIRTHDAY:
+      case 'rose':
         el.classList.add('bg-rose-light');
         el.classList.add('border-left-rose');
         break;
@@ -244,12 +245,11 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   };
 
   const handleClickDate = (info: any) => {
-    console.log(info)
     const date = new Date(info.date);
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     navigate(`/events/create?date=${date}&&time-start=${hours}:${minutes}`);
-  }
+  };
 
   return (
     <div className="calendar-wrapper">

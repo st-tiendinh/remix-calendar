@@ -395,6 +395,74 @@ image {
   }
 }
 
+.admin-list-checkbox {
+  margin-bottom: 16px;
+  /* The admin-list-container */
+  /* Hide the browser's default checkbox */
+  /* Create a custom checkbox */
+  /* On mouse-over, add a grey background color */
+  /* When the checkbox is checked, add a blue background */
+  /* Create the checkmark/indicator (hidden when not checked) */
+  /* Show the checkmark when checked */
+  /* Style the checkmark/indicator */
+}
+.admin-list-checkbox .admin-list-container {
+  display: block;
+  position: relative;
+  padding-left: 43px;
+  padding-block: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 24px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.admin-list-checkbox .admin-list-container:hover {
+  background-color: #eee;
+}
+.admin-list-checkbox .admin-list-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.admin-list-checkbox .checkmark {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  height: 24px;
+  width: 24px;
+  background-color: #eee;
+}
+.admin-list-checkbox .admin-list-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+.admin-list-checkbox .admin-list-container input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+.admin-list-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.admin-list-checkbox .admin-list-container input:checked ~ .checkmark:after {
+  display: block;
+}
+.admin-list-checkbox .admin-list-container .checkmark:after {
+  left: 9px;
+  top: 4px;
+  width: 8px;
+  height: 14px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
 .modal-wrapper {
   position: fixed;
   z-index: 20;
@@ -1088,7 +1156,7 @@ image {
 .calendar-wrapper {
   height: 100vh;
   padding: 0 20px 20px;
-  margin-top: 52px;
+  padding-top: 52px;
 }
 .calendar-wrapper .day-header-name,
 .calendar-wrapper .day-header-value {
