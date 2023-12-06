@@ -1156,7 +1156,7 @@ image {
 .calendar-wrapper {
   height: 100vh;
   padding: 0 20px 20px;
-  padding-top: 52px;
+  padding-top: 46px;
 }
 .calendar-wrapper .day-header-name,
 .calendar-wrapper .day-header-value {
@@ -1179,9 +1179,6 @@ image {
 }
 .calendar-wrapper .fc-timegrid-now-indicator-line {
   display: none;
-}
-.calendar-wrapper .fc {
-  /* Handle */
 }
 .calendar-wrapper .fc .fc-col-header {
   width: 100% !important;
@@ -1357,7 +1354,7 @@ image {
 
 @media (max-width: 1024px) {
   .calendar-wrapper {
-    padding: 0 10px 20px;
+    padding: 52px 10px 20px;
   }
   .calendar-wrapper .day-header-value {
     font-size: 16px;

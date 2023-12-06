@@ -28,6 +28,5 @@ export const getAllAdmin = async () => {
     },
   });
 
-  // console.log(userList);
   return userList;
 };

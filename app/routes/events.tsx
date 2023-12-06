@@ -19,8 +19,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const dayParams = myParams.get('day');
   const monthParams = myParams.get('month');
   const yearParams = myParams.get('year');
-  const toggleShowParams = myParams.get('_toggleShowEvents');
-  console.log(toggleShowParams);
 
   const paramsValue = getSearchParams({ url: request.url });
   const userInfo = await getUser(request);

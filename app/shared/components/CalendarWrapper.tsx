@@ -76,7 +76,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const getColor = (id: string): string => {
     const colors = ['rose', 'amber', 'green', 'violet', 'blue'];
     const numericId = parseInt(id, 16);
-    console.log(colors[numericId % colors.length]);
     return colors[numericId % colors.length];
   };
 

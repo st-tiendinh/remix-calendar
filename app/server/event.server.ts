@@ -122,7 +122,7 @@ export const getEventsByDay = async (date: string, authorId?: string) => {
                 lte: endDate,
               },
             },
-            // { deletedAt: null },
+            { deletedAt: null },
           ],
         },
       })
@@ -135,7 +135,7 @@ export const getEventsByDay = async (date: string, authorId?: string) => {
                 lte: endDate,
               },
             },
-            // { deletedAt: null },
+            { deletedAt: null },
           ],
         },
       });
@@ -156,26 +156,26 @@ export const getEventsByMonth = async (
         where: {
           AND: [
             { authorId },
+            { deletedAt: null },
             {
               date: {
                 gte: new Date(`${year}-${month}-1`),
                 lte: new Date(`${year}-${month}-${lastDay}`),
               },
             },
-            // { deletedAt: null },
           ],
         },
       })
     : await prisma.event.findMany({
         where: {
           AND: [
+            { deletedAt: null },
             {
               date: {
                 gte: new Date(`${year}-${month}-1`),
                 lte: new Date(`${year}-${month}-${lastDay}`),
               },
             },
-            // { deletedAt: null },
           ],
         },
       });
