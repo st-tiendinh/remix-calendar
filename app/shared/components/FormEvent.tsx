@@ -13,8 +13,6 @@ import SvgClose from '~/shared/components/icons/CloseSolid';
 import SvgBuilding from '~/shared/components/icons/Building';
 import SvgUserGroup from '~/shared/components/icons/IcUserGroup';
 import { useEffect, useRef, useState } from 'react';
-import SvgIcPlusCircle from './icons/IcPlusCircle';
-import { json } from '@remix-run/node';
 
 export const eventSchema = z.object({
   title: z
@@ -61,26 +59,37 @@ interface FormEventProps {
   eventId?: string;
 }
 
+interface Guest {
+  userId: string;
+  email: string;
+  status?: string;
+}
+
 export default function FormEvent({ method, event, eventId }: FormEventProps) {
   let userFetcher = useFetcher<any>();
   let [query, setQuery] = useState('');
   const searchUserRef = useRef<HTMLInputElement>(null);
-  // console.log(searchUserRef.current?.value);
 
   useEffect(() => {
-    // console.log('USER FETCH', userFetcher);
-    userFetcher.submit(
-      { search: query },
-      {
-        method: 'GET',
-        action: '/user/search',
-      }
-    );
+    if (query) {
+      userFetcher.submit(
+        { search: query },
+        {
+          method: 'GET',
+          action: '/user/search',
+        }
+      );
+    }
   }, [query]);
 
   const minDate = () => {
     const today = new Date().toISOString().split('T')[0];
     return today;
+  };
+
+  const checkGuestExist = (userId: string, guests: Guest[]) => {
+    const isExist = guests.some((guest) => guest.userId === userId);
+    return isExist;
   };
 
   return (
@@ -109,11 +118,6 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
         {({ Field, Errors, Button, register, watch, setValue }) => {
           const guests = watch('guests');
 
-          useEffect(() => {
-            if (guests?.[0]) {
-              console.log('GUESS', guests);
-            }
-          }, [guests]);
           return (
             <>
               <Field name="title" className="form-input-group">
@@ -276,45 +280,54 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                             setQuery(event.currentTarget.value)
                           }
                         />
-                        <button className="btn btn-primary">
-                          <SvgIcPlusCircle />
-                        </button>
+
                         {userFetcher.data !== undefined &&
-                          (searchUserRef.current as any).value &&
-                          userFetcher.data.status === 200 && (
+                          query &&
+                          (userFetcher.data.status === 200 ? (
                             <ul className="search-list">
                               {(userFetcher.data as any)?.users?.map(
-                                (user: any, index: any) => {
-                                  // console.log('user', user);
+                                (user: any) => {
+                                  const isGuestExist = checkGuestExist(
+                                    user.id,
+                                    guests as any
+                                  );
                                   return (
-                                    <>
-                                      <li
-                                        className="search-item"
-                                        key={user.id}
-                                        onClick={() => {
-                                          setValue(
-                                            'guests',
-                                            [
-                                              ...(guests as any),
-                                              {
-                                                userId: user.id,
-                                                email: user.email,
-                                              },
-                                            ],
-                                            { shouldValidate: true }
-                                          );
-                                          (searchUserRef.current as any).value =
-                                            '';
-                                        }}
-                                      >
-                                        <span>{user.email}</span>
-                                      </li>
-                                    </>
+                                    <li
+                                      className={`search-item ${
+                                        isGuestExist ? 'disabled' : ''
+                                      }`}
+                                      key={user.id}
+                                      onClick={() => {
+                                        if (isGuestExist) {
+                                          return;
+                                        }
+                                        setValue(
+                                          'guests',
+                                          [
+                                            ...(guests as any),
+                                            {
+                                              userId: user.id,
+                                              email: user.email,
+                                            },
+                                          ],
+                                          { shouldValidate: true }
+                                        );
+                                        (searchUserRef.current as any).value =
+                                          '';
+                                        setQuery('');
+                                      }}
+                                    >
+                                      <span>{user.email}</span>
+                                    </li>
                                   );
                                 }
                               )}
                             </ul>
-                          )}
+                          ) : (
+                            <ul className="search-list">
+                              {userFetcher.data?.error}
+                            </ul>
+                          ))}
                       </div>
                     </userFetcher.Form>
                   </>
@@ -323,14 +336,12 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               <ul className="guest-list">
                 {guests &&
                   guests.map((guest, index) => {
-                    // console.log('guest', guest, index);
                     return (
                       <>
                         <li key={guest.userId} className="guest-item">
-                          <span>
-                            {guest.email}({guest.userId})
-                          </span>
+                          <span>{guest.email}</span>
                           <SvgClose
+                            className="icon-delete"
                             onClick={() => {
                               const filterUser = guests.filter(
                                 (user) => user.userId !== guest.userId
