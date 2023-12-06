@@ -19,7 +19,8 @@ import {
 } from '~/shared/utils/validators.server';
 
 const mutation = makeDomainFunction(eventSchema)(async (values) => {
-  console.log('VALUESSS', values);
+  if(values.guests === undefined) throw new InputError('You must add at least one guest', 'guests');
+  console.log('VALUESSS', values.guests);
 
   const errorDate = validateEventDate(values.date);
   if (errorDate) throw new InputError(errorDate, 'date');
@@ -52,7 +53,7 @@ export const action: ActionFunction = async ({ request }) => {
   if (!result.success) return json(result, 400);
 
   const eventData = { ...result.data, authorId: userId };
-  console.log('EVENT', eventData);
+  console.log('EVENT', eventData.guests);
 
   return json({ eventData });
   // return await createEvent(eventData);

@@ -14,7 +14,6 @@ import SvgBuilding from '~/shared/components/icons/Building';
 import SvgUserGroup from '~/shared/components/icons/IcUserGroup';
 import { useEffect, useRef, useState } from 'react';
 import SvgIcPlusCircle from './icons/IcPlusCircle';
-import SvgCloseSolid from '~/shared/components/icons/CloseSolid';
 
 export const eventSchema = z.object({
   title: z
@@ -111,7 +110,8 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
           const guests = watch('guests');
 
           useEffect(() => {
-            console.log('GUESS', guests);
+            if(!guests)return;
+            console.log('GUESS', guests[0]?.userId);
           }, [guests]);
           return (
             <>
@@ -252,44 +252,39 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                   </>
                 )}
               </Field>
-              <Field name="guests">
-                {() => (
-                  <>
-                    {/* <userFetcher.Form> */}
-                    <label htmlFor="userSearch" className="form-label">
-                      Guests
-                    </label>
-                    <div className="input-icons">
-                      <SvgUserGroup />
-                      <input
-                        {...register('guests')}
-                        id="userSearch"
-                        type="text"
-                        ref={searchUserRef}
-                        className="form-input"
-                        placeholder="Add guests"
-                        onBlur={(e) => {
-                          e.target.value = e.target.value.trim();
-                        }}
-                        onChange={(event) =>
-                          setQuery(event.currentTarget.value)
-                        }
-                      />
-                      <button className="btn btn-primary">
-                        <SvgIcPlusCircle />
-                      </button>
-                      {userFetcher.data !== undefined &&
-                        (searchUserRef.current as any).value &&
-                        userFetcher.data.status === 200 && (
-                          <ul className="search-list">
-                            {(userFetcher.data as any)?.users?.map(
-                              (user: any) => {
-                                return (
+              <div className="form-input-group">
+                <userFetcher.Form>
+                  <label htmlFor="userSearch" className="form-label">
+                    Guests
+                  </label>
+                  <div className="input-icons">
+                    <SvgUserGroup />
+                    <input
+                      id="userSearch"
+                      type="text"
+                      ref={searchUserRef}
+                      className="form-input"
+                      placeholder="Add guests"
+                      onBlur={(e) => {
+                        e.target.value = e.target.value.trim();
+                      }}
+                      onChange={(event) => setQuery(event.currentTarget.value)}
+                    />
+                    <button className="btn btn-primary">
+                      <SvgIcPlusCircle />
+                    </button>
+                    {userFetcher.data !== undefined &&
+                      (searchUserRef.current as any).value &&
+                      userFetcher.data.status === 200 && (
+                        <ul className="search-list">
+                          {(userFetcher.data as any)?.users?.map(
+                            (user: any, index: any) => {
+                              return (
+                                <>
                                   <li
                                     className="search-item"
                                     key={user.id}
-                                    onClick={(e) => {
-                                      e.preventDefault();
+                                    onClick={() => {
                                       setValue(
                                         'guests',
                                         [
@@ -306,30 +301,46 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
                                   >
                                     <span>{user.email}</span>
                                   </li>
-                                );
-                              }
-                            )}
-                          </ul>
-                        )}
-                    </div>
-                    {/* </userFetcher.Form> */}
-
+                                </>
+                              );
+                            }
+                          )}
+                        </ul>
+                      )}
+                  </div>
+                </userFetcher.Form>
+              </div>
+              <Field name="guests">
+                {() => (
+                  <>
                     <ul className="guest-list">
-                      {guests &&
-                        guests.map((guest) => {
+                      {guests  &&
+                        guests.map((guest, index) => {
                           return (
-                            <li className="guest-item">
-                              <span>{guest.email}</span>
-                              <SvgCloseSolid
-                                onClick={() => {
-                                  const filterUser = guests.filter(
-                                    (user) => user.userId !== guest.userId
-                                  );
-                                  setValue('guests', filterUser);
-                                  (searchUserRef.current as any).value = '';
-                                }}
+                            <>
+                              <li key={guest.userId} className="guest-item">
+                                <span>{guest.email}</span>
+                                <SvgClose
+                                  onClick={() => {
+                                    const filterUser = guests.filter(
+                                      (user) => user.userId !== guest.userId
+                                    );
+                                    setValue('guests', filterUser);
+                                    (searchUserRef.current as any).value = '';
+                                  }}
+                                />
+                              </li>
+                              <input
+                                type="hidden"
+                                name={`guests[${index}][userId]`}
+                                value={guest.userId}
                               />
-                            </li>
+                              <input
+                                type="hidden"
+                                name={`guests[${index}][email]`}
+                                value={guest.email}
+                              />
+                            </>
                           );
                         })}
                     </ul>
