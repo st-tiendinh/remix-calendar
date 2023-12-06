@@ -20,6 +20,12 @@
     padding: 4px 10px;
     font-weight: 400;
   }
+  &.btn-red {
+    background-color: map-get($color, 'red-primary');
+    color: #fff;
+    padding: 4px 10px;
+    font-weight: 400;
+  }
 
   &.btn-toggle-sidebar {
     padding: 4px;

@@ -19,6 +19,15 @@
         align-items: center;
       }
     }
+    .btn-toggle-menu {
+      display: none;
+      background-color: map-get($color, 'gray-f4');
+    }
+  }
+  &-action {
+    .btn-create {
+      display: none;
+    }
   }
 
   &-logo-group {
@@ -39,5 +48,72 @@
         margin-left: 8px;
       }
     }
+  }
+}
+
+@include mobile {
+  .header {
+    top: 16px;
+    left: 16px;
+    background-color: transparent;
+    box-shadow: unset;
+    padding: 0;
+    right: unset;
+    &-inner {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    &-logo-group {
+      display: none;
+    }
+    .btn-toggle-menu {
+      display: inline-block;
+      z-index: 1;
+    }
+    .btn-create {
+      display: inline-block;
+    }
+    &-action {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      align-items: center;
+      justify-content: center;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: map-get($color, $key: 'gray-f4');
+
+      &.hide {
+        display: none;
+      }
+      &.show {
+        .btn {
+          transform: translateX(-50px);
+          opacity: 0;
+        }
+        .btn-create {
+          animation: show 0.3s linear forwards;
+        }
+        .btn-user-action {
+          animation: show 0.3s 0.2s linear forwards;
+        }
+      }
+      .btn {
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

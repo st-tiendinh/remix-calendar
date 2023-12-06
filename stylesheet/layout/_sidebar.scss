@@ -196,3 +196,9 @@
     }
   }
 }
+
+@include mobile {
+  .sidebar {
+    display: none;
+  }
+}
