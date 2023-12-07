@@ -25,7 +25,7 @@ export type EventData = {
     email: string;
     userId: string;
     map?: any;
-  };
+  }[];
 };
 
 export type CalendarEvent = {
