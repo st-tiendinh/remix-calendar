@@ -16,3 +16,17 @@ export const createUser = async (user: RegisterForm) => {
   });
   return { id: newUser.id, email: user.email };
 };
+
+export const searchUser = async (searcher: string) => {
+  if (!searcher) return null;
+  const users = await prisma.user.findMany({
+    where: {
+      email: {
+        contains: searcher,
+        mode: 'insensitive',
+      },
+    },
+  });
+
+  return users;
+};

@@ -64,7 +64,7 @@ export default function EventCreate() {
       toast.success(`${actionData?.message}`);
     }
   }, [actionData]);
-  
+
   return (
     <div className="modal-wrapper">
       <div className="modal">

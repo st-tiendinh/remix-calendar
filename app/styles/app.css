@@ -165,6 +165,7 @@ image {
 }
 
 .input-icons {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -269,6 +270,20 @@ image {
   color: #fff;
   background-color: #1c1c1c;
   cursor: pointer;
+}
+
+.search-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: 80px;
+  overflow-y: scroll;
+  padding: 6px;
+  border: 1px solid #f4f4f5;
+  border-radius: 6px;
+  z-index: 1;
+  background-color: #fff;
 }
 
 .tooltip {
