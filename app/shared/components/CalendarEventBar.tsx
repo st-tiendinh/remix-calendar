@@ -16,16 +16,16 @@ export default React.memo(function CalendarEventBar({
   return (
     <div className="custom-event-wrapper">
       <div className="custom-event">
-        {isHasMeetingLink && (
-          <div className="custom-event-time-wrapper">
-            <span className={`custom-event-time text-${colorType}`}>
-              {eventTime}
-            </span>
+        <div className="custom-event-time-wrapper">
+          <span className={`custom-event-time text-${colorType}`}>
+            {eventTime}
+          </span>
+          {isHasMeetingLink && (
             <span className={`custom-event-icon bg-${colorType}`}>
               <SvgCamera />
             </span>
-          </div>
-        )}
+          )}
+        </div>
         <div className={`custom-event-title text-${colorType}`}>
           {eventTitle}
         </div>

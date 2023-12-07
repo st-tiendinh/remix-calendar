@@ -10,6 +10,7 @@ import CalendarColumnHeader from './CalendarColumnHeader';
 import CalendarEventBar from './CalendarEventBar';
 import type { CalendarEvent } from '../utils/types.server';
 import SvgCamera from './icons/IcCamera';
+import { getColor } from '../utils/getColorByAuthorId';
 import toast from 'react-hot-toast';
 
 export enum EventType {
@@ -73,12 +74,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     } else {
       return 'timeGridWeek';
     }
-  };
-
-  const getColor = (id: string): string => {
-    const colors = ['rose', 'amber', 'green', 'violet', 'blue'];
-    const numericId = parseInt(id, 16);
-    return colors[numericId % colors.length];
   };
 
   const formatDateArray = useMemo(() => {
@@ -337,7 +332,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         events={formatDateArray}
         eventClick={handleEventClick}
         eventTimeFormat={{
-          hour: 'numeric',
+          hour: '2-digit',
           minute: '2-digit',
           meridiem: false,
         }}

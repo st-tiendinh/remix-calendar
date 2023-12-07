@@ -165,6 +165,7 @@ image {
 }
 
 .input-icons {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -269,6 +270,61 @@ image {
   color: #fff;
   background-color: #1c1c1c;
   cursor: pointer;
+}
+
+.search-list {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  max-height: 150px;
+  overflow-y: scroll;
+  box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+  border-radius: 6px;
+  z-index: 1;
+  background-color: #fff;
+}
+
+.search-item {
+  margin: 4px 0;
+  padding: 8px 12px;
+  font-weight: 400;
+  font-size: 15px;
+}
+.search-item:hover {
+  background-color: rgba(245, 245, 245, 0.6235294118);
+  cursor: pointer;
+}
+.search-item.disabled {
+  position: relative;
+  opacity: 0.4;
+  cursor: default;
+}
+
+.guest-list {
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.guest-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0;
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  font-weight: 400;
+}
+.guest-item .icon-delete {
+  visibility: hidden;
+}
+.guest-item:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+.guest-item:hover .icon-delete {
+  visibility: initial;
 }
 
 .tooltip {
@@ -401,7 +457,7 @@ image {
   padding-left: 43px;
   padding-block: 8px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 24px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -674,6 +730,10 @@ image {
   gap: 2px;
   overflow: hidden;
 }
+.custom-event-wrapper .custom-event {
+  display: flex;
+  flex-wrap: wrap;
+}
 .custom-event-wrapper .custom-event-icon {
   display: flex;
   justify-content: center;
@@ -690,7 +750,7 @@ image {
 .custom-event-wrapper .custom-event-time {
   line-height: 20px;
   margin-right: 4px;
-  font-size: 12px;
+  font-size: 10px;
 }
 .custom-event-wrapper .custom-event-title {
   font-size: 12px;
