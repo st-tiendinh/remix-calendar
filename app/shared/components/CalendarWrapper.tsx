@@ -2,7 +2,6 @@ import {
   useLocation,
   useNavigate,
   useNavigation,
-  useParams,
   useSearchParams,
 } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
