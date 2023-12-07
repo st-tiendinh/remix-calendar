@@ -16,7 +16,7 @@ export const updateEvent = async (eventData: EventData, id: string) => {
 
 export const createEvent = async (eventData: EventData) => {
   const event = await prisma.event.create({
-    data: eventData,
+    data: { ...eventData, deletedAt: null },
   });
 
   if (!event) return json({ error: 'Something went wrong', status: 400 });

@@ -1,9 +1,7 @@
 import React from 'react';
-import type { EventType } from './CalendarWrapper';
 import SvgCamera from '~/shared/components/icons/IcCamera';
 type CalendarEventProps = {
   isHasMeetingLink: boolean;
-  eventType: EventType;
   eventTime: string;
   eventTitle: string;
   colorType: string;
@@ -11,21 +9,10 @@ type CalendarEventProps = {
 
 export default React.memo(function CalendarEventBar({
   isHasMeetingLink,
-  eventType,
   eventTime,
   eventTitle,
   colorType,
 }: CalendarEventProps) {
-  // type Color = 'rose' | 'green' | 'blue' | 'amber' | 'violet';
-
-  // const EventTypeColor: Record<EventType, Color> = {
-  //   [EventType.BIRTHDAY]: 'rose',
-  //   [EventType.INTERVIEW]: 'amber',
-  //   [EventType.DINING_PARTY]: 'green',
-  //   [EventType.TEAM_MEETING]: 'violet',
-  //   [EventType.OFFLINE_TEAM_MEETING]: 'blue',
-  // };
-
   return (
     <div className="custom-event-wrapper">
       <div className="custom-event">

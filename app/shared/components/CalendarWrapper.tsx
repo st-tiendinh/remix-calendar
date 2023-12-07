@@ -2,7 +2,6 @@ import {
   useLocation,
   useNavigate,
   useNavigation,
-  useParams,
   useSearchParams,
 } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
@@ -106,7 +105,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         id: event.id,
         title: event.title,
         meetingLink: event.meetingLink,
-        eventType: EventType.BIRTHDAY,
         colorType: getColor(event.authorId),
         start: formatTimeToISOString(event.timeStart, event.date),
         end: formatTimeToISOString(event.timeEnd, event.date),
@@ -132,7 +130,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     return (
       <CalendarEventBar
         isHasMeetingLink={!!event._def.extendedProps.meetingLink}
-        eventType={event._def.extendedProps.eventType}
         colorType={event._def.extendedProps.colorType}
         eventTime={timeText}
         eventTitle={event._def.title}
