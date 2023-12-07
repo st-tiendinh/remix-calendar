@@ -6,6 +6,9 @@
   overflow: hidden;
 
   .custom-event {
+    display: flex;
+    flex-wrap: wrap;
+
     &-icon {
       display: flex;
       justify-content: center;
@@ -24,7 +27,7 @@
     &-time {
       line-height: 20px;
       margin-right: 4px;
-      font-size: 12px;
+      font-size: 10px;
     }
 
     &-title {

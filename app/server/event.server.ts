@@ -21,7 +21,7 @@ export const createEvent = async (eventData: EventData) => {
   const guestMail = eventData.guests?.map((guest: any) => guest.email);
 
   const event = await prisma.event.create({
-    data: eventData,
+    data: { ...eventData, deletedAt: null },
   });
 
   if (!event) return json({ error: 'Something went wrong', status: 400 });
