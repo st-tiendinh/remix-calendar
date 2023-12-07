@@ -6,6 +6,7 @@ import MiniCalendar from './MiniCalendar';
 import SvgPlusCircle from '~/shared/components/icons/IcPlusCircle';
 import SvgCamera from '~/shared/components/icons/IcCamera';
 import SvgActiveEvent from '~/shared/components/icons/IcActiveEvent';
+import { getColor } from '../utils/getColorByAuthorId';
 interface SidebarProps {
   todayEvent: EventData[];
   isShow: boolean;
@@ -42,7 +43,10 @@ export default function Sidebar({
           {adminList.map((admin: AdminInfo) => {
             return (
               <>
-                <label className="admin-list-container" htmlFor={admin.id}>
+                <label
+                  className={`admin-list-container text-${getColor(admin.id)}`}
+                  htmlFor={admin.id}
+                >
                   {`${admin.profile.firstName} ${admin.profile.lastName}`}
                   <input
                     className="checkbox"
