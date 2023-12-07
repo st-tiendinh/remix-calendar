@@ -21,7 +21,11 @@ export type EventData = {
   meetingLink?: string;
   isPublic?: boolean;
   authorId: string;
-  waitingList?: object;
+  guests?: {
+    email: string;
+    userId: string;
+    map?: any;
+  };
 };
 
 export type CalendarEvent = {
