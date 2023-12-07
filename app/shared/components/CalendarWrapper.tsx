@@ -14,6 +14,7 @@ import CalendarColumnHeader from './CalendarColumnHeader';
 import CalendarEventBar from './CalendarEventBar';
 import type { CalendarEvent } from '../utils/types.server';
 import SvgCamera from './icons/IcCamera';
+import toast from 'react-hot-toast';
 
 export enum EventType {
   TEAM_MEETING = 'team_meeting',
@@ -258,7 +259,7 @@ console.log(params.get('filter'))
     now.setHours(0, 0, 0, 0);
 
     if (date.setHours(0, 0, 0, 0) < now.getTime()) {
-      return;
+      return toast.error('You cannot create an event in the past');
     }
 
     const hours = String(date.getHours()).padStart(2, '0');

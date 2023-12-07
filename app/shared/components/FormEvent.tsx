@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { useLocation, useNavigate, useSearchParams } from '@remix-run/react';
+import { useLocation, useNavigate } from '@remix-run/react';
 import { Form } from '~/shared/components/RemixForm';
 import { type EventData } from '../utils/types.server';
 
