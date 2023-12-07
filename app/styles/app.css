@@ -674,6 +674,10 @@ image {
   gap: 2px;
   overflow: hidden;
 }
+.custom-event-wrapper .custom-event {
+  display: flex;
+  flex-wrap: wrap;
+}
 .custom-event-wrapper .custom-event-icon {
   display: flex;
   justify-content: center;
@@ -690,7 +694,7 @@ image {
 .custom-event-wrapper .custom-event-time {
   line-height: 20px;
   margin-right: 4px;
-  font-size: 12px;
+  font-size: 10px;
 }
 .custom-event-wrapper .custom-event-title {
   font-size: 12px;
