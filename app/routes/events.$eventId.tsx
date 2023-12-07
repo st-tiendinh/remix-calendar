@@ -115,8 +115,8 @@ const Event = () => {
               <button
                 className="btn-modal-link"
                 onClick={() =>
-                  location?.state?.query
-                    ? navigate(`/events${location.state.query}`)
+                  location?.state?.query.filter
+                    ? navigate(-1)
                     : navigate('/events')
                 }
               >
