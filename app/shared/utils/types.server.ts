@@ -21,6 +21,11 @@ export type EventData = {
   meetingLink?: string;
   isPublic?: boolean;
   authorId: string;
+  guests?: {
+    email: string;
+    userId: string;
+    map?: any;
+  }[];
   deletedAt?: null | Date;
 };
 

@@ -2,6 +2,7 @@ import { json, redirect } from '@remix-run/node';
 import { prisma } from './prisma.server';
 import type { EventData } from '~/shared/utils/types.server';
 import { deleteEventMiddleWare } from '~/shared/middleware/softDeleteEvent';
+import { mailSender } from '~/shared/utils/mailSender';
 
 export const updateEvent = async (eventData: EventData, id: string) => {
   const event = await prisma.event.update({
@@ -15,11 +16,22 @@ export const updateEvent = async (eventData: EventData, id: string) => {
 };
 
 export const createEvent = async (eventData: EventData) => {
+  const baseUrl = process.env.BASE_URL;
+
+  const guestMail = eventData.guests?.map((guest: any) => guest.email);
+
   const event = await prisma.event.create({
     data: { ...eventData, deletedAt: null },
   });
 
   if (!event) return json({ error: 'Something went wrong', status: 400 });
+
+  if (guestMail && event) {
+    mailSender({
+      usersEmail: guestMail,
+      eventLink: `${baseUrl}/events/${event.id}`,
+    });
+  }
 
   return redirect('/events?success=Create Event Success!!');
 };

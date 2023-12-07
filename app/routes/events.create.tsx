@@ -19,6 +19,12 @@ import {
 } from '~/shared/utils/validators.server';
 
 const mutation = makeDomainFunction(eventSchema)(async (values) => {
+  if(values.guests ){
+    // const guestsMail = 
+   const userEmail = values.guests.map(guest => guest.email);
+   console.log(userEmail)
+  }
+  
   const errorDate = validateEventDate(values.date);
   if (errorDate) throw new InputError(errorDate, 'date');
 
