@@ -30,3 +30,16 @@ export const searchUser = async (searcher: string) => {
 
   return users;
 };
+export const getAllAdmin = async () => {
+  const userList = await prisma.user.findMany({
+    where: {
+      role: 'ADMIN',
+    },
+    select: {
+      id: true,
+      profile: true,
+    },
+  });
+
+  return userList;
+};

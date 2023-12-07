@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { Link, useFetcher } from '@remix-run/react';
+import { useFetcher } from '@remix-run/react';
+import { useLocation, useNavigate } from '@remix-run/react';
 import { Form } from '~/shared/components/RemixForm';
 import { type EventData } from '../utils/types.server';
 
@@ -86,6 +87,8 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
     const today = new Date().toISOString().split('T')[0];
     return today;
   };
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const checkGuestExist = (userId: string, guests: Guest[]) => {
     const isExist = guests.some((guest) => guest.userId === userId);
@@ -100,10 +103,17 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             ? 'Create New Event'
             : 'Update Event'}
         </h2>
-
-        <Link className="btn btn-modal-close" to={'/events'}>
+        <button
+          className="btn btn-modal-close"
+          onClick={() =>
+            location?.state?.query
+              ? navigate(`/events${location.state.query}`)
+              : navigate('/events')
+          }
+        >
+          {' '}
           <SvgClose />
-        </Link>
+        </button>
       </div>
       <Form
         schema={eventSchema}
@@ -389,16 +399,23 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               </Field>
               <Errors className="form-error" />
               <div className="form-btn-group">
-                <Link
-                  to={
-                    method === FormEventMethod.CREATE
-                      ? '/events'
-                      : `/events/${eventId}`
-                  }
+                <button
                   className="form-btn cancel"
+                  onClick={() =>
+                    navigate(
+                      method === FormEventMethod.CREATE
+                        ? `/events${location.state?.query}`
+                        : `/events/${eventId}`,
+                      {
+                        state: {
+                          query: location.state?.query,
+                        },
+                      }
+                    )
+                  }
                 >
                   Cancel
-                </Link>
+                </button>
                 <Button className="form-btn save">
                   {method === FormEventMethod.CREATE ? 'Create' : 'Save'}
                 </Button>

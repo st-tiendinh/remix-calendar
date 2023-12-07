@@ -1,5 +1,5 @@
 import { type ActionFunction, json } from '@remix-run/node';
-import { useActionData } from '@remix-run/react';
+import { useActionData, useLocation } from '@remix-run/react';
 
 import { performMutation } from 'remix-forms';
 import { useEffect } from 'react';
@@ -56,6 +56,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function EventCreate() {
   const actionData: ActionData | undefined = useActionData();
+  const location = useLocation();
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
@@ -69,7 +70,10 @@ export default function EventCreate() {
     <div className="modal-wrapper">
       <div className="modal">
         <div className="modal-event-wrapper">
-          <FormEvent method={FormEventMethod.CREATE} />
+          <FormEvent
+            method={FormEventMethod.CREATE}
+            event={location.state?.event}
+          />
         </div>
       </div>
     </div>

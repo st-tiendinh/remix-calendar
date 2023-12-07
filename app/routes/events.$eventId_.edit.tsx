@@ -5,10 +5,8 @@ import {
   redirect,
 } from '@remix-run/node';
 import {
-
   useActionData,
   useLoaderData,
-
 } from '@remix-run/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
@@ -98,7 +96,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 export default function EventEdit() {
   const actionData = useActionData<typeof action>();
   const { event, eventId }: any = useLoaderData<typeof loader>();
-
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
