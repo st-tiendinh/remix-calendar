@@ -55,14 +55,16 @@ interface FormEventProps {
 }
 
 export default function FormEvent({ method, event, eventId }: FormEventProps) {
+  console.log(event)
+  console.log(new Date().toISOString().split('T')[0])
   const minDate = () => {
     const today = new Date().toISOString().split('T')[0];
     return today;
   };
-  // const [params] = useSearchParams();
+
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.state?.query.filter);
+
   return (
     <div className="form-event">
       <div className="form-header">
@@ -76,12 +78,12 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
           onClick={() => {
             if (
               method === FormEventMethod.CREATE &&
-              location.state?.query.filter
+              location.state?.query?.filter
             ) {
               navigate(-1);
             } else if (
               method === FormEventMethod.UPDATE &&
-              !location.state?.query.filter
+              !location.state?.query?.filter
             ) {
               navigate(-2);
             } else {
@@ -89,7 +91,6 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
             }
           }}
         >
-          {' '}
           <SvgClose />
         </button>
       </div>
@@ -269,7 +270,7 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               <button
                 className="form-btn cancel"
                 onClick={() =>
-                  FormEventMethod.CREATE && location.state?.query.filter
+                  FormEventMethod.CREATE && location.state?.query?.filter
                     ? navigate(-1)
                     : navigate(`/events/${eventId}`)
                 }

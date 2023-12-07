@@ -1,8 +1,4 @@
-import {
-  useNavigate,
-  useNavigation,
-  useSearchParams,
-} from '@remix-run/react';
+import { useNavigate, useNavigation, useSearchParams } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -33,7 +29,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const calendarRef = useRef(null);
-console.log(params.get('filter'))
+  console.log(params.get('filter'));
 
   /* === Customize calendar event === */
   useEffect(() => {
@@ -161,7 +157,7 @@ console.log(params.get('filter'))
   const handleEventClick = (info: any) => {
     navigate(`/events/${info.event._def.publicId}`, {
       state: {
-        query:{
+        query: {
           filter: params.get('filter'),
         },
       },
@@ -255,6 +251,8 @@ console.log(params.get('filter'))
 
   const handleClickDate = (info: any) => {
     const date = new Date(info.date);
+    console.log(info.date);
+    console.log(date);
     const now = new Date();
     now.setHours(0, 0, 0, 0);
 
@@ -268,15 +266,15 @@ console.log(params.get('filter'))
     navigate(`/events/create`, {
       state: {
         event: {
-          date,
+          date: date.toLocaleDateString('en-US'),
           timeStart:
             `${hours}:${minutes}` === '00:00'
               ? `${String(new Date().getHours()).padStart(2, '0')}: ${String(
                   new Date().getMinutes()
                 ).padStart(2, '0')}`
-              : `${hours}:${minutes}`,
+              : `${hours}: ${minutes}`,
         },
-        query:{
+        query: {
           filter: params.get('filter'),
         },
       },

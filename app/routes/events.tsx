@@ -75,6 +75,17 @@ export default function EventList() {
   const { events, paramsValue, todayEvent, userInfo, adminList } = data;
   const [isShow, setIsShow] = useState(true);
   const [userEvents, setUserEvents] = useState<CalendarEvent[]>(events);
+  const [userChecked, setUserChecked] = useState<string[]>(
+    adminList.map((admin: any) => admin.id)
+  );
+
+  useEffect(() => {
+    setUserEvents(
+      events.filter((event: CalendarEvent) =>
+        userChecked.includes(event.authorId)
+      )
+    );
+  }, [events]);
 
   const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
     const authorId = e.target.value;
@@ -86,11 +97,15 @@ export default function EventList() {
         .map((event: CalendarEvent) => ({
           ...event,
         }));
+      setUserChecked((prevChecked) => [...prevChecked, authorId]);
       setUserEvents((prevEvents) => [...prevEvents, ...newEvents]);
     } else {
       // Remove the events of the unchecked author from userEvents
       const remainingEvents = userEvents.filter(
         (event) => event.authorId !== authorId
+      );
+      setUserChecked((prevChecked) =>
+        prevChecked.filter((id) => id !== authorId)
       );
       setUserEvents(remainingEvents);
     }

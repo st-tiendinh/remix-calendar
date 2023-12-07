@@ -57,6 +57,20 @@ export const action: ActionFunction = async ({ request }) => {
 export default function EventCreate() {
   const actionData: ActionData | undefined = useActionData();
   const location = useLocation();
+  const date = new Date(location.state?.event?.date);
+
+  let event;
+  if (location.state?.event) {
+    event = {
+      timeStart: location.state?.event?.timeStart,
+      date,
+    };
+  } else {
+    event = {
+      timeStart: '',
+      date: new Date(),
+    };
+  }
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
@@ -70,10 +84,7 @@ export default function EventCreate() {
     <div className="modal-wrapper">
       <div className="modal">
         <div className="modal-event-wrapper">
-          <FormEvent
-            method={FormEventMethod.CREATE}
-            event={location.state?.event}
-          />
+          <FormEvent method={FormEventMethod.CREATE} event={event} />
         </div>
       </div>
     </div>
