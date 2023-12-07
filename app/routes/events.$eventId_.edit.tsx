@@ -5,11 +5,8 @@ import {
   redirect,
 } from '@remix-run/node';
 import {
-
   useActionData,
   useLoaderData,
-  useLocation,
-
 } from '@remix-run/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
