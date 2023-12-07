@@ -1,19 +1,18 @@
 import { z } from 'zod';
-import { useFetcher } from '@remix-run/react';
-import { useLocation, useNavigate } from '@remix-run/react';
+import { useFetcher,  useLocation, useNavigate } from '@remix-run/react';
 import { Form } from '~/shared/components/RemixForm';
+import { useEffect, useRef, useState } from 'react';
+
 import { type EventData } from '../utils/types.server';
 
-import SvgPenSolid from '~/shared/components/icons/IcPenSolid';
 import SvgCommentSolid from '~/shared/components/icons/CommentSolid';
 import SvgCalendarDaySolid from '~/shared/components/icons/CalendarDaySolid';
 import SvgClockSolid from '~/shared/components/icons/ClockSolid';
 import SvgExternalLinkAltSolid from '~/shared/components/icons/ExternalLinkAltSolid';
-
+import SvgPenSolid from '~/shared/components/icons/IcPenSolid';
 import SvgClose from '~/shared/components/icons/CloseSolid';
 import SvgBuilding from '~/shared/components/icons/Building';
 import SvgUserGroup from '~/shared/components/icons/IcUserGroup';
-import { useEffect, useRef, useState } from 'react';
 
 export const eventSchema = z.object({
   title: z

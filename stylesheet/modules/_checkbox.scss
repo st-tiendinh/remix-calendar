@@ -9,6 +9,7 @@
     padding-block: 8px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 500;
     line-height: 24px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -46,7 +47,7 @@
 
   /* When the checkbox is checked, add a blue background */
   .admin-list-container input:checked ~ .checkmark {
-    background-color: #2196f3;
+    background-color: #ff385c;
   }
 
   /* Create the checkmark/indicator (hidden when not checked) */

@@ -368,6 +368,7 @@ image {
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
+  background-color: transparent;
   font-size: 14px;
   border-radius: 4px;
   border: 1px solid transparent;
@@ -375,10 +376,10 @@ image {
   cursor: pointer;
 }
 .btn.btn-primary {
-  background-color: #1c1c1c;
+  background-color: #ff385c;
   color: #fff;
   padding: 4px 10px;
-  font-weight: 400;
+  font-weight: 500;
 }
 .btn.btn-toggle-sidebar {
   padding: 4px;
@@ -458,6 +459,7 @@ image {
   padding-block: 8px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 500;
   line-height: 24px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -486,7 +488,7 @@ image {
   background-color: #ccc;
 }
 .admin-list-checkbox .admin-list-container input:checked ~ .checkmark {
-  background-color: #2196f3;
+  background-color: #ff385c;
 }
 .admin-list-checkbox .checkmark:after {
   content: "";
