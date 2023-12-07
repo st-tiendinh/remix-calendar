@@ -59,9 +59,10 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
     const today = new Date().toISOString().split('T')[0];
     return today;
   };
+  // const [params] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
-
+  console.log(location.state?.query.filter);
   return (
     <div className="form-event">
       <div className="form-header">
@@ -72,11 +73,21 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
         </h2>
         <button
           className="btn btn-modal-close"
-          onClick={() =>
-            location?.state?.query
-              ? navigate(`/events${location.state.query}`)
-              : navigate('/events')
-          }
+          onClick={() => {
+            if (
+              method === FormEventMethod.CREATE &&
+              location.state?.query.filter
+            ) {
+              navigate(-1);
+            } else if (
+              method === FormEventMethod.UPDATE &&
+              !location.state?.query.filter
+            ) {
+              navigate(-2);
+            } else {
+              navigate(`/events`);
+            }
+          }}
         >
           {' '}
           <SvgClose />
@@ -258,16 +269,9 @@ export default function FormEvent({ method, event, eventId }: FormEventProps) {
               <button
                 className="form-btn cancel"
                 onClick={() =>
-                  navigate(
-                    method === FormEventMethod.CREATE
-                      ? `/events${location.state?.query}`
-                      : `/events/${eventId}`,
-                    {
-                      state: {
-                        query: location.state?.query,
-                      },
-                    }
-                  )
+                  FormEventMethod.CREATE && location.state?.query.filter
+                    ? navigate(-1)
+                    : navigate(`/events/${eventId}`)
                 }
               >
                 Cancel

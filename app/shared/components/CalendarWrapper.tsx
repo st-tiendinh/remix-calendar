@@ -1,14 +1,9 @@
-import {
-  useLocation,
-  useNavigate,
-  useNavigation,
-  useSearchParams,
-} from '@remix-run/react';
+import { useNavigate, useNavigation, useSearchParams } from '@remix-run/react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { useEffect, useRef, useMemo, useState } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { formatTimeToISOString } from '../utils/formatNumberToDateString';
 
 import CalendarColumnHeader from './CalendarColumnHeader';
@@ -16,6 +11,7 @@ import CalendarEventBar from './CalendarEventBar';
 import type { CalendarEvent } from '../utils/types.server';
 import SvgCamera from './icons/IcCamera';
 import { getColor } from '../utils/getColorByAuthorId';
+import toast from 'react-hot-toast';
 
 export enum EventType {
   TEAM_MEETING = 'team_meeting',
@@ -34,21 +30,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const calendarRef = useRef(null);
-  const location = useLocation();
-
-  const [query, setQuery] = useState('');
-
-  useEffect(() => {
-    if (
-      !params.get('success') &&
-      !params.get('error') &&
-      location.pathname === '/events' &&
-      location.search !== query &&
-      location.search !== ''
-    ) {
-      setQuery(location.search);
-    }
-  }, [location.search]);
+  console.log(params.get('filter'));
 
   /* === Customize calendar event === */
   useEffect(() => {
@@ -170,7 +152,9 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const handleEventClick = (info: any) => {
     navigate(`/events/${info.event._def.publicId}`, {
       state: {
-        query,
+        query: {
+          filter: params.get('filter'),
+        },
       },
     });
   };
@@ -266,7 +250,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     now.setHours(0, 0, 0, 0);
 
     if (date.setHours(0, 0, 0, 0) < now.getTime()) {
-      return;
+      return toast.error('You cannot create an event in the past');
     }
 
     const hours = String(date.getHours()).padStart(2, '0');
@@ -283,7 +267,9 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
                 ).padStart(2, '0')}`
               : `${hours}:${minutes}`,
         },
-        query,
+        query: {
+          filter: params.get('filter'),
+        },
       },
     });
   };
