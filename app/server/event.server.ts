@@ -119,7 +119,6 @@ export const getEventsByDay = async (date: string) => {
       },
     },
   });
-
   const validEvents = events.filter((e) => e.deletedAt === null);
   return validEvents;
 };
