@@ -204,11 +204,17 @@ export default function Login() {
                   <Errors className="error-text" />
                   <button
                     className={`btn login-btn ${
-                      navigation.state !== 'idle' ? 'loading' : ''
+                      navigation.state === 'submitting' && navigation.formMethod
+                        ? 'loading'
+                        : ''
                     }`}
-                    disabled={navigation.state !== 'idle' ? true : false}
+                    disabled={
+                      navigation.state === 'submitting' && navigation.formMethod
+                        ? true
+                        : false
+                    }
                   >
-                    SIGNUP
+                    REGISTER NOW
                   </button>
                   <p className="form-input-helper">
                     Already have an account?{' '}
