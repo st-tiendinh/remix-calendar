@@ -82,6 +82,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 export default function Login() {
   const actionData: any = useActionData();
   const navigation = useNavigation();
+  console.log(navigation);
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
@@ -150,9 +151,15 @@ export default function Login() {
                   <Errors className="error-text" />
                   <button
                     className={`btn login-btn ${
-                      navigation.state !== 'idle' ? 'loading' : ''
+                      navigation.state === 'submitting' && navigation.formMethod
+                        ? 'loading'
+                        : ''
                     }`}
-                    disabled={navigation.state !== 'idle' ? true : false}
+                    disabled={
+                      navigation.state === 'submitting' && navigation.formMethod
+                        ? true
+                        : false
+                    }
                   >
                     LOGIN NOW
                   </button>
