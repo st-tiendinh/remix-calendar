@@ -82,7 +82,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 export default function Login() {
   const actionData: any = useActionData();
   const navigation = useNavigation();
-  console.log(navigation);
 
   useEffect(() => {
     if (actionData?.error !== undefined) {

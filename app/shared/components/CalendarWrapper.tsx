@@ -13,14 +13,6 @@ import SvgCamera from './icons/IcCamera';
 import { getColor } from '../utils/getColorByAuthorId';
 import toast from 'react-hot-toast';
 
-export enum EventType {
-  TEAM_MEETING = 'team_meeting',
-  OFFLINE_TEAM_MEETING = 'offline_team_meeting',
-  INTERVIEW = 'interview',
-  DINING_PARTY = 'dining_party',
-  BIRTHDAY = 'birthday',
-}
-
 type CalendarWrapperProps = {
   eventList: CalendarEvent[];
 };
@@ -30,7 +22,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const calendarRef = useRef(null);
-  console.log(params.get('filter'));
 
   /* === Customize calendar event === */
   useEffect(() => {
@@ -110,6 +101,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         colorType={event._def.extendedProps.colorType}
         eventTime={timeText}
         eventTitle={event._def.title}
+        publicId={event._def.publicId}
       />
     );
   };
@@ -246,8 +238,6 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
 
   const handleClickDate = (info: any) => {
     const date = new Date(info.date);
-    console.log(info.date);
-    console.log(date);
     const now = new Date();
     now.setHours(0, 0, 0, 0);
 

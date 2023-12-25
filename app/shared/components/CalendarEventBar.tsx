@@ -1,3 +1,4 @@
+import { Link } from '@remix-run/react';
 import React from 'react';
 import SvgCamera from '~/shared/components/icons/IcCamera';
 type CalendarEventProps = {
@@ -5,6 +6,7 @@ type CalendarEventProps = {
   eventTime: string;
   eventTitle: string;
   colorType: string;
+  publicId: string;
 };
 
 export default React.memo(function CalendarEventBar({
@@ -12,9 +14,14 @@ export default React.memo(function CalendarEventBar({
   eventTime,
   eventTitle,
   colorType,
+  publicId,
 }: CalendarEventProps) {
   return (
-    <div className="custom-event-wrapper">
+    <Link
+      to={`/events/${publicId}`}
+      prefetch="intent"
+      className="custom-event-wrapper"
+    >
       <div className="custom-event">
         <div className="custom-event-time-wrapper">
           <span className={`custom-event-time text-${colorType}`}>
@@ -30,6 +37,6 @@ export default React.memo(function CalendarEventBar({
           {eventTitle}
         </div>
       </div>
-    </div>
+    </Link>
   );
 });
