@@ -21,6 +21,12 @@ export type EventData = {
   meetingLink?: string;
   isPublic?: boolean;
   authorId: string;
+  guests?: {
+    email: string;
+    userId: string;
+    map?: any;
+  }[];
+  deletedAt?: null | Date;
 };
 
 export type CalendarEvent = {
@@ -30,7 +36,7 @@ export type CalendarEvent = {
   deletedAt: null | string;
   description: string;
   id: string;
-  isPublised: boolean;
+  isPublished: boolean;
   location: string;
   meetingLink: null | string;
   timeEnd: string;
@@ -47,6 +53,11 @@ export type EventDate = {
 export type UserInfo = {
   firstName: string;
   lastName: string;
+};
+
+export type AdminInfo = {
+  id: string;
+  profile: UserInfo;
 };
 
 export type ActionData = {

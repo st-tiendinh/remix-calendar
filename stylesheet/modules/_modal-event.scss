@@ -24,7 +24,7 @@
       justify-content: center;
       padding: 8px;
       border-radius: 50%;
-  
+  background: none;
       
       &:hover {
         background-color: map-get($color, 'gray-f4');

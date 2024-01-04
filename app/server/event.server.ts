@@ -2,6 +2,7 @@ import { json, redirect } from '@remix-run/node';
 import { prisma } from './prisma.server';
 import type { EventData } from '~/shared/utils/types.server';
 import { deleteEventMiddleWare } from '~/shared/middleware/softDeleteEvent';
+import { mailSender } from '~/shared/utils/mailSender';
 
 export const updateEvent = async (eventData: EventData, id: string) => {
   const event = await prisma.event.update({
@@ -15,11 +16,22 @@ export const updateEvent = async (eventData: EventData, id: string) => {
 };
 
 export const createEvent = async (eventData: EventData) => {
+  const baseUrl = process.env.BASE_URL;
+
+  const guestMail = eventData.guests?.map((guest: any) => guest.email);
+
   const event = await prisma.event.create({
-    data: eventData,
+    data: { ...eventData, deletedAt: null },
   });
 
   if (!event) return json({ error: 'Something went wrong', status: 400 });
+
+  if (guestMail && event) {
+    mailSender({
+      usersEmail: guestMail,
+      eventLink: `${baseUrl}/events/${event.id}`,
+    });
+  }
 
   return redirect('/events?success=Create Event Success!!');
 };
@@ -101,9 +113,9 @@ export const getDeletedEvents = async (userId: string) => {
   return json({ events, status: 200 });
 };
 
-export const getEventsByDay = async (date: string) => {
+export const getEventsByDay = async (date: string, authorId?: string) => {
   let targetDate = new Date(date);
-  
+
   const startDate = new Date(
     targetDate.toISOString().split('T')[0] + 'T00:00:00.000Z'
   );
@@ -111,34 +123,74 @@ export const getEventsByDay = async (date: string) => {
     targetDate.toISOString().split('T')[0] + 'T23:59:59.999Z'
   );
 
-  const events = await prisma.event.findMany({
-    where: {
-      date: {
-        gte: startDate,
-        lte: endDate,
-      },
-    },
-  });
+  const events = authorId
+    ? await prisma.event.findMany({
+        where: {
+          AND: [
+            { authorId },
+            {
+              date: {
+                gte: startDate,
+                lte: endDate,
+              },
+            },
+            { deletedAt: null },
+          ],
+        },
+      })
+    : await prisma.event.findMany({
+        where: {
+          AND: [
+            {
+              date: {
+                gte: startDate,
+                lte: endDate,
+              },
+            },
+            { deletedAt: null },
+          ],
+        },
+      });
 
-  const validEvents = events.filter((e) => e.deletedAt === null);
-  return validEvents;
+  return events;
 };
 
 export const getEventsByMonth = async (
   monthParam: string,
-  yearParam: string
+  yearParam: string,
+  authorId?: string
 ) => {
   const month = monthParam ? monthParam : new Date().getMonth() + 1;
   const year = yearParam ? yearParam : new Date().getFullYear();
   const lastDay = new Date(Number(year), Number(month) + 1, 0).getDate();
-  const events = await prisma.event.findMany({
-    where: {
-      date: {
-        gte: new Date(`${year}-${month}-1`),
-        lte: new Date(`${year}-${month}-${lastDay}`),
-      },
-    },
-  });
-  const validEvents = events.filter((e) => e.deletedAt === null);
-  return validEvents;
+  const events = authorId
+    ? await prisma.event.findMany({
+        where: {
+          AND: [
+            { authorId },
+            { deletedAt: null },
+            {
+              date: {
+                gte: new Date(`${year}-${month}-1`),
+                lte: new Date(`${year}-${month}-${lastDay}`),
+              },
+            },
+          ],
+        },
+      })
+    : await prisma.event.findMany({
+        where: {
+          AND: [
+            { deletedAt: null },
+            {
+              date: {
+                gte: new Date(`${year}-${month}-1`),
+                lte: new Date(`${year}-${month}-${lastDay}`),
+              },
+            },
+          ],
+        },
+      });
+
+  return events;
 };

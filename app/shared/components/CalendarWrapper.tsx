@@ -10,14 +10,8 @@ import CalendarColumnHeader from './CalendarColumnHeader';
 import CalendarEventBar from './CalendarEventBar';
 import type { CalendarEvent } from '../utils/types.server';
 import SvgCamera from './icons/IcCamera';
-
-export enum EventType {
-  TEAM_MEETING = 'team_meeting',
-  OFFLINE_TEAM_MEETING = 'offline_team_meeting',
-  INTERVIEW = 'interview',
-  DINING_PARTY = 'dining_party',
-  BIRTHDAY = 'birthday',
-}
+import { getColor } from '../utils/getColorByAuthorId';
+import toast from 'react-hot-toast';
 
 type CalendarWrapperProps = {
   eventList: CalendarEvent[];
@@ -73,21 +67,13 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     }
   };
 
-  /* This is the test event types function. Delete it after define event types in DB */
-  const getRandomEventType = () => {
-    const eventTypes = Object.values(EventType);
-    const randomIndex = Math.floor(Math.random() * eventTypes.length);
-    return eventTypes[randomIndex];
-  };
-
   const formatDateArray = useMemo(() => {
     return eventList.map((event: CalendarEvent) => {
       return {
         id: event.id,
         title: event.title,
         meetingLink: event.meetingLink,
-        eventType: getRandomEventType(),
-        // eventType: EventType.BIRTHDAY,
+        colorType: getColor(event.authorId),
         start: formatTimeToISOString(event.timeStart, event.date),
         end: formatTimeToISOString(event.timeEnd, event.date),
         durationEditable: true,
@@ -112,37 +98,38 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     return (
       <CalendarEventBar
         isHasMeetingLink={!!event._def.extendedProps.meetingLink}
-        eventType={event._def.extendedProps.eventType}
+        colorType={event._def.extendedProps.colorType}
         eventTime={timeText}
         eventTitle={event._def.title}
+        publicId={event._def.publicId}
       />
     );
   };
 
   const customEventBackground = (info: any) => {
     const { el, event } = info;
-    switch (event._def.extendedProps.eventType) {
-      case EventType.TEAM_MEETING:
+    switch (event._def.extendedProps.colorType) {
+      case 'violet':
         el.classList.add('bg-violet-light');
         el.classList.add('border-left-violet');
         break;
 
-      case EventType.OFFLINE_TEAM_MEETING:
+      case 'blue':
         el.classList.add('bg-blue-light');
         el.classList.add('border-left-blue');
         break;
 
-      case EventType.DINING_PARTY:
+      case 'green':
         el.classList.add('bg-green-light');
         el.classList.add('border-left-green');
         break;
 
-      case EventType.INTERVIEW:
+      case 'amber':
         el.classList.add('bg-amber-light');
         el.classList.add('border-left-amber');
         break;
 
-      case EventType.BIRTHDAY:
+      case 'rose':
         el.classList.add('bg-rose-light');
         el.classList.add('border-left-rose');
         break;
@@ -155,7 +142,13 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
   /* === Handle event of calendar === */
 
   const handleEventClick = (info: any) => {
-    navigate(`/events/${info.event._def.publicId}`);
+    navigate(`/events/${info.event._def.publicId}`, {
+      state: {
+        query: {
+          filter: params.get('filter'),
+        },
+      },
+    });
   };
 
   const handleGetAllDayEvents = () => {
@@ -243,6 +236,36 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
     }
   };
 
+  const handleClickDate = (info: any) => {
+    const date = new Date(info.date);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+
+    if (date.setHours(0, 0, 0, 0) < now.getTime()) {
+      return toast.error('You cannot create an event in the past');
+    }
+
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    navigate(`/events/create`, {
+      state: {
+        event: {
+          date: date.toLocaleDateString('en-US'),
+          timeStart:
+            `${hours}:${minutes}` === '00:00'
+              ? `${String(new Date().getHours()).padStart(2, '0')}: ${String(
+                  new Date().getMinutes()
+                ).padStart(2, '0')}`
+              : `${hours}: ${minutes}`,
+        },
+        query: {
+          filter: params.get('filter'),
+        },
+      },
+    });
+  };
+
   return (
     <div className="calendar-wrapper">
       <SvgCamera />
@@ -290,6 +313,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
           center: 'title',
           end: 'timeGridWeek,dayGridMonth,timeGridDay',
         }}
+        dateClick={handleClickDate}
         allDaySlot={false}
         editable={true}
         selectable={true}
@@ -298,7 +322,7 @@ export default function CalendarWrapper({ eventList }: CalendarWrapperProps) {
         events={formatDateArray}
         eventClick={handleEventClick}
         eventTimeFormat={{
-          hour: 'numeric',
+          hour: '2-digit',
           minute: '2-digit',
           meridiem: false,
         }}

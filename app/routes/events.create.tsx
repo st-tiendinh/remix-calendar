@@ -1,5 +1,5 @@
 import { type ActionFunction, json } from '@remix-run/node';
-import { useActionData } from '@remix-run/react';
+import { useActionData, useLocation } from '@remix-run/react';
 
 import { performMutation } from 'remix-forms';
 import { useEffect } from 'react';
@@ -19,6 +19,12 @@ import {
 } from '~/shared/utils/validators.server';
 
 const mutation = makeDomainFunction(eventSchema)(async (values) => {
+  if(values.guests ){
+    // const guestsMail = 
+   const userEmail = values.guests.map(guest => guest.email);
+   console.log(userEmail)
+  }
+  
   const errorDate = validateEventDate(values.date);
   if (errorDate) throw new InputError(errorDate, 'date');
 
@@ -56,6 +62,21 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function EventCreate() {
   const actionData: ActionData | undefined = useActionData();
+  const location = useLocation();
+  const date = new Date(location.state?.event?.date);
+
+  let event;
+  if (location.state?.event) {
+    event = {
+      timeStart: location.state?.event?.timeStart,
+      date,
+    };
+  } else {
+    event = {
+      timeStart: '',
+      date: new Date(),
+    };
+  }
 
   useEffect(() => {
     if (actionData?.error !== undefined) {
@@ -64,12 +85,12 @@ export default function EventCreate() {
       toast.success(`${actionData?.message}`);
     }
   }, [actionData]);
-  
+
   return (
     <div className="modal-wrapper">
       <div className="modal">
         <div className="modal-event-wrapper">
-          <FormEvent method={FormEventMethod.CREATE} />
+          <FormEvent method={FormEventMethod.CREATE} event={event} />
         </div>
       </div>
     </div>

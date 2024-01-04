@@ -32,9 +32,9 @@ export default function MiniCalendar() {
     const inputDateUTC = new Date(
       inputDate.getTime() - inputDate.getTimezoneOffset() * 60000
     );
-    const formattedInputDate = inputDateUTC.toISOString().split('T')[0];
+    const formattedInputDate = inputDateUTC.toLocaleDateString().split('T')[0];
     const found = events?.some((item) => {
-      const itemDate = new Date(item.date).toISOString().split('T')[0];
+      const itemDate = new Date(item.date).toLocaleDateString().split('T')[0];
       return itemDate === formattedInputDate;
     });
     return found;

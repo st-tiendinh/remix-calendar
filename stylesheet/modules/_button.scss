@@ -5,7 +5,7 @@
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
-
+  background-color: transparent;
   font-size: map-get($font-size, 'sm');
 
   border-radius: 4px;
@@ -15,10 +15,10 @@
   cursor: pointer;
 
   &.btn-primary {
-    background-color: map-get($color, 'primary');
+    background-color: #ff385c;
     color: #fff;
     padding: 4px 10px;
-    font-weight: 400;
+    font-weight: 500;
   }
 
   &.btn-toggle-sidebar {
@@ -44,19 +44,6 @@
 
   &.btn-copy {
     background-color: transparent;
-  }
-
-  &.btn-modal-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50% !important;
-
-    &:hover {
-      background-color: map-get($color, 'gray-f4');
-    }
   }
 
   &.btn-modal-close {

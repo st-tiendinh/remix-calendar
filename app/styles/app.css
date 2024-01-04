@@ -165,6 +165,7 @@ image {
 }
 
 .input-icons {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -271,6 +272,61 @@ image {
   cursor: pointer;
 }
 
+.search-list {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  max-height: 150px;
+  overflow-y: scroll;
+  box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+  border-radius: 6px;
+  z-index: 1;
+  background-color: #fff;
+}
+
+.search-item {
+  margin: 4px 0;
+  padding: 8px 12px;
+  font-weight: 400;
+  font-size: 15px;
+}
+.search-item:hover {
+  background-color: rgba(245, 245, 245, 0.6235294118);
+  cursor: pointer;
+}
+.search-item.disabled {
+  position: relative;
+  opacity: 0.4;
+  cursor: default;
+}
+
+.guest-list {
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.guest-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0;
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  font-weight: 400;
+}
+.guest-item .icon-delete {
+  visibility: hidden;
+}
+.guest-item:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+.guest-item:hover .icon-delete {
+  visibility: initial;
+}
+
 .tooltip {
   position: relative;
   display: inline-block;
@@ -312,6 +368,7 @@ image {
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
+  background-color: transparent;
   font-size: 14px;
   border-radius: 4px;
   border: 1px solid transparent;
@@ -319,10 +376,10 @@ image {
   cursor: pointer;
 }
 .btn.btn-primary {
-  background-color: #1c1c1c;
+  background-color: #ff385c;
   color: #fff;
   padding: 4px 10px;
-  font-weight: 400;
+  font-weight: 500;
 }
 .btn.btn-toggle-sidebar {
   padding: 4px;
@@ -344,17 +401,6 @@ image {
 }
 .btn.btn-copy {
   background-color: transparent;
-}
-.btn.btn-modal-link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50% !important;
-}
-.btn.btn-modal-link:hover {
-  background-color: #f4f4f5;
 }
 .btn.btn-modal-close {
   display: flex;
@@ -393,6 +439,75 @@ image {
   to {
     transform: rotate(1turn);
   }
+}
+
+.admin-list-checkbox {
+  margin-bottom: 16px;
+  /* The admin-list-container */
+  /* Hide the browser's default checkbox */
+  /* Create a custom checkbox */
+  /* On mouse-over, add a grey background color */
+  /* When the checkbox is checked, add a blue background */
+  /* Create the checkmark/indicator (hidden when not checked) */
+  /* Show the checkmark when checked */
+  /* Style the checkmark/indicator */
+}
+.admin-list-checkbox .admin-list-container {
+  display: block;
+  position: relative;
+  padding-left: 43px;
+  padding-block: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.admin-list-checkbox .admin-list-container:hover {
+  background-color: #eee;
+}
+.admin-list-checkbox .admin-list-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.admin-list-checkbox .checkmark {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  height: 24px;
+  width: 24px;
+  background-color: #eee;
+}
+.admin-list-checkbox .admin-list-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+.admin-list-checkbox .admin-list-container input:checked ~ .checkmark {
+  background-color: #ff385c;
+}
+.admin-list-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.admin-list-checkbox .admin-list-container input:checked ~ .checkmark:after {
+  display: block;
+}
+.admin-list-checkbox .admin-list-container .checkmark:after {
+  left: 9px;
+  top: 4px;
+  width: 8px;
+  height: 14px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 .modal-wrapper {
@@ -563,6 +678,7 @@ image {
   justify-content: center;
   padding: 8px;
   border-radius: 50%;
+  background: none;
 }
 .modal-event-wrapper .modal-event-header .btn-modal-link:hover {
   background-color: #f4f4f5;
@@ -616,6 +732,10 @@ image {
   gap: 2px;
   overflow: hidden;
 }
+.custom-event-wrapper .custom-event {
+  display: flex;
+  flex-wrap: wrap;
+}
 .custom-event-wrapper .custom-event-icon {
   display: flex;
   justify-content: center;
@@ -632,7 +752,7 @@ image {
 .custom-event-wrapper .custom-event-time {
   line-height: 20px;
   margin-right: 4px;
-  font-size: 12px;
+  font-size: 10px;
 }
 .custom-event-wrapper .custom-event-title {
   font-size: 12px;
@@ -1088,7 +1208,7 @@ image {
 .calendar-wrapper {
   height: 100vh;
   padding: 0 20px 20px;
-  margin-top: 52px;
+  padding-top: 46px;
 }
 .calendar-wrapper .day-header-name,
 .calendar-wrapper .day-header-value {
@@ -1111,9 +1231,6 @@ image {
 }
 .calendar-wrapper .fc-timegrid-now-indicator-line {
   display: none;
-}
-.calendar-wrapper .fc {
-  /* Handle */
 }
 .calendar-wrapper .fc .fc-col-header {
   width: 100% !important;
@@ -1289,7 +1406,7 @@ image {
 
 @media (max-width: 1024px) {
   .calendar-wrapper {
-    padding: 0 10px 20px;
+    padding: 52px 10px 20px;
   }
   .calendar-wrapper .day-header-value {
     font-size: 16px;
@@ -2309,6 +2426,7 @@ image {
 
 .login-page {
   height: 100vh;
+  overflow: hidden;
 }
 .login-page .login-wrapper {
   height: 100%;
@@ -2322,7 +2440,7 @@ image {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 350px;
+  width: 350px;
 }
 .login-page .login-content .login-title {
   font-size: 32px;
@@ -2338,10 +2456,15 @@ image {
   text-align: center;
 }
 .login-page .login-content .login-form {
-  min-width: 350px;
+  width: 350px;
 }
 .login-page .login-content .login-form .login-btn {
   margin-top: 16px;
+}
+.login-page .login-content .login-form .form-input-helper {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
 }
 .login-page .login-bg {
   height: 100%;
